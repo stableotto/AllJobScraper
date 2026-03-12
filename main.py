@@ -27,6 +27,7 @@ from config.settings import (
 from models.company import Company
 from scrapers.icims.scraper import ICIMSScraper
 from scrapers.icims.discovery import ICIMSDiscovery
+from scrapers.workday.scraper import WorkdayScraper
 from storage.export import export_to_csv, export_to_json
 from storage.database import init_db, db_session, get_portal_id, upsert_portal
 
@@ -75,6 +76,8 @@ def scrape(ats: str, portal: str, keyword: str, all_jobs: bool, limit: int, dry_
 
     if ats == "icims":
         _scrape_icims(portal, keyword, all_jobs, limit, dry_run, output_path, logger, from_db=from_db, sector=sector)
+    elif ats == "workday":
+        _scrape_workday(portal, keyword, all_jobs, limit, dry_run, output_path, logger)
     else:
         logger.error(f"ATS '{ats}' scraper not yet implemented. Coming soon!")
         sys.exit(1)
@@ -195,6 +198,96 @@ def _scrape_icims(
 
     if OUTPUT_FORMAT in ("json", "both"):
         json_path = export_to_json(all_scraped_jobs, output_path, f"icims_jobs_{date_str}.json")
+        logger.info(f"JSON exported to {json_path}")
+
+
+def _scrape_workday(
+    portal_url: str | None,
+    keyword: str | None,
+    all_jobs: bool,
+    limit: int | None,
+    dry_run: bool,
+    output_path: Path,
+    logger: logging.Logger,
+):
+    """Run the Workday scraper."""
+    if not portal_url:
+        logger.error("Workday scraper requires --portal with a full URL")
+        logger.error("Example: --portal https://rch.wd108.myworkdayjobs.com/Careers")
+        sys.exit(1)
+
+    # Create a Company object from the URL
+    from urllib.parse import urlparse
+    parsed = urlparse(portal_url)
+    hostname = parsed.hostname or ""
+    parts = hostname.split(".")
+
+    if len(parts) < 3 or "myworkdayjobs" not in hostname:
+        logger.error(f"Invalid Workday URL: {portal_url}")
+        logger.error("Expected format: https://{tenant}.{wd###}.myworkdayjobs.com/{site}")
+        sys.exit(1)
+
+    tenant = parts[0]
+    company = Company(
+        name=tenant.upper(),
+        portal_url=portal_url,
+        ats_type="workday",
+        ats_slug=tenant,
+    )
+
+    logger.info(f"Scraping Workday portal: {portal_url}")
+
+    try:
+        scraper = WorkdayScraper(company)
+        jobs = scraper.scrape_all(
+            keyword=keyword,
+            nursing_only=not all_jobs,
+        )
+        logger.info(
+            f"✓ {company.name}: {len(jobs)} jobs "
+            f"({'all' if all_jobs else 'nursing only'})"
+        )
+    except Exception as e:
+        logger.error(f"✗ {company.name}: {e}")
+        sys.exit(1)
+
+    # Summary
+    logger.info(f"\n{'='*50}")
+    logger.info(f"Total jobs scraped: {len(jobs)}")
+    logger.info(f"Nursing jobs: {sum(1 for j in jobs if j.is_nursing)}")
+    logger.info(f"{'='*50}")
+
+    # Save to SQLite database
+    init_db(DB_PATH)
+    with db_session(DB_PATH) as conn:
+        portal_id = upsert_portal(
+            conn,
+            subdomain=company.ats_slug,
+            slug=company.ats_slug,
+            name=company.name,
+            url=company.portal_url,
+            ats_type="workday",
+            verified=True,
+        )
+        for job in jobs:
+            job.save_to_db(conn, portal_id)
+        logger.info(f"Saved {len(jobs)} jobs to SQLite database")
+
+    if dry_run:
+        logger.info("Dry run — skipping file export")
+        for job in jobs[:5]:
+            logger.info(f"  [{job.id}] {job.title} @ {job.company_name} — {job.location}")
+        return
+
+    # Export to flat files
+    date_str = datetime.utcnow().strftime("%Y-%m-%d")
+
+    if OUTPUT_FORMAT in ("csv", "both"):
+        csv_path = export_to_csv(jobs, output_path, f"workday_jobs_{date_str}.csv")
+        logger.info(f"CSV exported to {csv_path}")
+
+    if OUTPUT_FORMAT in ("json", "both"):
+        json_path = export_to_json(jobs, output_path, f"workday_jobs_{date_str}.json")
         logger.info(f"JSON exported to {json_path}")
 
 
