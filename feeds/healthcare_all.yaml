@@ -1,0 +1,9 @@
+# All jobs from healthcare-sector portals
+name: "All Healthcare Jobs"
+description: "Every open position at healthcare organizations using iCIMS"
+output_formats: [json, csv]
+output_dir: "data/feeds/healthcare_all"
+
+filters:
+  sectors: [healthcare, hospital, health_system, university_hospital, medical_group, childrens]
+  posted_within_days: 90

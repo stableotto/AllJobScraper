@@ -1,0 +1,203 @@
+# ============================================================
+# Portal Registry — ATS Career Portals to Scrape
+# ============================================================
+# Add new portals here. Each entry needs:
+#   name:       Organization name
+#   url:        Public career site URL (or iCIMS direct URL)
+#   ats_slug:   iCIMS subdomain slug (careers-{slug}.icims.com)
+#   sector:     hospital | medical_group | health_system | university_hospital | childrens
+#   state:      US state abbreviation (HQ)
+# ============================================================
+
+icims:
+  # --- Original Seed List ---
+  - name: "UC Irvine Health"
+    url: "https://jobs.uci.edu"
+    ats_slug: "uci"
+    sector: "university_hospital"
+    state: "CA"
+
+  - name: "Mount Sinai Health System"
+    url: "https://careers.mountsinai.org"
+    ats_slug: "mountsinai"
+    sector: "health_system"
+    state: "NY"
+
+  - name: "Hackensack Meridian Health"
+    url: "https://careers-hackensackmeridianhealth.icims.com"
+    ats_slug: "hackensackmeridianhealth"
+    sector: "health_system"
+    state: "NJ"
+
+  - name: "Memorial Sloan Kettering"
+    url: "https://careers.mskcc.org"
+    ats_slug: "mskcc"
+    sector: "hospital"
+    state: "NY"
+
+  - name: "Community Health Systems"
+    url: "https://jobs.chsmedical.com"
+    ats_slug: "chsmedical"
+    sector: "health_system"
+    state: "TN"
+
+  - name: "Beaumont Health"
+    url: "https://careers.beaumont.org"
+    ats_slug: "beaumont"
+    sector: "health_system"
+    state: "MI"
+
+  - name: "Infirmary Health"
+    url: "https://careers-infirmaryhealth.icims.com"
+    ats_slug: "infirmaryhealth"
+    sector: "health_system"
+    state: "AL"
+
+  - name: "Trilogy Health Services"
+    url: "https://trilogycareers-trilogyhs.icims.com"
+    ats_slug: "trilogyhs"
+    sector: "health_system"
+    state: "KY"
+
+  # --- Verified via Subdomain Enumeration ---
+  - name: "Johns Hopkins Medicine (Intrastaff)"
+    url: "https://careers-intrastaff.icims.com"
+    ats_slug: "hopkinsmedicine"
+    sector: "university_hospital"
+    state: "MD"
+
+  - name: "CommonSpirit Health"
+    url: "https://careers-commonspirit.icims.com"
+    ats_slug: "commonspirit"
+    sector: "health_system"
+    state: "IL"
+
+  - name: "Ascension Health"
+    url: "https://careers-ascension.icims.com"
+    ats_slug: "ascension"
+    sector: "health_system"
+    state: "MO"
+
+  - name: "Piedmont Healthcare"
+    url: "https://careers-piedmont.icims.com"
+    ats_slug: "piedmont"
+    sector: "health_system"
+    state: "GA"
+
+  - name: "UAB Medicine"
+    url: "https://careers-uabmedicine.icims.com"
+    ats_slug: "uabmedicine"
+    sector: "university_hospital"
+    state: "AL"
+
+  - name: "Huntsville Hospital Health System"
+    url: "https://careers-hhsys.icims.com"
+    ats_slug: "hhsys"
+    sector: "health_system"
+    state: "AL"
+
+  - name: "UNC Health"
+    url: "https://careers-unchealth.icims.com"
+    ats_slug: "unchealth"
+    sector: "university_hospital"
+    state: "NC"
+
+  - name: "Mercy Health"
+    url: "https://careers-mercyhealth.icims.com"
+    ats_slug: "mercyhealth"
+    sector: "health_system"
+    state: "OH"
+
+  - name: "Sutter Health"
+    url: "https://careers-sutterhealth.icims.com"
+    ats_slug: "sutterhealth"
+    sector: "health_system"
+    state: "CA"
+
+  - name: "Ardent Health Services"
+    url: "https://careers-ardenthealth.icims.com"
+    ats_slug: "ardenthealth"
+    sector: "health_system"
+    state: "TN"
+
+  - name: "Prime Healthcare"
+    url: "https://careers-primehealthcare.icims.com"
+    ats_slug: "primehealthcare"
+    sector: "health_system"
+    state: "CA"
+
+  - name: "UCLA Health"
+    url: "https://careers-ucla.icims.com"
+    ats_slug: "ucla"
+    sector: "university_hospital"
+    state: "CA"
+
+  - name: "Texas Children's Hospital"
+    url: "https://careers-texaschildrens.icims.com"
+    ats_slug: "texaschildrens"
+    sector: "childrens"
+    state: "TX"
+
+  # NOTE: Dignity Health redirects to CommonSpirit (they merged)
+  # Skipped to avoid duplicates
+
+  # --- Discovered via CT Logs / DNS Enumeration (Mar 2026) ---
+  - name: "Ascension Health (Jobs Portal)"
+    url: "https://ascensionjobs1-ascension.icims.com"
+    ats_slug: "ascensionjobs1-ascension"
+    sector: "health_system"
+    state: "MO"
+
+  - name: "Emory Healthcare"
+    url: "https://ehccareers-emory.icims.com"
+    ats_slug: "ehccareers-emory"
+    sector: "university_hospital"
+    state: "GA"
+
+  - name: "HealthEast Care System"
+    url: "https://jobs-healtheast.icims.com"
+    ats_slug: "jobs-healtheast"
+    sector: "health_system"
+    state: "MN"
+
+  - name: "KPH Healthcare Services"
+    url: "https://kinneydrug-kphhealthcareservices.icims.com"
+    ats_slug: "kinneydrug-kphhealthcareservices"
+    sector: "health_system"
+    state: "NY"
+
+  - name: "United Health Centers"
+    url: "https://nonprovider-unitedhealthcenters.icims.com"
+    ats_slug: "nonprovider-unitedhealthcenters"
+    sector: "health_system"
+    state: "CA"
+
+  - name: "Emerus Hospital Partners"
+    url: "https://careers-emerus.icims.com"
+    ats_slug: "emerus"
+    sector: "hospital"
+    state: "TX"
+
+  - name: "Norman Regional Health System"
+    url: "https://careers-nrh-ok.icims.com"
+    ats_slug: "nrh-ok"
+    sector: "hospital"
+    state: "OK"
+
+  - name: "Grand View Health"
+    url: "https://careers-gvh.icims.com"
+    ats_slug: "gvh"
+    sector: "hospital"
+    state: "PA"
+
+  - name: "24Hr HomeCare"
+    url: "https://24hrcares.icims.com"
+    ats_slug: "24hrcares"
+    sector: "health_system"
+    state: "CA"
+
+workday: []
+
+taleo: []
+
+oracle: []

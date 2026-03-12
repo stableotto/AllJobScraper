@@ -1,0 +1,35 @@
+# NurseScraper — ignore raw/temp data but keep DB and feeds
+data/icims/
+data/ct_raw_subdomains.txt
+data/discovered_portals.yaml
+data/*.db-shm
+data/*.db-wal
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
