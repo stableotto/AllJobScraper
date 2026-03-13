@@ -23,6 +23,14 @@ on:
         description: "Max portals to scrape (leave empty for all)"
         required: false
         default: ""
+      date_filter:
+        description: "Which jobs to include"
+        required: true
+        default: "today-only"
+        type: choice
+        options:
+          - today-only    # Only jobs posted today
+          - all-dates     # All jobs regardless of date
 
 jobs:
   scrape:
@@ -94,6 +102,7 @@ jobs:
           MODE: ${{ github.event.inputs.mode || 'scrape-and-feeds' }}
           PORTAL: ${{ github.event.inputs.portal || '' }}
           LIMIT: ${{ github.event.inputs.limit || '' }}
+          DATE_FILTER: ${{ github.event.inputs.date_filter || 'today-only' }}
           LOG_LEVEL: INFO
         run: |
           ARGS="daily"
@@ -110,6 +119,10 @@ jobs:
 
           if [ -n "$LIMIT" ]; then
             ARGS="$ARGS --scrape-limit $LIMIT"
+          fi
+
+          if [ "$DATE_FILTER" = "all-dates" ]; then
+            ARGS="$ARGS --all-dates"
           fi
 
           python pipeline.py $ARGS
