@@ -102,7 +102,7 @@ def run_daily(
     else:
         logger.info("Skipping discovery step")
 
-    # Step 2: Scrape
+    # Step 2a: Scrape iCIMS portals
     if not feeds_only and not skip_scrape:
         cmd = [python, "main.py", "scrape", "--ats", "icims", "--from-db", "--sector", "healthcare"]
         if scrape_limit:
@@ -112,14 +112,28 @@ def run_daily(
         if today_only:
             cmd.extend(["--today-only"])
 
-        ok, err = run_step("Scrape jobs from active portals", cmd)
+        ok, err = run_step("Scrape iCIMS portals", cmd)
         if not ok:
-            errors.append(f"Scrape: {err}")
-        else:
-            with db_session(DB_PATH) as conn:
-                row = conn.execute("SELECT COUNT(*) as cnt FROM jobs").fetchone()
-                jobs_found = row["cnt"]
-    else:
+            errors.append(f"iCIMS Scrape: {err}")
+
+    # Step 2b: Scrape Workday portals
+    if not feeds_only and not skip_scrape:
+        cmd = [python, "main.py", "scrape", "--ats", "workday", "--from-db"]
+        if scrape_limit:
+            cmd.extend(["--limit", str(scrape_limit)])
+        if today_only:
+            cmd.extend(["--today-only"])
+
+        ok, err = run_step("Scrape Workday portals", cmd)
+        if not ok:
+            errors.append(f"Workday Scrape: {err}")
+
+        # Get total job count after both scrapes
+        with db_session(DB_PATH) as conn:
+            row = conn.execute("SELECT COUNT(*) as cnt FROM jobs").fetchone()
+            jobs_found = row["cnt"]
+
+    if feeds_only or skip_scrape:
         logger.info("Skipping scrape step")
 
     # Step 3: Generate feeds

@@ -268,7 +268,6 @@ class WorkdayScraper(BaseScraper):
         """Fetch full details for a single job posting."""
         if not job.raw_data or "external_path" not in job.raw_data:
             logger.warning(f"Job {job.id} missing external_path, skipping detail fetch")
-            job.classify_nursing()
             return job
 
         external_path = job.raw_data["external_path"]
@@ -277,11 +276,9 @@ class WorkdayScraper(BaseScraper):
         try:
             data = self._fetch_job_detail(external_path)
             enriched = self._parse_job_detail(data, listing)
-            enriched.classify_nursing()
             return enriched
         except Exception as e:
             logger.error(f"Failed to fetch Workday job detail for {job.id}: {e}")
-            job.classify_nursing()
             return job
 
     # ──────────────────────────────────────────────

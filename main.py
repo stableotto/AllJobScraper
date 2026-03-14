@@ -78,7 +78,7 @@ def scrape(ats: str, portal: str, keyword: str, category: str, limit: int, dry_r
     if ats == "icims":
         _scrape_icims(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, sector=sector, today_only=today_only)
     elif ats == "workday":
-        _scrape_workday(portal, keyword, category, limit, dry_run, output_path, logger, today_only=today_only)
+        _scrape_workday(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only)
     else:
         logger.error(f"ATS '{ats}' scraper not yet implemented. Coming soon!")
         sys.exit(1)
@@ -254,6 +254,57 @@ def _scrape_icims(
         logger.info(f"JSON exported to {json_path}")
 
 
+def _load_workday_portals_from_config(logger: logging.Logger) -> list[Company]:
+    """Load Workday portals from config/portals.yaml."""
+    import yaml
+    from urllib.parse import urlparse
+
+    companies = []
+    try:
+        with open(PORTALS_FILE) as f:
+            data = yaml.safe_load(f)
+
+        for entry in data.get("workday", []):
+            url = entry.get("url", "")
+            if not url:
+                continue
+
+            parsed = urlparse(url)
+            hostname = parsed.hostname or ""
+            parts = hostname.split(".")
+
+            if len(parts) >= 3 and "myworkdayjobs" in hostname:
+                tenant = parts[0]
+                companies.append(Company(
+                    name=entry.get("name", tenant.upper()),
+                    portal_url=url,
+                    ats_type="workday",
+                    ats_slug=tenant,
+                ))
+
+        logger.info(f"Loaded {len(companies)} Workday portals from config")
+    except Exception as e:
+        logger.error(f"Failed to load Workday portals from config: {e}")
+
+    return companies
+
+
+def _load_workday_portals_from_db(logger: logging.Logger) -> list[Company]:
+    """Load Workday portals from the SQLite database."""
+    from storage.database import get_connection
+    init_db(DB_PATH)
+    conn = get_connection(DB_PATH)
+
+    rows = conn.execute(
+        "SELECT * FROM portals WHERE ats_type = 'workday' AND verified = 1 ORDER BY name"
+    ).fetchall()
+    conn.close()
+
+    companies = [Company.from_db_row(r) for r in rows]
+    logger.info(f"Loaded {len(companies)} Workday portals from database")
+    return companies
+
+
 def _scrape_workday(
     portal_url: str | None,
     keyword: str | None,
@@ -262,58 +313,76 @@ def _scrape_workday(
     dry_run: bool,
     output_path: Path,
     logger: logging.Logger,
+    from_db: bool = False,
     today_only: bool = False,
 ):
     """Run the Workday scraper."""
     from collections import Counter
-
-    if not portal_url:
-        logger.error("Workday scraper requires --portal with a full URL")
-        logger.error("Example: --portal https://rch.wd108.myworkdayjobs.com/Careers")
-        sys.exit(1)
-
-    # Create a Company object from the URL
     from urllib.parse import urlparse
-    parsed = urlparse(portal_url)
-    hostname = parsed.hostname or ""
-    parts = hostname.split(".")
 
-    if len(parts) < 3 or "myworkdayjobs" not in hostname:
-        logger.error(f"Invalid Workday URL: {portal_url}")
-        logger.error("Expected format: https://{tenant}.{wd###}.myworkdayjobs.com/{site}")
-        sys.exit(1)
+    # Load portals from db, config, or single URL
+    if from_db:
+        companies = _load_workday_portals_from_db(logger)
+        if not companies:
+            # Fall back to config if db is empty
+            companies = _load_workday_portals_from_config(logger)
+    elif portal_url:
+        # Single portal URL provided
+        parsed = urlparse(portal_url)
+        hostname = parsed.hostname or ""
+        parts = hostname.split(".")
 
-    tenant = parts[0]
-    company = Company(
-        name=tenant.upper(),
-        portal_url=portal_url,
-        ats_type="workday",
-        ats_slug=tenant,
-    )
+        if len(parts) < 3 or "myworkdayjobs" not in hostname:
+            logger.error(f"Invalid Workday URL: {portal_url}")
+            logger.error("Expected format: https://{tenant}.{wd###}.myworkdayjobs.com/{site}")
+            sys.exit(1)
 
-    logger.info(f"Scraping Workday portal: {portal_url}")
+        tenant = parts[0]
+        companies = [Company(
+            name=tenant.upper(),
+            portal_url=portal_url,
+            ats_type="workday",
+            ats_slug=tenant,
+        )]
+    else:
+        # Load from config file
+        companies = _load_workday_portals_from_config(logger)
 
-    try:
-        scraper = WorkdayScraper(company)
-        jobs = scraper.scrape_all(
-            keyword=keyword,
-            category_filter=category_filter,
-        )
-        logger.info(f"✓ {company.name}: {len(jobs)} jobs")
-    except Exception as e:
-        logger.error(f"✗ {company.name}: {e}")
-        sys.exit(1)
+    if not companies:
+        logger.warning("No Workday portals to scrape")
+        return
+
+    # Apply limit
+    if limit:
+        companies = companies[:limit]
+
+    logger.info(f"Scraping {len(companies)} Workday portals")
+
+    all_scraped_jobs = []
+
+    for company in companies:
+        try:
+            scraper = WorkdayScraper(company)
+            jobs = scraper.scrape_all(
+                keyword=keyword,
+                category_filter=category_filter,
+            )
+            all_scraped_jobs.extend(jobs)
+            logger.info(f"✓ {company.name}: {len(jobs)} jobs")
+        except Exception as e:
+            logger.error(f"✗ {company.name}: {e}")
+            continue
 
     # Filter by date if requested
     if today_only:
-        jobs = _filter_jobs_by_date(jobs, today_only, logger)
+        all_scraped_jobs = _filter_jobs_by_date(all_scraped_jobs, today_only, logger)
 
     # Summary with category breakdown
-    all_categories = [cat for job in jobs for cat in job.categories]
+    all_categories = [cat for job in all_scraped_jobs for cat in job.categories]
     category_counts = Counter(all_categories)
 
     logger.info(f"\n{'='*50}")
-    logger.info(f"Total jobs scraped: {len(jobs)}")
+    logger.info(f"Total jobs scraped: {len(all_scraped_jobs)}")
     if category_counts:
         logger.info(f"By category: {dict(category_counts)}")
     logger.info(f"{'='*50}")
@@ -321,22 +390,24 @@ def _scrape_workday(
     # Save to SQLite database
     init_db(DB_PATH)
     with db_session(DB_PATH) as conn:
-        portal_id = upsert_portal(
-            conn,
-            subdomain=company.ats_slug,
-            slug=company.ats_slug,
-            name=company.name,
-            url=company.portal_url,
-            ats_type="workday",
-            verified=True,
-        )
-        for job in jobs:
-            job.save_to_db(conn, portal_id)
-        logger.info(f"Saved {len(jobs)} jobs to SQLite database")
+        for company in companies:
+            portal_id = upsert_portal(
+                conn,
+                subdomain=company.ats_slug,
+                slug=company.ats_slug,
+                name=company.name,
+                url=company.portal_url,
+                ats_type="workday",
+                verified=True,
+            )
+            company_jobs = [j for j in all_scraped_jobs if j.company_name == company.name]
+            for job in company_jobs:
+                job.save_to_db(conn, portal_id)
+        logger.info(f"Saved {len(all_scraped_jobs)} jobs to SQLite database")
 
     if dry_run:
         logger.info("Dry run — skipping file export")
-        for job in jobs[:5]:
+        for job in all_scraped_jobs[:5]:
             logger.info(f"  [{job.id}] {job.title} @ {job.company_name} — {job.location}")
         return
 
@@ -344,11 +415,11 @@ def _scrape_workday(
     date_str = datetime.utcnow().strftime("%Y-%m-%d")
 
     if OUTPUT_FORMAT in ("csv", "both"):
-        csv_path = export_to_csv(jobs, output_path, f"workday_jobs_{date_str}.csv")
+        csv_path = export_to_csv(all_scraped_jobs, output_path, f"workday_jobs_{date_str}.csv")
         logger.info(f"CSV exported to {csv_path}")
 
     if OUTPUT_FORMAT in ("json", "both"):
-        json_path = export_to_json(jobs, output_path, f"workday_jobs_{date_str}.json")
+        json_path = export_to_json(all_scraped_jobs, output_path, f"workday_jobs_{date_str}.json")
         logger.info(f"JSON exported to {json_path}")
 
 

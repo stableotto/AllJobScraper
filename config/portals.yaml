@@ -196,7 +196,19 @@ icims:
     sector: "health_system"
     state: "CA"
 
-workday: []
+# ============================================================
+# Workday Portals
+# ============================================================
+# URL format: https://{tenant}.{wd###}.myworkdayjobs.com/{site}
+# Example: https://rch.wd108.myworkdayjobs.com/Careers
+# ============================================================
+workday:
+  - name: "Children's Hospital of Orange County (CHOC)"
+    url: "https://rch.wd108.myworkdayjobs.com/Careers"
+    sector: "childrens"
+    state: "CA"
+
+  # Add more Workday portals below...
 
 taleo: []
 

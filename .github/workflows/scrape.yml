@@ -68,6 +68,7 @@ jobs:
           python -c "
           from storage.database import init_db, db_session, upsert_portal
           from config.settings import DB_PATH
+          from urllib.parse import urlparse
           import yaml
 
           init_db(DB_PATH)
@@ -75,11 +76,13 @@ jobs:
               data = yaml.safe_load(f)
 
           with db_session(DB_PATH) as conn:
-              count = 0
+              icims_count = 0
+              workday_count = 0
+
+              # Seed iCIMS portals
               for entry in data.get('icims', []):
                   slug = entry.get('ats_slug', '')
                   url = entry.get('url', '')
-                  from urllib.parse import urlparse
                   hostname = urlparse(url).hostname or ''
                   if hostname and hostname.endswith('.icims.com'):
                       subdomain = hostname
@@ -93,8 +96,26 @@ jobs:
                       ats_type='icims', sector=entry.get('sector', 'hospital'),
                       state=entry.get('state', ''), verified=True,
                   )
-                  count += 1
-              print(f'Seeded {count} portals into DB')
+                  icims_count += 1
+
+              # Seed Workday portals
+              for entry in data.get('workday', []):
+                  url = entry.get('url', '')
+                  if not url:
+                      continue
+                  hostname = urlparse(url).hostname or ''
+                  parts = hostname.split('.')
+                  if len(parts) >= 3 and 'myworkdayjobs' in hostname:
+                      tenant = parts[0]
+                      upsert_portal(
+                          conn, subdomain=hostname, slug=tenant,
+                          name=entry.get('name', tenant.upper()), url=url,
+                          ats_type='workday', sector=entry.get('sector', 'hospital'),
+                          state=entry.get('state', ''), verified=True,
+                      )
+                      workday_count += 1
+
+              print(f'Seeded {icims_count} iCIMS + {workday_count} Workday portals into DB')
           "
 
       - name: Run pipeline
