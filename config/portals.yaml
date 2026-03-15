@@ -576,6 +576,12 @@ talentbrew:
     sector: "health_system"
     state: "CA"
 
+  - name: "Kaiser Permanente"
+    url: "https://www.kaiserpermanentejobs.org"
+    slug: "kaiserpermanente"
+    sector: "health_system"
+    state: "CA"
+
   # Add more TalentBrew portals here...
 
 taleo: []
