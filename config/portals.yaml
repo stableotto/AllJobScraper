@@ -563,6 +563,21 @@ workday:
     url: "https://wellington.wd5.myworkdayjobs.com/External"
     sector: "finance"
 
+# ============================================================
+# TalentBrew/Radancy Portals (wraps Taleo and other ATS)
+# ============================================================
+# These are branded career sites powered by TalentBrew/Radancy
+# URL format: https://careers.{company}.org/search-jobs
+# ============================================================
+talentbrew:
+  - name: "MemorialCare"
+    url: "https://careers.memorialcare.org"
+    slug: "memorialcare"
+    sector: "health_system"
+    state: "CA"
+
+  # Add more TalentBrew portals here...
+
 taleo: []
 
 oracle: []

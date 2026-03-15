@@ -115,7 +115,26 @@ jobs:
                       )
                       workday_count += 1
 
-              print(f'Seeded {icims_count} iCIMS + {workday_count} Workday portals into DB')
+              # Seed TalentBrew portals
+              talentbrew_count = 0
+              for entry in data.get('talentbrew', []):
+                  url = entry.get('url', '')
+                  if not url:
+                      continue
+                  slug = entry.get('slug', '')
+                  if not slug:
+                      # Generate slug from URL
+                      hostname = urlparse(url).hostname or ''
+                      slug = hostname.replace('careers.', '').replace('.org', '').replace('.com', '')
+                  upsert_portal(
+                      conn, subdomain=slug, slug=slug,
+                      name=entry.get('name', slug), url=url,
+                      ats_type='talentbrew', sector=entry.get('sector', 'hospital'),
+                      state=entry.get('state', ''), verified=True,
+                  )
+                  talentbrew_count += 1
+
+              print(f'Seeded {icims_count} iCIMS + {workday_count} Workday + {talentbrew_count} TalentBrew portals into DB')
           "
 
       - name: Run pipeline

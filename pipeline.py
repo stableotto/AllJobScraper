@@ -128,7 +128,19 @@ def run_daily(
         if not ok:
             errors.append(f"Workday Scrape: {err}")
 
-        # Get total job count after both scrapes
+    # Step 2c: Scrape TalentBrew portals
+    if not feeds_only and not skip_scrape:
+        cmd = [python, "main.py", "scrape", "--ats", "talentbrew", "--from-db"]
+        if scrape_limit:
+            cmd.extend(["--limit", str(scrape_limit)])
+        if today_only:
+            cmd.extend(["--today-only"])
+
+        ok, err = run_step("Scrape TalentBrew portals", cmd)
+        if not ok:
+            errors.append(f"TalentBrew Scrape: {err}")
+
+        # Get total job count after all scrapes
         with db_session(DB_PATH) as conn:
             row = conn.execute("SELECT COUNT(*) as cnt FROM jobs").fetchone()
             jobs_found = row["cnt"]

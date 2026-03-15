@@ -28,6 +28,7 @@ from models.company import Company
 from scrapers.icims.scraper import ICIMSScraper
 from scrapers.icims.discovery import ICIMSDiscovery
 from scrapers.workday.scraper import WorkdayScraper
+from scrapers.talentbrew.scraper import TalentBrewScraper
 from storage.export import export_to_csv, export_to_json
 from storage.database import init_db, db_session, get_portal_id, upsert_portal
 
@@ -58,7 +59,7 @@ def cli(verbose: bool):
 
 
 @cli.command()
-@click.option("--ats", required=True, type=click.Choice(["icims", "workday", "taleo", "oracle"]))
+@click.option("--ats", required=True, type=click.Choice(["icims", "workday", "talentbrew", "taleo", "oracle"]))
 @click.option("--portal", default=None, help="Scrape a specific portal by slug (e.g., 'uci')")
 @click.option("--keyword", default=None, help="Search keyword filter (e.g., 'nurse')")
 @click.option("--category", default=None, help="Filter by category (nursing, pharmacy, physician, allied_health, etc.)")
@@ -79,6 +80,8 @@ def scrape(ats: str, portal: str, keyword: str, category: str, limit: int, dry_r
         _scrape_icims(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, sector=sector, today_only=today_only)
     elif ats == "workday":
         _scrape_workday(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only)
+    elif ats == "talentbrew":
+        _scrape_talentbrew(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only)
     else:
         logger.error(f"ATS '{ats}' scraper not yet implemented. Coming soon!")
         sys.exit(1)
@@ -423,8 +426,157 @@ def _scrape_workday(
         logger.info(f"JSON exported to {json_path}")
 
 
+def _load_talentbrew_portals_from_config(logger: logging.Logger) -> list[Company]:
+    """Load TalentBrew portals from config/portals.yaml."""
+    companies = []
+    try:
+        with open(PORTALS_FILE) as f:
+            data = yaml.safe_load(f)
+
+        for entry in data.get("talentbrew", []):
+            url = entry.get("url", "")
+            if not url:
+                continue
+
+            companies.append(Company(
+                name=entry.get("name", ""),
+                portal_url=url,
+                ats_type="talentbrew",
+                ats_slug=entry.get("slug", ""),
+                sector=entry.get("sector", ""),
+                state=entry.get("state", ""),
+            ))
+
+        logger.info(f"Loaded {len(companies)} TalentBrew portals from config")
+    except Exception as e:
+        logger.error(f"Failed to load TalentBrew portals from config: {e}")
+
+    return companies
+
+
+def _load_talentbrew_portals_from_db(logger: logging.Logger) -> list[Company]:
+    """Load TalentBrew portals from the SQLite database."""
+    from storage.database import get_connection
+    init_db(DB_PATH)
+    conn = get_connection(DB_PATH)
+
+    rows = conn.execute(
+        "SELECT * FROM portals WHERE ats_type = 'talentbrew' AND verified = 1 ORDER BY name"
+    ).fetchall()
+    conn.close()
+
+    companies = [Company.from_db_row(r) for r in rows]
+    logger.info(f"Loaded {len(companies)} TalentBrew portals from database")
+    return companies
+
+
+def _scrape_talentbrew(
+    portal_slug: str | None,
+    keyword: str | None,
+    category_filter: str | None,
+    limit: int | None,
+    dry_run: bool,
+    output_path: Path,
+    logger: logging.Logger,
+    from_db: bool = False,
+    today_only: bool = False,
+):
+    """Run the TalentBrew scraper."""
+    from collections import Counter
+
+    # Load portals from db or config
+    if from_db:
+        companies = _load_talentbrew_portals_from_db(logger)
+        if not companies:
+            # Fall back to config if db is empty
+            companies = _load_talentbrew_portals_from_config(logger)
+    else:
+        companies = _load_talentbrew_portals_from_config(logger)
+
+    # Filter to specific portal if requested
+    if portal_slug:
+        companies = [c for c in companies if c.ats_slug == portal_slug]
+        if not companies:
+            logger.error(f"Portal '{portal_slug}' not found")
+            sys.exit(1)
+
+    if not companies:
+        logger.warning("No TalentBrew portals to scrape")
+        return
+
+    # Apply limit
+    if limit:
+        companies = companies[:limit]
+
+    logger.info(f"Scraping {len(companies)} TalentBrew portals")
+
+    all_scraped_jobs = []
+
+    for company in companies:
+        try:
+            scraper = TalentBrewScraper(company)
+            jobs = scraper.scrape_all(
+                keyword=keyword,
+                category_filter=category_filter,
+            )
+            all_scraped_jobs.extend(jobs)
+            logger.info(f"✓ {company.name}: {len(jobs)} jobs")
+        except Exception as e:
+            logger.error(f"✗ {company.name}: {e}")
+            continue
+
+    # Filter by date if requested
+    if today_only:
+        all_scraped_jobs = _filter_jobs_by_date(all_scraped_jobs, today_only, logger)
+
+    # Summary with category breakdown
+    all_categories = [cat for job in all_scraped_jobs for cat in job.categories]
+    category_counts = Counter(all_categories)
+
+    logger.info(f"\n{'='*50}")
+    logger.info(f"Total jobs scraped: {len(all_scraped_jobs)}")
+    if category_counts:
+        logger.info(f"By category: {dict(category_counts)}")
+    logger.info(f"{'='*50}")
+
+    # Save to SQLite database
+    init_db(DB_PATH)
+    with db_session(DB_PATH) as conn:
+        for company in companies:
+            portal_id = upsert_portal(
+                conn,
+                subdomain=company.ats_slug or company.name.lower().replace(" ", "-"),
+                slug=company.ats_slug or company.name.lower().replace(" ", "-"),
+                name=company.name,
+                url=company.portal_url,
+                ats_type="talentbrew",
+                verified=True,
+            )
+            company_jobs = [j for j in all_scraped_jobs if j.company_name == company.name]
+            for job in company_jobs:
+                job.save_to_db(conn, portal_id)
+        logger.info(f"Saved {len(all_scraped_jobs)} jobs to SQLite database")
+
+    if dry_run:
+        logger.info("Dry run — skipping file export")
+        for job in all_scraped_jobs[:5]:
+            logger.info(f"  [{job.id}] {job.title} @ {job.company_name} — {job.location}")
+        return
+
+    # Export to flat files
+    date_str = datetime.utcnow().strftime("%Y-%m-%d")
+
+    if OUTPUT_FORMAT in ("csv", "both"):
+        csv_path = export_to_csv(all_scraped_jobs, output_path, f"talentbrew_jobs_{date_str}.csv")
+        logger.info(f"CSV exported to {csv_path}")
+
+    if OUTPUT_FORMAT in ("json", "both"):
+        json_path = export_to_json(all_scraped_jobs, output_path, f"talentbrew_jobs_{date_str}.json")
+        logger.info(f"JSON exported to {json_path}")
+
+
 @cli.command()
-@click.option("--ats", required=True, type=click.Choice(["icims", "workday", "taleo", "oracle"]))
+@click.option("--ats", required=True, type=click.Choice(["icims", "workday", "talentbrew", "taleo", "oracle"]))
 @click.option("--enum", is_flag=True, help="Run subdomain enumeration (slower)")
 @click.option("--output", default=None, help="Save discovered portals to YAML/JSON")
 def discover(ats: str, enum: bool, output: str):
