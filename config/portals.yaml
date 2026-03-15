@@ -208,7 +208,360 @@ workday:
     sector: "childrens"
     state: "CA"
 
-  # Add more Workday portals below...
+  # --- Health Systems ---
+  - name: "Alira Health"
+    url: "https://alirahealth.wd3.myworkdayjobs.com/alirahealth"
+    sector: "health_system"
+
+  - name: "Allina Health"
+    url: "https://allina.wd5.myworkdayjobs.com/External"
+    sector: "health_system"
+
+  - name: "Avera Health"
+    url: "https://avera.wd5.myworkdayjobs.com/avera-careers"
+    sector: "health_system"
+
+  - name: "Behavioral Health Services"
+    url: "https://bhs.wd1.myworkdayjobs.com/careers"
+    sector: "health_system"
+
+  - name: "Boston Medical Center"
+    url: "https://bmc.wd1.myworkdayjobs.com/bmc"
+    sector: "health_system"
+
+  - name: "Boston Medical Center (ClearwayHealth)"
+    url: "https://bmc.wd1.myworkdayjobs.com/ClearwayHealth"
+    sector: "health_system"
+
+  - name: "Bon Secours Mercy Health"
+    url: "https://easyservice.wd5.myworkdayjobs.com/BonSecoursCareers"
+    sector: "health_system"
+
+  - name: "Cardinal Health"
+    url: "https://cardinalhealth.wd1.myworkdayjobs.com/EXT"
+    sector: "health_system"
+
+  - name: "CommuniCare Health"
+    url: "https://communicarehealth.wd1.myworkdayjobs.com/NewVistaExternalCareerSite"
+    sector: "health_system"
+
+  - name: "Cook Children's Health Care System"
+    url: "https://cookchildrens.wd1.myworkdayjobs.com/Cook_Childrens_Careers"
+    sector: "childrens"
+
+  - name: "CoxHealth"
+    url: "https://coxhealth.wd5.myworkdayjobs.com/CoxHealth_External"
+    sector: "health_system"
+
+  - name: "CVS Health"
+    url: "https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers"
+    sector: "health_system"
+
+  - name: "Denver Health"
+    url: "https://denverhealth.wd1.myworkdayjobs.com/dhha-main"
+    sector: "health_system"
+
+  - name: "Devoted Health"
+    url: "https://devoted.wd1.myworkdayjobs.com/Devoted"
+    sector: "health_system"
+
+  - name: "East Boston Neighborhood Health Center"
+    url: "https://ebnhc.wd1.myworkdayjobs.com/EBNHC"
+    sector: "health_system"
+
+  - name: "Elevance Health (Anthem)"
+    url: "https://elevancehealth.wd1.myworkdayjobs.com/ANT"
+    sector: "health_system"
+
+  - name: "East Tennessee Children's Hospital"
+    url: "https://etch.wd5.myworkdayjobs.com/ETCH"
+    sector: "childrens"
+
+  - name: "Anew Health (ExactCare)"
+    url: "https://exactcare.wd1.myworkdayjobs.com/AnewHealth_Career_Site"
+    sector: "health_system"
+
+  - name: "Florida Cancer Specialists"
+    url: "https://flcancer.wd1.myworkdayjobs.com/flcancer_careers"
+    sector: "health_system"
+
+  - name: "Group Health Cooperative"
+    url: "https://ghc.wd1.myworkdayjobs.com/CSI_Careers"
+    sector: "health_system"
+
+  - name: "Hartford HealthCare"
+    url: "https://hhc.wd5.myworkdayjobs.com/HHC"
+    sector: "health_system"
+
+  - name: "Humana (CenterWell)"
+    url: "https://humana.wd5.myworkdayjobs.com/CenterWell_External_Career_Site"
+    sector: "health_system"
+
+  - name: "Humana"
+    url: "https://humana.wd5.myworkdayjobs.com/humana_external_career_site"
+    sector: "health_system"
+
+  - name: "Intermountain Health"
+    url: "https://imh.wd108.myworkdayjobs.com/IntermountainCareers"
+    sector: "health_system"
+
+  - name: "Jefferson Health"
+    url: "https://jeffersonhealth.wd5.myworkdayjobs.com/thomasjeffersonexternal"
+    sector: "health_system"
+
+  - name: "John Muir Health"
+    url: "https://jmh.wd5.myworkdayjobs.com/JohnMuirHealthCareers"
+    sector: "health_system"
+
+  - name: "LCMC Health"
+    url: "https://lcmchealth.wd1.myworkdayjobs.com/LCMCHealth"
+    sector: "health_system"
+
+  - name: "Mass General Brigham"
+    url: "https://massgeneralbrigham.wd1.myworkdayjobs.com/MGBExternal"
+    sector: "health_system"
+
+  - name: "Memorial Hermann"
+    url: "https://memorialhermann.wd5.myworkdayjobs.com/external"
+    sector: "health_system"
+
+  - name: "Montefiore Health System (MMC)"
+    url: "https://montefiore.wd12.myworkdayjobs.com/MMC"
+    sector: "health_system"
+
+  - name: "Montefiore Health System (New Rochelle)"
+    url: "https://montefiore.wd12.myworkdayjobs.com/New_Rochelle"
+    sector: "health_system"
+
+  - name: "MultiCare Health System"
+    url: "https://multicare.wd1.myworkdayjobs.com/multicare"
+    sector: "health_system"
+
+  - name: "MUSC Health"
+    url: "https://musc.wd1.myworkdayjobs.com/MUSC"
+    sector: "health_system"
+
+  - name: "Nationwide Children's Hospital"
+    url: "https://nationwidechildrens.wd5.myworkdayjobs.com/NCHCareers"
+    sector: "childrens"
+
+  - name: "Nebraska Medicine"
+    url: "https://nebraskamed.wd5.myworkdayjobs.com/NM"
+    sector: "health_system"
+
+  - name: "Northwell Health"
+    url: "https://nshs.wd1.myworkdayjobs.com/ns-eeh"
+    sector: "health_system"
+
+  - name: "OhioHealth"
+    url: "https://ohiohealth.wd5.myworkdayjobs.com/ohiohealthjobs"
+    sector: "health_system"
+
+  - name: "OneOncology"
+    url: "https://oneoncology.wd1.myworkdayjobs.com/OneOncology"
+    sector: "health_system"
+
+  - name: "OU Health"
+    url: "https://oumedicine.wd5.myworkdayjobs.com/OUHealthCareers"
+    sector: "health_system"
+
+  - name: "Prime Therapeutics"
+    url: "https://primetherapeutics.wd1.myworkdayjobs.com/PrimeTherapeuticsCareers"
+    sector: "health_system"
+
+  - name: "Prisma Health"
+    url: "https://prismahealth.wd5.myworkdayjobs.com/PrismaHealthCorporate"
+    sector: "health_system"
+
+  - name: "Riverside Health System"
+    url: "https://rivhs.wd1.myworkdayjobs.com/non-providerrhs"
+    sector: "health_system"
+
+  - name: "Roswell Park Comprehensive Cancer Center"
+    url: "https://roswellpark.wd5.myworkdayjobs.com/ExternalCareers"
+    sector: "health_system"
+
+  - name: "Southeast Health"
+    url: "https://seh.wd503.myworkdayjobs.com/SoutheastHealth"
+    sector: "health_system"
+
+  - name: "St. Jude Children's Research Hospital"
+    url: "https://stjude.wd1.myworkdayjobs.com/nonpubliccareersite"
+    sector: "childrens"
+
+  - name: "St. Luke's University Health Network"
+    url: "https://sluhn.wd1.myworkdayjobs.com/SLUHN"
+    sector: "health_system"
+
+  - name: "Stormont Vail Health"
+    url: "https://stormontvail.wd1.myworkdayjobs.com/SVH"
+    sector: "health_system"
+
+  - name: "TMC Healthcare"
+    url: "https://trumed.wd1.myworkdayjobs.com/TMC_External_Career_Site"
+    sector: "health_system"
+
+  - name: "WVU Medicine"
+    url: "https://wvumedicine.wd1.myworkdayjobs.com/WVUH"
+    sector: "health_system"
+
+  # --- University / Academic Medical Centers ---
+  - name: "Brown University"
+    url: "https://brown.wd5.myworkdayjobs.com/staff-careers-brown"
+    sector: "university"
+
+  - name: "Mercer University"
+    url: "https://merceruniversity.wd1.myworkdayjobs.com/student"
+    sector: "university"
+
+  - name: "Northeastern University"
+    url: "https://northeastern.wd1.myworkdayjobs.com/careers"
+    sector: "university"
+
+  - name: "Ohio State University"
+    url: "https://osu.wd1.myworkdayjobs.com/OSUCareers"
+    sector: "university"
+
+  - name: "University of Rochester"
+    url: "https://rochester.wd5.myworkdayjobs.com/UR_Staff"
+    sector: "university"
+
+  - name: "Saint Joseph's University"
+    url: "https://sju.wd1.myworkdayjobs.com/sju"
+    sector: "university"
+
+  - name: "University of Maryland Eastern Shore"
+    url: "https://umd.wd1.myworkdayjobs.com/UMES"
+    sector: "university"
+
+  - name: "University of Miami"
+    url: "https://umiami.wd1.myworkdayjobs.com/UMCareerStaff"
+    sector: "university"
+
+  - name: "University of Mississippi Medical Center"
+    url: "https://ummc.wd5.myworkdayjobs.com/UMCCareers"
+    sector: "university_hospital"
+
+  - name: "University of Pennsylvania"
+    url: "https://upenn.wd1.myworkdayjobs.com/careers-at-penn"
+    sector: "university"
+
+  - name: "UT Austin"
+    url: "https://utaustin.wd1.myworkdayjobs.com/UTstaff"
+    sector: "university"
+
+  - name: "Vanderbilt University Medical Center"
+    url: "https://vumc.wd1.myworkdayjobs.com/vumccareers"
+    sector: "university_hospital"
+
+  # --- Pharma / Biotech ---
+  - name: "Alto Pharmacy"
+    url: "https://alto.wd1.myworkdayjobs.com/alto_external_career_site"
+    sector: "pharma"
+
+  - name: "AstraZeneca"
+    url: "https://astrazeneca.wd3.myworkdayjobs.com/broadbean_external"
+    sector: "pharma"
+
+  - name: "Bristol-Myers Squibb"
+    url: "https://bristolmyerssquibb.wd5.myworkdayjobs.com/BMS"
+    sector: "pharma"
+
+  - name: "Guardian Pharmacy"
+    url: "https://guardianpharmacy.wd5.myworkdayjobs.com/Guardian_Pharmacy"
+    sector: "pharma"
+
+  - name: "Inizio"
+    url: "https://inizio.wd3.myworkdayjobs.com/CSO"
+    sector: "pharma"
+
+  - name: "McKesson"
+    url: "https://mckesson.wd3.myworkdayjobs.com/External_Careers"
+    sector: "pharma"
+
+  - name: "Merck (MSD)"
+    url: "https://msd.wd5.myworkdayjobs.com/SearchJobs"
+    sector: "pharma"
+
+  - name: "Parexel"
+    url: "https://parexel.wd1.myworkdayjobs.com/Parexel_External_Careers"
+    sector: "pharma"
+
+  - name: "Unither Pharmaceuticals"
+    url: "https://vhr-unither.wd5.myworkdayjobs.com/External"
+    sector: "pharma"
+
+  # --- Insurance / Payers ---
+  - name: "BlueCross BlueShield of Tennessee"
+    url: "https://bcbst.wd1.myworkdayjobs.com/External"
+    sector: "insurance"
+
+  - name: "Cigna"
+    url: "https://cigna.wd5.myworkdayjobs.com/cignacareers"
+    sector: "insurance"
+
+  # --- Retail / Other ---
+  - name: "AmeriVet"
+    url: "https://amerivet.wd5.myworkdayjobs.com/Amerivet"
+    sector: "veterinary"
+
+  - name: "Hy-Vee"
+    url: "https://hyvee.wd1.myworkdayjobs.com/HyVeeCareers"
+    sector: "retail"
+
+  - name: "VCA Animal Hospitals"
+    url: "https://vca.wd1.myworkdayjobs.com/BFCareers"
+    sector: "veterinary"
+
+  - name: "Walmart"
+    url: "https://walmart.wd5.myworkdayjobs.com/Non-WorkdayInternal"
+    sector: "retail"
+
+  - name: "Shepherd Center"
+    url: "https://shepherd.wd5.myworkdayjobs.com/shepherdcenter"
+    sector: "rehabilitation"
+
+  # --- Government ---
+  - name: "Oklahoma Government"
+    url: "https://okgov.wd1.myworkdayjobs.com/okgovjobs"
+    sector: "government"
+
+  - name: "State of Oregon"
+    url: "https://oregon.wd5.myworkdayjobs.com/SOR_External_Career_Site"
+    sector: "government"
+
+  # --- Other Healthcare-Adjacent ---
+  - name: "ECH"
+    url: "https://ech.wd5.myworkdayjobs.com/ech"
+    sector: "health_system"
+
+  - name: "GE Aerospace"
+    url: "https://geaerospace.wd5.myworkdayjobs.com/GE_ExternalSite"
+    sector: "manufacturing"
+
+  - name: "MAHEC"
+    url: "https://mahec.wd5.myworkdayjobs.com/MAHEC"
+    sector: "health_system"
+
+  - name: "NC Careers"
+    url: "https://nc.wd108.myworkdayjobs.com/NC_Careers"
+    sector: "government"
+
+  - name: "OneDigital"
+    url: "https://onedigital.wd5.myworkdayjobs.com/OneDigital"
+    sector: "insurance"
+
+  - name: "Premier Inc"
+    url: "https://premierinc.wd1.myworkdayjobs.com/External_Professional"
+    sector: "health_system"
+
+  - name: "STPH"
+    url: "https://stph.wd5.myworkdayjobs.com/STPH"
+    sector: "health_system"
+
+  - name: "Wellington Management"
+    url: "https://wellington.wd5.myworkdayjobs.com/External"
+    sector: "finance"
 
 taleo: []
 
