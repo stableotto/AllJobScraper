@@ -1,10 +1,11 @@
 """
-NurseScraper — ATS Job Scraper CLI
+AllJobScraper — Multi-ATS Job Scraper CLI
 
 Usage:
-    python main.py scrape --ats icims [--portal uci] [--all-jobs] [--limit 5]
+    python main.py scrape --ats icims [--portal uci] [--limit 5] [--offset 0]
+    python main.py scrape --ats workday --from-db --offset 50 --limit 50
     python main.py discover --ats icims [--enum]
-    python main.py scrape --ats icims --dry-run
+    python main.py scrape --ats icims --dry-run --today-only
 """
 
 from __future__ import annotations
@@ -64,30 +65,33 @@ def cli(verbose: bool):
 @click.option("--ats", required=True, type=click.Choice(["icims", "workday", "talentbrew", "taleo", "oracle"]))
 @click.option("--portal", default=None, help="Scrape a specific portal by slug (e.g., 'uci')")
 @click.option("--keyword", default=None, help="Search keyword filter (e.g., 'nurse')")
-@click.option("--category", default=None, help="Filter by category (nursing, pharmacy, physician, allied_health, etc.)")
+@click.option("--offset", default=0, type=int, help="Skip first N portals (for chunking)")
 @click.option("--limit", default=None, type=int, help="Max number of portals to scrape")
 @click.option("--dry-run", is_flag=True, help="Discover jobs but don't export")
 @click.option("--output-dir", default=None, help="Override output directory")
 @click.option("--from-db", is_flag=True, help="Load portals from SQLite DB instead of portals.yaml")
 @click.option("--sector", default=None, help="Filter portals by sector (use with --from-db)")
 @click.option("--today-only", is_flag=True, help="Only include jobs posted today")
-def scrape(ats: str, portal: str, keyword: str, category: str, limit: int, dry_run: bool, output_dir: str, from_db: bool, sector: str, today_only: bool):
+@click.option("--skip-details", is_flag=True, help="Skip fetching individual job details (faster)")
+@click.option("--max-detail-jobs", default=100, type=int, help="Max jobs per portal to fetch details for (default: 100)")
+def scrape(ats: str, portal: str, keyword: str, offset: int, limit: int, dry_run: bool, output_dir: str, from_db: bool, sector: str, today_only: bool, skip_details: bool, max_detail_jobs: int):
     """Scrape job listings from ATS career portals."""
     logger = logging.getLogger("main")
 
     output_path = Path(output_dir) if output_dir else DATA_DIR / ats
     output_path.mkdir(parents=True, exist_ok=True)
 
+    fetch_details = not skip_details
     if ats == "icims":
-        _scrape_icims(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, sector=sector, today_only=today_only)
+        _scrape_icims(portal, keyword, offset, limit, dry_run, output_path, logger, from_db=from_db, sector=sector, today_only=today_only, fetch_details=fetch_details, max_detail_jobs=max_detail_jobs)
     elif ats == "workday":
-        _scrape_workday(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only)
+        _scrape_workday(portal, keyword, offset, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only, fetch_details=fetch_details, max_detail_jobs=max_detail_jobs)
     elif ats == "talentbrew":
-        _scrape_talentbrew(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only)
+        _scrape_talentbrew(portal, keyword, offset, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only, fetch_details=fetch_details, max_detail_jobs=max_detail_jobs)
     elif ats == "taleo":
-        _scrape_taleo(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only)
+        _scrape_taleo(portal, keyword, offset, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only, fetch_details=fetch_details, max_detail_jobs=max_detail_jobs)
     elif ats == "oracle":
-        _scrape_oracle(portal, keyword, category, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only)
+        _scrape_oracle(portal, keyword, offset, limit, dry_run, output_path, logger, from_db=from_db, today_only=today_only, fetch_details=fetch_details, max_detail_jobs=max_detail_jobs)
     else:
         logger.error(f"ATS '{ats}' scraper not yet implemented. Coming soon!")
         sys.exit(1)
@@ -173,7 +177,7 @@ def _filter_jobs_by_date(jobs: list, today_only: bool, logger: logging.Logger) -
 def _scrape_icims(
     portal_slug: str | None,
     keyword: str | None,
-    category_filter: str | None,
+    offset: int,
     limit: int | None,
     dry_run: bool,
     output_path: Path,
@@ -181,15 +185,19 @@ def _scrape_icims(
     from_db: bool = False,
     sector: str | None = None,
     today_only: bool = False,
+    fetch_details: bool = True,
+    max_detail_jobs: int = 100,
 ):
     """Run the iCIMS scraper."""
-    from collections import Counter
 
     if from_db:
         companies = _load_companies_from_db(sector, logger)
     else:
         discovery = ICIMSDiscovery()
         companies = discovery.from_seed_list(str(PORTALS_FILE))
+
+    # Filter to iCIMS only
+    companies = [c for c in companies if c.ats_type == "icims"]
 
     # Filter to specific portal if requested
     if portal_slug:
@@ -198,7 +206,9 @@ def _scrape_icims(
             logger.error(f"Portal '{portal_slug}' not found")
             sys.exit(1)
 
-    # Apply limit
+    # Apply offset and limit for chunking
+    if offset > 0:
+        companies = companies[offset:]
     if limit:
         companies = companies[:limit]
 
@@ -211,7 +221,9 @@ def _scrape_icims(
             scraper = ICIMSScraper(company)
             jobs = scraper.scrape_all(
                 keyword=keyword,
-                category_filter=category_filter,
+                fetch_details=fetch_details,
+                max_detail_jobs=max_detail_jobs,
+                today_only=today_only,
             )
             all_scraped_jobs.extend(jobs)
             logger.info(f"✓ {company.name}: {len(jobs)} jobs")
@@ -219,18 +231,10 @@ def _scrape_icims(
             logger.error(f"✗ {company.name}: {e}")
             continue
 
-    # Filter by date if requested
-    if today_only:
-        all_scraped_jobs = _filter_jobs_by_date(all_scraped_jobs, today_only, logger)
-
-    # Summary with category breakdown
-    all_categories = [cat for job in all_scraped_jobs for cat in job.categories]
-    category_counts = Counter(all_categories)
+    # Note: today_only filtering now happens INSIDE scrape_all() before detail fetch
 
     logger.info(f"\n{'='*50}")
     logger.info(f"Total jobs scraped: {len(all_scraped_jobs)}")
-    if category_counts:
-        logger.info(f"By category: {dict(category_counts)}")
     logger.info(f"{'='*50}")
 
     # Save to SQLite database
@@ -317,16 +321,17 @@ def _load_workday_portals_from_db(logger: logging.Logger) -> list[Company]:
 def _scrape_workday(
     portal_url: str | None,
     keyword: str | None,
-    category_filter: str | None,
+    offset: int,
     limit: int | None,
     dry_run: bool,
     output_path: Path,
     logger: logging.Logger,
     from_db: bool = False,
     today_only: bool = False,
+    fetch_details: bool = True,
+    max_detail_jobs: int = 100,
 ):
     """Run the Workday scraper."""
-    from collections import Counter
     from urllib.parse import urlparse
 
     # Load portals from db, config, or single URL
@@ -361,7 +366,9 @@ def _scrape_workday(
         logger.warning("No Workday portals to scrape")
         return
 
-    # Apply limit
+    # Apply offset and limit for chunking
+    if offset > 0:
+        companies = companies[offset:]
     if limit:
         companies = companies[:limit]
 
@@ -372,9 +379,12 @@ def _scrape_workday(
     for company in companies:
         try:
             scraper = WorkdayScraper(company)
+            # today_only filtering happens INSIDE scrape_all, before detail fetch
             jobs = scraper.scrape_all(
                 keyword=keyword,
-                category_filter=category_filter,
+                fetch_details=fetch_details,
+                max_detail_jobs=max_detail_jobs,
+                today_only=today_only,
             )
             all_scraped_jobs.extend(jobs)
             logger.info(f"✓ {company.name}: {len(jobs)} jobs")
@@ -382,18 +392,8 @@ def _scrape_workday(
             logger.error(f"✗ {company.name}: {e}")
             continue
 
-    # Filter by date if requested
-    if today_only:
-        all_scraped_jobs = _filter_jobs_by_date(all_scraped_jobs, today_only, logger)
-
-    # Summary with category breakdown
-    all_categories = [cat for job in all_scraped_jobs for cat in job.categories]
-    category_counts = Counter(all_categories)
-
     logger.info(f"\n{'='*50}")
     logger.info(f"Total jobs scraped: {len(all_scraped_jobs)}")
-    if category_counts:
-        logger.info(f"By category: {dict(category_counts)}")
     logger.info(f"{'='*50}")
 
     # Save to SQLite database
@@ -479,16 +479,17 @@ def _load_talentbrew_portals_from_db(logger: logging.Logger) -> list[Company]:
 def _scrape_talentbrew(
     portal_slug: str | None,
     keyword: str | None,
-    category_filter: str | None,
+    offset: int,
     limit: int | None,
     dry_run: bool,
     output_path: Path,
     logger: logging.Logger,
     from_db: bool = False,
     today_only: bool = False,
+    fetch_details: bool = True,
+    max_detail_jobs: int = 100,
 ):
     """Run the TalentBrew scraper."""
-    from collections import Counter
 
     # Load portals from db or config
     if from_db:
@@ -510,7 +511,9 @@ def _scrape_talentbrew(
         logger.warning("No TalentBrew portals to scrape")
         return
 
-    # Apply limit
+    # Apply offset and limit for chunking
+    if offset > 0:
+        companies = companies[offset:]
     if limit:
         companies = companies[:limit]
 
@@ -523,7 +526,9 @@ def _scrape_talentbrew(
             scraper = TalentBrewScraper(company)
             jobs = scraper.scrape_all(
                 keyword=keyword,
-                category_filter=category_filter,
+                fetch_details=fetch_details,
+                max_detail_jobs=max_detail_jobs,
+                today_only=today_only,
             )
             all_scraped_jobs.extend(jobs)
             logger.info(f"✓ {company.name}: {len(jobs)} jobs")
@@ -531,18 +536,10 @@ def _scrape_talentbrew(
             logger.error(f"✗ {company.name}: {e}")
             continue
 
-    # Filter by date if requested
-    if today_only:
-        all_scraped_jobs = _filter_jobs_by_date(all_scraped_jobs, today_only, logger)
-
-    # Summary with category breakdown
-    all_categories = [cat for job in all_scraped_jobs for cat in job.categories]
-    category_counts = Counter(all_categories)
+    # Note: today_only filtering now happens INSIDE scrape_all() before detail fetch
 
     logger.info(f"\n{'='*50}")
     logger.info(f"Total jobs scraped: {len(all_scraped_jobs)}")
-    if category_counts:
-        logger.info(f"By category: {dict(category_counts)}")
     logger.info(f"{'='*50}")
 
     # Save to SQLite database
@@ -633,16 +630,17 @@ def _load_taleo_portals_from_db(logger: logging.Logger) -> list[dict]:
 def _scrape_taleo(
     portal_slug: str | None,
     keyword: str | None,
-    category_filter: str | None,
+    offset: int,
     limit: int | None,
     dry_run: bool,
     output_path: Path,
     logger: logging.Logger,
     from_db: bool = False,
     today_only: bool = False,
+    fetch_details: bool = True,
+    max_detail_jobs: int = 100,
 ):
     """Run the Taleo scraper."""
-    from collections import Counter
     from urllib.parse import urlparse
 
     # Load portals from db or config
@@ -664,7 +662,9 @@ def _scrape_taleo(
         logger.warning("No Taleo portals to scrape")
         return
 
-    # Apply limit
+    # Apply offset and limit for chunking
+    if offset > 0:
+        portals = portals[offset:]
     if limit:
         portals = portals[:limit]
 
@@ -683,7 +683,12 @@ def _scrape_taleo(
             )
 
             scraper = TaleoScraper(company)
-            jobs = scraper.scrape_all(keyword=keyword, fetch_details=True)
+            jobs = scraper.scrape_all(
+                keyword=keyword,
+                fetch_details=fetch_details,
+                max_detail_jobs=max_detail_jobs,
+                today_only=today_only,
+            )
 
             all_scraped_jobs.extend(jobs)
             logger.info(f"✓ {portal['name']}: {len(jobs)} jobs")
@@ -691,9 +696,7 @@ def _scrape_taleo(
             logger.error(f"✗ {portal['name']}: {e}")
             continue
 
-    # Filter by date if requested
-    if today_only:
-        all_scraped_jobs = _filter_jobs_by_date(all_scraped_jobs, today_only, logger)
+    # Note: today_only filtering now happens INSIDE scrape_all() before detail fetch
 
     # Summary
     logger.info(f"\n{'='*50}")
@@ -788,16 +791,17 @@ def _load_oracle_portals_from_db(logger: logging.Logger) -> list[dict]:
 def _scrape_oracle(
     portal_slug: str | None,
     keyword: str | None,
-    category_filter: str | None,
+    offset: int,
     limit: int | None,
     dry_run: bool,
     output_path: Path,
     logger: logging.Logger,
     from_db: bool = False,
     today_only: bool = False,
+    fetch_details: bool = True,
+    max_detail_jobs: int = 100,
 ):
     """Run the Oracle HCM scraper."""
-    from collections import Counter
     from urllib.parse import urlparse
 
     # Load portals from db or config
@@ -819,7 +823,9 @@ def _scrape_oracle(
         logger.warning("No Oracle HCM portals to scrape")
         return
 
-    # Apply limit
+    # Apply offset and limit for chunking
+    if offset > 0:
+        portals = portals[offset:]
     if limit:
         portals = portals[:limit]
 
@@ -838,7 +844,12 @@ def _scrape_oracle(
             )
 
             scraper = OracleScraper(company)
-            jobs = scraper.scrape_all(keyword=keyword, fetch_details=False)
+            jobs = scraper.scrape_all(
+                keyword=keyword,
+                fetch_details=fetch_details,
+                max_detail_jobs=max_detail_jobs,
+                today_only=today_only,
+            )
 
             all_scraped_jobs.extend(jobs)
             logger.info(f"✓ {portal['name']}: {len(jobs)} jobs")
@@ -846,9 +857,7 @@ def _scrape_oracle(
             logger.error(f"✗ {portal['name']}: {e}")
             continue
 
-    # Filter by date if requested
-    if today_only:
-        all_scraped_jobs = _filter_jobs_by_date(all_scraped_jobs, today_only, logger)
+    # Note: today_only filtering now happens INSIDE scrape_all() before detail fetch
 
     # Summary
     logger.info(f"\n{'='*50}")

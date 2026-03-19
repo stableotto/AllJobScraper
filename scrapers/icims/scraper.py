@@ -448,19 +448,16 @@ class ICIMSScraper(BaseScraper):
     def scrape_job_detail(self, job: Job) -> Job:
         """Fetch full details for a single job posting."""
         if self._api_mode == "jibe" and job.raw_data:
-            # Jibe API already returns full details — just classify
-            job.classify()
+            # Jibe API already returns full details
             return job
 
         # For raw iCIMS, fetch the detail page
         return self._fetch_icims_job_detail(job)
 
-    def scrape_all(self, keyword: Optional[str] = None, category_filter: Optional[str] = None) -> list[Job]:
+    def scrape_all(self, keyword: Optional[str] = None) -> list[Job]:
         """
         Override base scrape_all since Jibe mode doesn't need individual detail fetches.
         """
-        from collections import Counter
-
         logger.info(f"[{self.ATS_NAME}] Scraping {self.company.name} ({self.company.portal_url})")
 
         # Detect API mode
@@ -471,17 +468,12 @@ class ICIMSScraper(BaseScraper):
         jobs = self.discover_jobs(keyword=keyword)
         logger.info(f"[{self.ATS_NAME}] Found {len(jobs)} job listings")
 
-        if self._api_mode == "jibe":
-            # Jibe already has full details, just classify
-            for job in jobs:
-                job.classify()
-        else:
+        if self._api_mode != "jibe":
             # Raw iCIMS needs detail page fetches
             enriched = []
             for i, job in enumerate(jobs):
                 try:
                     job = self.scrape_job_detail(job)
-                    job.classify()
                     enriched.append(job)
                     if (i + 1) % 25 == 0:
                         logger.info(f"[{self.ATS_NAME}] Processed {i + 1}/{len(jobs)} jobs")
@@ -490,16 +482,7 @@ class ICIMSScraper(BaseScraper):
                     continue
             jobs = enriched
 
-        # Log category breakdown
-        all_categories = [cat for job in jobs for cat in job.categories]
-        category_counts = Counter(all_categories)
-        if category_counts:
-            logger.info(f"[{self.ATS_NAME}] Categories: {dict(category_counts)}")
-
-        # Filter by category if requested
-        if category_filter:
-            jobs = [j for j in jobs if category_filter in j.categories]
-            logger.info(f"[{self.ATS_NAME}] {len(jobs)} jobs after {category_filter} filter")
+        logger.info(f"[{self.ATS_NAME}] Scraped {len(jobs)} jobs total")
 
         self.company.job_count = len(jobs)
         self.company.verified = True

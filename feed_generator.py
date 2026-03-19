@@ -72,14 +72,7 @@ def load_feed_configs(feeds_dir: Path, feed_name: str | None = None) -> list[dic
 
 def row_to_dict(row) -> dict:
     """Convert a sqlite3.Row to a plain dict suitable for JSON/CSV."""
-    d = dict(row)
-    if d.get("categories"):
-        try:
-            d["categories"] = json.loads(d["categories"])
-        except (json.JSONDecodeError, TypeError):
-            d["categories"] = []
-    d["is_nursing"] = bool(d.get("is_nursing"))
-    return d
+    return dict(row)
 
 
 def write_json(rows: list, output_dir: Path, feed_name: str) -> Path:
@@ -113,10 +106,7 @@ def write_csv(rows: list, output_dir: Path) -> Path:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
-            d = row_to_dict(row)
-            if isinstance(d.get("categories"), list):
-                d["categories"] = "; ".join(str(c) for c in d["categories"])
-            writer.writerow(d)
+            writer.writerow(row_to_dict(row))
 
     return path
 
@@ -176,8 +166,6 @@ def generate_feed(config: dict, conn, dry_run: bool = False) -> dict:
         conn,
         sectors=filters.get("sectors"),
         states=filters.get("states"),
-        is_nursing=filters.get("is_nursing"),
-        categories=filters.get("categories"),
         title_keywords=filters.get("title_keywords"),
         exclude_keywords=filters.get("exclude_keywords"),
         posted_within_days=filters.get("posted_within_days"),

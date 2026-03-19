@@ -1,0 +1,9 @@
+# California jobs — example of a geo-filtered feed
+name: "California Jobs"
+description: "Job postings in California"
+output_formats: [json, csv]
+output_dir: "data/feeds/jobs_ca"
+
+filters:
+  states: [CA]
+  posted_within_days: 30

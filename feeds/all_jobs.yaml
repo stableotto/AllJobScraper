@@ -1,0 +1,8 @@
+# All jobs across every portal
+name: "All Jobs"
+description: "All job postings from all portals"
+output_formats: [json, csv]
+output_dir: "data/feeds/all_jobs"
+
+filters:
+  posted_within_days: 30

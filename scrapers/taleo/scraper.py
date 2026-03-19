@@ -252,9 +252,6 @@ class TaleoScraper(BaseScraper):
             raw_data={"category": category, "job_id": job_id},
         )
 
-        # Classify job using Job's built-in classifier
-        job.classify()
-
         return job
 
     # ──────────────────────────────────────────────
@@ -324,14 +321,12 @@ class TaleoScraper(BaseScraper):
     def scrape_all(
         self,
         keyword: Optional[str] = None,
-        category_filter: Optional[str] = None,
         fetch_details: bool = True,
     ) -> list[Job]:
         """Full scrape: discover jobs and optionally fetch details.
 
         Args:
             keyword: Optional search keyword
-            category_filter: Optional category filter
             fetch_details: Whether to fetch full job details
 
         Returns:

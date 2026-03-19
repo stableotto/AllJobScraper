@@ -1,621 +1,2071 @@
 # ============================================================
 # Portal Registry — ATS Career Portals to Scrape
 # ============================================================
-# Add new portals here. Each entry needs:
-#   name:       Organization name
-#   url:        Public career site URL (or iCIMS direct URL)
-#   ats_slug:   iCIMS subdomain slug (careers-{slug}.icims.com)
-#   sector:     hospital | medical_group | health_system | university_hospital | childrens
-#   state:      US state abbreviation (HQ)
+# Generated from database - 302 iCIMS, 337 Workday portals
 # ============================================================
 
 icims:
-  # --- Original Seed List ---
-  - name: "UC Irvine Health"
-    url: "https://jobs.uci.edu"
-    ats_slug: "uci"
-    sector: "university_hospital"
-    state: "CA"
-
-  - name: "Mount Sinai Health System"
-    url: "https://careers.mountsinai.org"
-    ats_slug: "mountsinai"
-    sector: "health_system"
-    state: "NY"
-
-  - name: "Hackensack Meridian Health"
-    url: "https://careers-hackensackmeridianhealth.icims.com"
-    ats_slug: "hackensackmeridianhealth"
-    sector: "health_system"
-    state: "NJ"
-
-  - name: "Memorial Sloan Kettering"
-    url: "https://careers.mskcc.org"
-    ats_slug: "mskcc"
-    sector: "hospital"
-    state: "NY"
-
-  - name: "Community Health Systems"
-    url: "https://jobs.chsmedical.com"
-    ats_slug: "chsmedical"
-    sector: "health_system"
-    state: "TN"
-
-  - name: "Beaumont Health"
-    url: "https://careers.beaumont.org"
-    ats_slug: "beaumont"
-    sector: "health_system"
-    state: "MI"
-
-  - name: "Infirmary Health"
-    url: "https://careers-infirmaryhealth.icims.com"
-    ats_slug: "infirmaryhealth"
-    sector: "health_system"
-    state: "AL"
-
-  - name: "Trilogy Health Services"
-    url: "https://trilogycareers-trilogyhs.icims.com"
-    ats_slug: "trilogyhs"
-    sector: "health_system"
-    state: "KY"
-
-  # --- Verified via Subdomain Enumeration ---
-  - name: "Johns Hopkins Medicine (Intrastaff)"
-    url: "https://careers-intrastaff.icims.com"
-    ats_slug: "hopkinsmedicine"
-    sector: "university_hospital"
-    state: "MD"
-
-  - name: "CommonSpirit Health"
-    url: "https://careers-commonspirit.icims.com"
-    ats_slug: "commonspirit"
-    sector: "health_system"
-    state: "IL"
-
-  - name: "Ascension Health"
-    url: "https://careers-ascension.icims.com"
-    ats_slug: "ascension"
-    sector: "health_system"
-    state: "MO"
-
-  - name: "Piedmont Healthcare"
-    url: "https://careers-piedmont.icims.com"
-    ats_slug: "piedmont"
-    sector: "health_system"
-    state: "GA"
-
-  - name: "UAB Medicine"
-    url: "https://careers-uabmedicine.icims.com"
-    ats_slug: "uabmedicine"
-    sector: "university_hospital"
-    state: "AL"
-
-  - name: "Huntsville Hospital Health System"
-    url: "https://careers-hhsys.icims.com"
-    ats_slug: "hhsys"
-    sector: "health_system"
-    state: "AL"
-
-  - name: "UNC Health"
-    url: "https://careers-unchealth.icims.com"
-    ats_slug: "unchealth"
-    sector: "university_hospital"
-    state: "NC"
-
-  - name: "Mercy Health"
-    url: "https://careers-mercyhealth.icims.com"
-    ats_slug: "mercyhealth"
-    sector: "health_system"
-    state: "OH"
-
-  - name: "Sutter Health"
-    url: "https://careers-sutterhealth.icims.com"
-    ats_slug: "sutterhealth"
-    sector: "health_system"
-    state: "CA"
-
-  - name: "Ardent Health Services"
-    url: "https://careers-ardenthealth.icims.com"
-    ats_slug: "ardenthealth"
-    sector: "health_system"
-    state: "TN"
-
-  - name: "Prime Healthcare"
-    url: "https://careers-primehealthcare.icims.com"
-    ats_slug: "primehealthcare"
-    sector: "health_system"
-    state: "CA"
-
-  - name: "UCLA Health"
-    url: "https://careers-ucla.icims.com"
-    ats_slug: "ucla"
-    sector: "university_hospital"
-    state: "CA"
-
-  - name: "Texas Children's Hospital"
-    url: "https://careers-texaschildrens.icims.com"
-    ats_slug: "texaschildrens"
-    sector: "childrens"
-    state: "TX"
-
-  # NOTE: Dignity Health redirects to CommonSpirit (they merged)
-  # Skipped to avoid duplicates
-
-  # --- Discovered via CT Logs / DNS Enumeration (Mar 2026) ---
-  - name: "Ascension Health (Jobs Portal)"
-    url: "https://ascensionjobs1-ascension.icims.com"
-    ats_slug: "ascensionjobs1-ascension"
-    sector: "health_system"
-    state: "MO"
-
-  - name: "Emory Healthcare"
-    url: "https://ehccareers-emory.icims.com"
-    ats_slug: "ehccareers-emory"
-    sector: "university_hospital"
-    state: "GA"
-
-  - name: "HealthEast Care System"
-    url: "https://jobs-healtheast.icims.com"
-    ats_slug: "jobs-healtheast"
-    sector: "health_system"
-    state: "MN"
-
-  - name: "KPH Healthcare Services"
-    url: "https://kinneydrug-kphhealthcareservices.icims.com"
-    ats_slug: "kinneydrug-kphhealthcareservices"
-    sector: "health_system"
-    state: "NY"
-
-  - name: "United Health Centers"
-    url: "https://nonprovider-unitedhealthcenters.icims.com"
-    ats_slug: "nonprovider-unitedhealthcenters"
-    sector: "health_system"
-    state: "CA"
-
-  - name: "Emerus Hospital Partners"
-    url: "https://careers-emerus.icims.com"
-    ats_slug: "emerus"
-    sector: "hospital"
-    state: "TX"
-
-  - name: "Norman Regional Health System"
-    url: "https://careers-nrh-ok.icims.com"
-    ats_slug: "nrh-ok"
-    sector: "hospital"
-    state: "OK"
-
-  - name: "Grand View Health"
-    url: "https://careers-gvh.icims.com"
-    ats_slug: "gvh"
-    sector: "hospital"
-    state: "PA"
-
-  - name: "24Hr HomeCare"
-    url: "https://24hrcares.icims.com"
-    ats_slug: "24hrcares"
-    sector: "health_system"
-    state: "CA"
-
-# ============================================================
-# Workday Portals
-# ============================================================
-# URL format: https://{tenant}.{wd###}.myworkdayjobs.com/{site}
-# Example: https://rch.wd108.myworkdayjobs.com/Careers
-# ============================================================
+- name: 1199Funds
+  url: https://1199funds.icims.com/jobs
+  ats_slug: 1199funds
+  sector: other
+- name: 1Stheritage Attainfinance
+  url: https://1stheritage-attainfinance.icims.com/jobs
+  ats_slug: 1stheritage-attainfinance
+  sector: other
+- name: 1Supply
+  url: https://1supply.icims.com/jobs
+  ats_slug: 1supply
+  sector: other
+- name: 2020Companies
+  url: https://2020companies.icims.com/jobs
+  ats_slug: 2020companies
+  sector: other
+- name: 24Hr HomeCare
+  url: https://24hrcares.icims.com/jobs
+  ats_slug: 24hrcares
+  sector: health_system
+- name: 2Careers Petsmart
+  url: https://2careers-petsmart.icims.com/jobs
+  ats_slug: 2careers-petsmart
+  sector: other
+- name: 2Wglobal
+  url: https://2wglobal.icims.com/jobs
+  ats_slug: 2wglobal
+  sector: other
+- name: 48Forty
+  url: https://48forty.icims.com/jobs
+  ats_slug: 48forty
+  sector: other
+- name: 7Bar Careers Gmr
+  url: https://7bar-careers-gmr.icims.com/jobs
+  ats_slug: 7bar-careers-gmr
+  sector: other
+- name: 8Thavecajobs Postholdings
+  url: https://8thavecajobs-postholdings.icims.com/jobs
+  ats_slug: 8thavecajobs-postholdings
+  sector: other
+- name: 8Thavehrjobs Postholdings
+  url: https://8thavehrjobs-postholdings.icims.com/jobs
+  ats_slug: 8thavehrjobs-postholdings
+  sector: other
+- name: 92Y
+  url: https://92y.icims.com/jobs
+  ats_slug: 92y
+  sector: other
+- name: Aacr
+  url: https://aacr.icims.com/jobs
+  ats_slug: aacr
+  sector: other
+- name: Aadermatology
+  url: https://aadermatology.icims.com/jobs
+  ats_slug: aadermatology
+  sector: other
+- name: Abacustech
+  url: https://abacustech.icims.com/jobs
+  ats_slug: abacustech
+  sector: other
+- name: Abogadaalexandra
+  url: https://abogadaalexandra.icims.com/jobs
+  ats_slug: abogadaalexandra
+  sector: other
+- name: Abudhabi Nyu
+  url: https://abudhabi-nyu.icims.com/jobs
+  ats_slug: abudhabi-nyu
+  sector: other
+- name: Academic Rockefelleruniversity
+  url: https://academic-rockefelleruniversity.icims.com/jobs
+  ats_slug: academic-rockefelleruniversity
+  sector: other
+- name: Academiccareers Udst
+  url: https://academiccareers-udst.icims.com/jobs
+  ats_slug: academiccareers-udst
+  sector: other
+- name: Acadiahealthcare
+  url: https://careers-acadiahealthcare.icims.com/jobs
+  ats_slug: careers-acadiahealthcare
+- name: Acadiahealthcare
+  url: https://facilityjobs-acadiahealthcare.icims.com/jobs
+  ats_slug: facilityjobs-acadiahealthcare
+- name: Aggregateindustries Lafarge Na
+  url: https://aggregateindustries-lafarge-na.icims.com/jobs
+  ats_slug: aggregateindustries-lafarge-na
+  sector: other
+- name: Ahmchealth
+  url: https://careers-ahmchealth.icims.com/jobs
+  ats_slug: careers-ahmchealth
+- name: Ahnneighborhood
+  url: https://careers-ahnneighborhood.icims.com/jobs
+  ats_slug: careers-ahnneighborhood
+- name: Aidshealth
+  url: https://careers-aidshealth.icims.com/jobs
+  ats_slug: careers-aidshealth
+- name: Airmed International Amgh
+  url: https://airmed-international-amgh.icims.com/jobs
+  ats_slug: airmed-international-amgh
+  sector: other
+- name: Alljobs Learnitsystems
+  url: https://alljobs-learnitsystems.icims.com/jobs
+  ats_slug: alljobs-learnitsystems
+  sector: other
+- name: Altapointe
+  url: https://careers-altapointe.icims.com/jobs
+  ats_slug: careers-altapointe
+- name: Amecfw
+  url: https://amecfw.icims.com/jobs
+  ats_slug: amecfw
+  sector: other
+- name: Amedisys
+  url: https://amedisys.icims.com/jobs
+  ats_slug: amedisys
+  sector: other
+- name: Aphl
+  url: https://careers-aphl.icims.com/jobs
+  ats_slug: careers-aphl
+- name: Appliedmedical
+  url: https://onboarding-appliedmedical.icims.com/jobs
+  ats_slug: onboarding-appliedmedical
+- name: Ardent Health Services
+  url: https://careers-ardenthealth.icims.com/jobs
+  ats_slug: ardenthealth
+  sector: health_system
+- name: Ardent Health Services
+  url: https://ardenthealth.icims.com/jobs
+  ats_slug: ardenthealth
+  sector: health_system
+- name: Ardenthealth
+  url: https://careers-ardenthealth.icims.com/jobs
+  ats_slug: careers-ardenthealth
+- name: Arh
+  url: https://careers-arh.icims.com/jobs
+  ats_slug: careers-arh
+- name: Ascension Health
+  url: https://careers-ascension.icims.com/jobs
+  ats_slug: ascension
+  sector: health_system
+- name: Ascension Health (Jobs Portal)
+  url: https://ascensionjobs1-ascension.icims.com/jobs
+  ats_slug: ascensionjobs1-ascension
+  sector: health_system
+- name: Ascensionwisconsinhospital
+  url: https://careers-ascensionwisconsinhospital.icims.com/jobs
+  ats_slug: careers-ascensionwisconsinhospital
+- name: Aus
+  url: https://securitycareers-aus.icims.com/jobs
+  ats_slug: securitycareers-aus
+- name: Bannerhealth
+  url: https://jobs-bannerhealth.icims.com/jobs
+  ats_slug: jobs-bannerhealth
+- name: Baptisthealthal
+  url: https://careers-baptisthealthal.icims.com/jobs
+  ats_slug: careers-baptisthealthal
+- name: Baptistneighborhoodhospital
+  url: https://careers-baptistneighborhoodhospital.icims.com/jobs
+  ats_slug: careers-baptistneighborhoodhospital
+- name: Baycaremedicalgroup
+  url: https://app-baycaremedicalgroup.icims.com/jobs
+  ats_slug: app-baycaremedicalgroup
+- name: Bayfronthealth
+  url: https://careers-bayfronthealth.icims.com/jobs
+  ats_slug: careers-bayfronthealth
+- name: Bayfronthealth
+  url: https://nursingcareers-bayfronthealth.icims.com/jobs
+  ats_slug: nursingcareers-bayfronthealth
+- name: Baylorscottandwhiteeh
+  url: https://careers-baylorscottandwhiteeh.icims.com/jobs
+  ats_slug: careers-baylorscottandwhiteeh
+- name: Bbraun
+  url: https://bbrauncareers-bbraun.icims.com/jobs
+  ats_slug: bbrauncareers-bbraun
+- name: Beaumont Health
+  url: https://careers-beaumont.icims.com/jobs
+  ats_slug: beaumont
+  sector: health_system
+- name: Beaumonthospital
+  url: https://alliedhealth-beaumonthospital.icims.com/jobs
+  ats_slug: alliedhealth-beaumonthospital
+- name: Beaumonthospital
+  url: https://doctor-beaumonthospital.icims.com/jobs
+  ats_slug: doctor-beaumonthospital
+- name: Beaumonthospital
+  url: https://general-beaumonthospital.icims.com/jobs
+  ats_slug: general-beaumonthospital
+- name: Benaroyaresearch
+  url: https://careers-benaroyaresearch.icims.com/jobs
+  ats_slug: careers-benaroyaresearch
+- name: Betterhealthgroup
+  url: https://betterhealthgroup.icims.com/jobs
+  ats_slug: betterhealthgroup
+- name: Bhcpns
+  url: https://careers-bhcpns.icims.com/jobs
+  ats_slug: careers-bhcpns
+- name: Bhshealth
+  url: https://careers-bhshealth.icims.com/jobs
+  ats_slug: careers-bhshealth
+- name: Bjc
+  url: https://careers-bjc.icims.com/jobs
+  ats_slug: careers-bjc
+- name: Brightspring
+  url: https://careers-brightspring.icims.com/jobs
+  ats_slug: careers-brightspring
+- name: Brightviewhealth
+  url: https://brightviewhealth.icims.com/jobs
+  ats_slug: brightviewhealth
+- name: Bronxcare
+  url: https://careers-bronxcare.icims.com/jobs
+  ats_slug: careers-bronxcare
+- name: C 173 20170920 Hanescareers Com.I
+  url: https://c-173-20170920-hanescareers-com.i.icims.com/jobs
+  ats_slug: c-173-20170920-hanescareers-com.i
+  sector: other
+- name: C 2369 20200305 Www Ketchum Com.I
+  url: https://c-2369-20200305-www-ketchum-com.i.icims.com/jobs
+  ats_slug: c-2369-20200305-www-ketchum-com.i
+  sector: other
+- name: C 2745 20170821 Www Bebridgestone Com.I
+  url: https://c-2745-20170821-www-bebridgestone-com.i.icims.com/jobs
+  ats_slug: c-2745-20170821-www-bebridgestone-com.i
+  sector: other
+- name: C 3509 20171013 Www Woodplc Com.I
+  url: https://c-3509-20171013-www-woodplc-com.i.icims.com/jobs
+  ats_slug: c-3509-20171013-www-woodplc-com.i
+  sector: other
+- name: C 3710 20130708 Www Pernod  Ricard  Uk Com.I
+  url: https://c-3710-20130708-www-pernod--ricard--uk-com.i.icims.com/jobs
+  ats_slug: c-3710-20130708-www-pernod--ricard--uk-com.i
+  sector: other
+- name: C 6800 20170622 Www Ul Com.I
+  url: https://c-6800-20170622-www-ul-com.i.icims.com/jobs
+  ats_slug: c-6800-20170622-www-ul-com.i
+  sector: other
+- name: C 998 20150325 Www Aucmed Edu.I
+  url: https://c-998-20150325-www-aucmed-edu.i.icims.com/jobs
+  ats_slug: c-998-20150325-www-aucmed-edu.i
+  sector: other
+- name: Careers
+  url: https://lt-careers.icims.com/jobs
+  ats_slug: lt-careers
+- name: Careers Abilitynetwork
+  url: https://careers-abilitynetwork.icims.com/jobs
+  ats_slug: careers-abilitynetwork
+  sector: other
+- name: Careers Afcu
+  url: https://careers-afcu.icims.com/jobs
+  ats_slug: careers-afcu
+  sector: other
+- name: Careers Apetito
+  url: https://careers-apetito.icims.com/jobs
+  ats_slug: careers-apetito
+  sector: other
+- name: Careers Atrion
+  url: https://careers-atrion.icims.com/jobs
+  ats_slug: careers-atrion
+  sector: other
+- name: Careers Brewers
+  url: https://careers-brewers.icims.com/jobs
+  ats_slug: careers-brewers
+  sector: other
+- name: Careers Califiafarms
+  url: https://careers-califiafarms.icims.com/jobs
+  ats_slug: careers-califiafarms
+  sector: other
+- name: Careers Cfr
+  url: https://careers-cfr.icims.com/jobs
+  ats_slug: careers-cfr
+  sector: other
+- name: Careers Cobbemc
+  url: https://careers-cobbemc.icims.com/jobs
+  ats_slug: careers-cobbemc
+  sector: other
+- name: Careers Cort
+  url: https://careers-cort.icims.com/jobs
+  ats_slug: careers-cort
+  sector: other
+- name: Careers Damar
+  url: https://careers-damar.icims.com/jobs
+  ats_slug: careers-damar
+  sector: other
+- name: Careers Dickblick
+  url: https://careers-dickblick.icims.com/jobs
+  ats_slug: careers-dickblick
+  sector: other
+- name: Careers Dreeshomes
+  url: https://careers-dreeshomes.icims.com/jobs
+  ats_slug: careers-dreeshomes
+  sector: other
+- name: Careers Gdit
+  url: https://careers-gdit.icims.com/jobs
+  ats_slug: careers-gdit
+  sector: other
+- name: Careers Grammatech
+  url: https://careers-grammatech.icims.com/jobs
+  ats_slug: careers-grammatech
+  sector: other
+- name: Careers Hga
+  url: https://careers-hga.icims.com/jobs
+  ats_slug: careers-hga
+  sector: other
+- name: Careers Hines
+  url: https://careers-hines.icims.com/jobs
+  ats_slug: careers-hines
+  sector: other
+- name: Careers Incomm
+  url: https://careers-incomm.icims.com/jobs
+  ats_slug: careers-incomm
+  sector: other
+- name: Careers Jobin
+  url: https://careers-jobin.icims.com/jobs
+  ats_slug: careers-jobin
+  sector: other
+- name: Careers Kghp
+  url: https://careers-kghp.icims.com/jobs
+  ats_slug: careers-kghp
+  sector: other
+- name: Careers Mci2
+  url: https://careers-mci2.icims.com/jobs
+  ats_slug: careers-mci2
+  sector: other
+- name: Careers Muckleshootgov
+  url: https://careers-muckleshootgov.icims.com/jobs
+  ats_slug: careers-muckleshootgov
+  sector: other
+- name: Careers Natdcp
+  url: https://careers-natdcp.icims.com/jobs
+  ats_slug: careers-natdcp
+  sector: other
+- name: Careers Nv5
+  url: https://careers-nv5.icims.com/jobs
+  ats_slug: careers-nv5
+  sector: other
+- name: Careers Omegatechserv
+  url: https://careers-omegatechserv.icims.com/jobs
+  ats_slug: careers-omegatechserv
+  sector: other
+- name: Careers Origamirisk
+  url: https://careers-origamirisk.icims.com/jobs
+  ats_slug: careers-origamirisk
+  sector: other
+- name: Careers Pngaming
+  url: https://careers-pngaming.icims.com/jobs
+  ats_slug: careers-pngaming
+  sector: other
+- name: Careers Primeinc
+  url: https://careers-primeinc.icims.com/jobs
+  ats_slug: careers-primeinc
+  sector: other
+- name: Careers Rambus
+  url: https://careers-rambus.icims.com/jobs
+  ats_slug: careers-rambus
+  sector: other
+- name: Careers Realco
+  url: https://careers-realco.icims.com/jobs
+  ats_slug: careers-realco
+  sector: other
+- name: Careers Related
+  url: https://careers-related.icims.com/jobs
+  ats_slug: careers-related
+  sector: other
+- name: Careers Sazerac
+  url: https://careers-sazerac.icims.com/jobs
+  ats_slug: careers-sazerac
+  sector: other
+- name: Careers Shawmut
+  url: https://careers-shawmut.icims.com/jobs
+  ats_slug: careers-shawmut
+  sector: other
+- name: Careers Spiritaero
+  url: https://careers-spiritaero.icims.com/jobs
+  ats_slug: careers-spiritaero
+  sector: other
+- name: Careers Thebridgecm
+  url: https://careers-thebridgecm.icims.com/jobs
+  ats_slug: careers-thebridgecm
+  sector: other
+- name: Careers Uicalaska
+  url: https://careers-uicalaska.icims.com/jobs
+  ats_slug: careers-uicalaska
+  sector: other
+- name: Careers Usta
+  url: https://careers-usta.icims.com/jobs
+  ats_slug: careers-usta
+  sector: other
+- name: Careersen Mackenziefinancial
+  url: https://careersen-mackenziefinancial.icims.com/jobs
+  ats_slug: careersen-mackenziefinancial
+  sector: other
+- name: Careerseng Teleperformance
+  url: https://careerseng-teleperformance.icims.com/jobs
+  ats_slug: careerseng-teleperformance
+  sector: other
+- name: Careersnao Andersentax
+  url: https://careersnao-andersentax.icims.com/jobs
+  ats_slug: careersnao-andersentax
+  sector: other
+- name: Carenethealthcare
+  url: https://careers-carenethealthcare.icims.com/jobs
+  ats_slug: careers-carenethealthcare
+- name: Carepointhealth
+  url: https://careers-carepointhealth.icims.com/jobs
+  ats_slug: careers-carepointhealth
+- name: Cdn01
+  url: https://cdn01.icims.com/jobs
+  ats_slug: cdn01
+  sector: other
+- name: Cdn03
+  url: https://cdn03.icims.com/jobs
+  ats_slug: cdn03
+  sector: other
+- name: Centralhealth
+  url: https://communitycare-centralhealth.icims.com/jobs
+  ats_slug: communitycare-centralhealth
+- name: Centralhealth
+  url: https://careers-centralhealth.icims.com/jobs
+  ats_slug: careers-centralhealth
+- name: Centrastate
+  url: https://careers-centrastate.icims.com/jobs
+  ats_slug: careers-centrastate
+- name: Chai
+  url: https://careers-chai.icims.com/jobs
+  ats_slug: careers-chai
+- name: Chccnj
+  url: https://careers-chccnj.icims.com/jobs
+  ats_slug: careers-chccnj
+- name: Chestnut
+  url: https://careers-chestnut.icims.com/jobs
+  ats_slug: careers-chestnut
+- name: Childrensmercykc
+  url: https://jobs-childrensmercykc.icims.com/jobs
+  ats_slug: jobs-childrensmercykc
+- name: Christianacarenh
+  url: https://careers-christianacarenh.icims.com/jobs
+  ats_slug: careers-christianacarenh
+- name: Chrysalishealth
+  url: https://ohio-chrysalishealth.icims.com/jobs
+  ats_slug: ohio-chrysalishealth
+- name: Civilianmedicaljobs
+  url: https://careers-civilianmedicaljobs.icims.com/jobs
+  ats_slug: careers-civilianmedicaljobs
+- name: Cjmc
+  url: https://careers-cjmc.icims.com/jobs
+  ats_slug: careers-cjmc
+- name: College Msasafety
+  url: https://college-msasafety.icims.com/jobs
+  ats_slug: college-msasafety
+  sector: other
+- name: CommonSpirit Health
+  url: https://careers-commonspirit.icims.com/jobs
+  ats_slug: commonspirit
+  sector: health_system
+- name: Commonspirit
+  url: https://external-mountain-commonspirit.icims.com/jobs
+  ats_slug: external-mountain-commonspirit
+- name: Commonspirit
+  url: https://onboarding-commonspirit.icims.com/jobs
+  ats_slug: onboarding-commonspirit
+- name: Commonspirit
+  url: https://careers-commonspirit.icims.com/jobs
+  ats_slug: careers-commonspirit
+- name: Community Health Systems
+  url: https://careers-chsmedical.icims.com/jobs
+  ats_slug: chsmedical
+  sector: health_system
+- name: Communitymedical
+  url: https://careers-communitymedical.icims.com/jobs
+  ats_slug: careers-communitymedical
+- name: Conehealth
+  url: https://careers-conehealth.icims.com/jobs
+  ats_slug: careers-conehealth
+- name: Cookmedical
+  url: https://apac-cookmedical.icims.com/jobs
+  ats_slug: apac-cookmedical
+- name: Cookmedical
+  url: https://emea-cookmedical.icims.com/jobs
+  ats_slug: emea-cookmedical
+- name: Cookmedical
+  url: https://americas-cookmedical.icims.com/jobs
+  ats_slug: americas-cookmedical
+- name: Cooperhealth
+  url: https://careers-cooperhealth.icims.com/jobs
+  ats_slug: careers-cooperhealth
+- name: Cooperhealth
+  url: https://physicians-cooperhealth.icims.com/jobs
+  ats_slug: physicians-cooperhealth
+- name: Covenanthealth
+  url: https://careers-covenanthealth.icims.com/jobs
+  ats_slug: careers-covenanthealth
+- name: Dignityhealth
+  url: https://careers-dignityhealth.icims.com/jobs
+  ats_slug: careers-dignityhealth
+- name: Edsisolutions
+  url: https://careers-edsisolutions.icims.com/jobs
+  ats_slug: careers-edsisolutions
+- name: Ehhi
+  url: https://careers-ehhi.icims.com/jobs
+  ats_slug: careers-ehhi
+- name: Einstein
+  url: https://careers-einstein.icims.com/jobs
+  ats_slug: careers-einstein
+- name: Embarkbh
+  url: https://careers-embarkbh.icims.com/jobs
+  ats_slug: careers-embarkbh
+- name: Embarkstrtc
+  url: https://careers-embarkstrtc.icims.com/jobs
+  ats_slug: careers-embarkstrtc
+- name: Emerus Hospital Partners
+  url: https://careers-emerus.icims.com/jobs
+  ats_slug: careers-emerus
+  sector: hospital
+- name: Emory
+  url: https://non-clinical-emory.icims.com/jobs
+  ats_slug: non-clinical-emory
+- name: Emory
+  url: https://clinical-emory.icims.com/jobs
+  ats_slug: clinical-emory
+- name: Emory
+  url: https://staff-emory.icims.com/jobs
+  ats_slug: staff-emory
+- name: Emory
+  url: https://faculty-emory.icims.com/jobs
+  ats_slug: faculty-emory
+- name: Emory
+  url: https://nursing-emory.icims.com/jobs
+  ats_slug: nursing-emory
+- name: Emory Healthcare
+  url: https://ehccareers-emory.icims.com/jobs
+  ats_slug: ehccareers-emory
+  sector: university_hospital
+- name: Employees Fecrwy
+  url: https://employees-fecrwy.icims.com/jobs
+  ats_slug: employees-fecrwy
+  sector: other
+- name: Englishcareers Bruker
+  url: https://englishcareers-bruker.icims.com/jobs
+  ats_slug: englishcareers-bruker
+  sector: other
+- name: Essenmed
+  url: https://careers-essenmed.icims.com/jobs
+  ats_slug: careers-essenmed
+- name: Eumecareers Lw
+  url: https://eumecareers-lw.icims.com/jobs
+  ats_slug: eumecareers-lw
+  sector: other
+- name: External Careers Sodexo
+  url: https://external-careers-sodexo.icims.com/jobs
+  ats_slug: external-careers-sodexo
+  sector: other
+- name: External Flysfo
+  url: https://external-flysfo.icims.com/jobs
+  ats_slug: external-flysfo
+  sector: other
+- name: External Glacierpark Viad
+  url: https://external-glacierpark-viad.icims.com/jobs
+  ats_slug: external-glacierpark-viad
+  sector: other
+- name: Fastpacemedical
+  url: https://careers-fastpacemedical.icims.com/jobs
+  ats_slug: careers-fastpacemedical
+- name: Fhcrc
+  url: https://careers-fhcrc.icims.com/jobs
+  ats_slug: careers-fhcrc
+- name: Fhp
+  url: https://careers-fhp.icims.com/jobs
+  ats_slug: careers-fhp
+- name: Floridamedclinic
+  url: https://careers-floridamedclinic.icims.com/jobs
+  ats_slug: careers-floridamedclinic
+- name: Fraserhealth
+  url: https://fraserhealth.icims.com/jobs
+  ats_slug: fraserhealth
+- name: Fraserhealth
+  url: https://careers-fraserhealth.icims.com/jobs
+  ats_slug: careers-fraserhealth
+- name: Futurecarehealth
+  url: https://careers-futurecarehealth.icims.com/jobs
+  ats_slug: careers-futurecarehealth
+- name: Garnethealth
+  url: https://careers-garnethealth.icims.com/jobs
+  ats_slug: careers-garnethealth
+- name: Graduate Mccurrach
+  url: https://graduate-mccurrach.icims.com/jobs
+  ats_slug: graduate-mccurrach
+  sector: other
+- name: Grand View Health
+  url: https://careers-gvh.icims.com/jobs
+  ats_slug: careers-gvh
+  sector: hospital
+- name: Hackensack Meridian Health
+  url: https://careers-hackensackmeridianhealth.icims.com/jobs
+  ats_slug: hackensackmeridianhealth
+  sector: health_system
+- name: Hardrock
+  url: https://hrhcatlanticcity-hardrock.icims.com/jobs
+  ats_slug: hrhcatlanticcity-hardrock
+- name: Hcmhcares
+  url: https://careers-hcmhcares.icims.com/jobs
+  ats_slug: careers-hcmhcares
+- name: HealthEast Care System
+  url: https://jobs-healtheast.icims.com/jobs
+  ats_slug: jobs-healtheast
+  sector: health_system
+- name: Healthconnectamerica
+  url: https://careers-healthconnectamerica.icims.com/jobs
+  ats_slug: careers-healthconnectamerica
+- name: Healthdrive
+  url: https://corporate-healthdrive.icims.com/jobs
+  ats_slug: corporate-healthdrive
+- name: Heart
+  url: https://careers-heart.icims.com/jobs
+  ats_slug: careers-heart
+- name: Hhsys
+  url: https://careers-hhsys.icims.com/jobs
+  ats_slug: careers-hhsys
+- name: Hiddencareers Corespaces
+  url: https://hiddencareers-corespaces.icims.com/jobs
+  ats_slug: hiddencareers-corespaces
+  sector: other
+- name: Hingehealth
+  url: https://careers-hingehealth.icims.com/jobs
+  ats_slug: careers-hingehealth
+- name: Houstonmethodist
+  url: https://careers-houstonmethodist.icims.com/jobs
+  ats_slug: careers-houstonmethodist
+- name: Hrhcatlanticcity Hardrock
+  url: https://hrhcatlanticcity-hardrock.icims.com/jobs
+  ats_slug: hrhcatlanticcity-hardrock
+  sector: other
+- name: Hsedne
+  url: https://careers-hsedne.icims.com/jobs
+  ats_slug: careers-hsedne
+- name: Huntsville Hospital Health System
+  url: https://careers-hhsys.icims.com/jobs
+  ats_slug: hhsys
+  sector: health_system
+- name: Infirmary Health
+  url: https://careers-infirmaryhealth.icims.com/jobs
+  ats_slug: infirmaryhealth
+  sector: health_system
+- name: Instructionalprofile Scsk12
+  url: https://instructionalprofile-scsk12.icims.com/jobs
+  ats_slug: instructionalprofile-scsk12
+  sector: other
+- name: Jacksonhealthcare
+  url: https://careers3-jacksonhealthcare.icims.com/jobs
+  ats_slug: careers3-jacksonhealthcare
+- name: Jacksonhealthcare
+  url: https://careers5-jacksonhealthcare.icims.com/jobs
+  ats_slug: careers5-jacksonhealthcare
+- name: Jacksonhealthcare
+  url: https://careers4-jacksonhealthcare.icims.com/jobs
+  ats_slug: careers4-jacksonhealthcare
+- name: Jacksonhealthcare
+  url: https://vms-careers-jacksonhealthcare.icims.com/jobs
+  ats_slug: vms-careers-jacksonhealthcare
+- name: Jacksonhealthcare
+  url: https://careers-jacksonhealthcare.icims.com/jobs
+  ats_slug: careers-jacksonhealthcare
+- name: Jobs Eidebailly
+  url: https://jobs-eidebailly.icims.com/jobs
+  ats_slug: jobs-eidebailly
+  sector: other
+- name: Jobs Generalrv
+  url: https://jobs-generalrv.icims.com/jobs
+  ats_slug: jobs-generalrv
+  sector: other
+- name: Jobs Hcsgcorp
+  url: https://jobs-hcsgcorp.icims.com/jobs
+  ats_slug: jobs-hcsgcorp
+  sector: other
+- name: Jobs Myvschome
+  url: https://jobs-myvschome.icims.com/jobs
+  ats_slug: jobs-myvschome
+  sector: other
+- name: Jobsamericas Gep
+  url: https://jobsamericas-gep.icims.com/jobs
+  ats_slug: jobsamericas-gep
+  sector: other
+- name: Johns Hopkins Medicine (Intrastaff)
+  url: https://careers-intrastaff.icims.com/jobs
+  ats_slug: hopkinsmedicine
+  sector: university_hospital
+- name: Johnsiskandson
+  url: https://careers-johnsiskandson.icims.com/jobs
+  ats_slug: careers-johnsiskandson
+- name: KPH Healthcare Services
+  url: https://kinneydrug-kphhealthcareservices.icims.com/jobs
+  ats_slug: kinneydrug-kphhealthcareservices
+  sector: health_system
+- name: Ketteringhealth
+  url: https://careers-ketteringhealth.icims.com/jobs
+  ats_slug: careers-ketteringhealth
+- name: Legacyinc
+  url: https://careers-legacyinc.icims.com/jobs
+  ats_slug: careers-legacyinc
+- name: Lhinjobs En
+  url: https://lhinjobs-en.icims.com/jobs
+  ats_slug: lhinjobs-en
+  sector: other
+- name: Lhs
+  url: https://provider-lhs.icims.com/jobs
+  ats_slug: provider-lhs
+- name: Lhs
+  url: https://nursing-lhs.icims.com/jobs
+  ats_slug: nursing-lhs
+- name: Lhs
+  url: https://careers-lhs.icims.com/jobs
+  ats_slug: careers-lhs
+- name: Lmi
+  url: https://careers-lmi.icims.com/jobs
+  ats_slug: careers-lmi
+- name: Mahaskahealth
+  url: https://careers-mahaskahealth.icims.com/jobs
+  ats_slug: careers-mahaskahealth
+- name: Mbpce
+  url: https://careers-mbpce.icims.com/jobs
+  ats_slug: careers-mbpce
+- name: Media
+  url: https://media.icims.com/jobs
+  ats_slug: media
+  sector: other
+- name: Medicalsolutions
+  url: https://hostcareers-medicalsolutions.icims.com/jobs
+  ats_slug: hostcareers-medicalsolutions
+- name: Medicalsolutions
+  url: https://careers-medicalsolutions.icims.com/jobs
+  ats_slug: careers-medicalsolutions
+- name: Memorial Sloan Kettering
+  url: https://careers-mskcc.icims.com/jobs
+  ats_slug: mskcc
+  sector: hospital
+- name: Mercy
+  url: https://internal-mercy.icims.com/jobs
+  ats_slug: internal-mercy
+- name: Mercy Health
+  url: https://careers-mercyhealth.icims.com/jobs
+  ats_slug: mercyhealth
+  sector: health_system
+- name: Mercyhealth
+  url: https://providers-mercyhealth.icims.com/jobs
+  ats_slug: providers-mercyhealth
+- name: Methodisthospitals
+  url: https://onboarding-methodisthospitals.icims.com/jobs
+  ats_slug: onboarding-methodisthospitals
+- name: Methodisthospitals
+  url: https://careers-methodisthospitals.icims.com/jobs
+  ats_slug: careers-methodisthospitals
+- name: Michfb
+  url: https://careers-michfb.icims.com/jobs
+  ats_slug: careers-michfb
+- name: Midlandhealth
+  url: https://hospital-midlandhealth.icims.com/jobs
+  ats_slug: hospital-midlandhealth
+- name: Mn Readingmathcorps
+  url: https://mn-readingmathcorps.icims.com/jobs
+  ats_slug: mn-readingmathcorps
+  sector: other
+- name: Mount Sinai Health System
+  url: https://careers-mountsinai.icims.com/jobs
+  ats_slug: mountsinai
+  sector: health_system
+- name: Mychildrenschoice
+  url: https://careers-mychildrenschoice.icims.com/jobs
+  ats_slug: careers-mychildrenschoice
+- name: Mycmh
+  url: https://careers-mycmh.icims.com/jobs
+  ats_slug: careers-mycmh
+- name: Nahealth
+  url: https://careers-nahealth.icims.com/jobs
+  ats_slug: careers-nahealth
+- name: Nationwidechildrens
+  url: https://external-nationwidechildrens.icims.com/jobs
+  ats_slug: external-nationwidechildrens
+- name: Navitus
+  url: https://careers-navitus.icims.com/jobs
+  ats_slug: careers-navitus
+- name: Newhire Uuhc
+  url: https://newhire-uuhc.icims.com/jobs
+  ats_slug: newhire-uuhc
+  sector: other
+- name: Norman Regional Health System
+  url: https://careers-nrh-ok.icims.com/jobs
+  ats_slug: careers-nrh-ok
+  sector: hospital
+- name: Northside
+  url: https://careers-northside.icims.com/jobs
+  ats_slug: careers-northside
+- name: Novanthealth
+  url: https://easyapply-novanthealth.icims.com/jobs
+  ats_slug: easyapply-novanthealth
+- name: Novanthealth
+  url: https://internships-novanthealth.icims.com/jobs
+  ats_slug: internships-novanthealth
+- name: Novanthealth
+  url: https://physicians-novanthealth.icims.com/jobs
+  ats_slug: physicians-novanthealth
+- name: Novanthealth
+  url: https://external-novanthealth.icims.com/jobs
+  ats_slug: external-novanthealth
+- name: Nph
+  url: https://careers-nph.icims.com/jobs
+  ats_slug: careers-nph
+- name: Obmc
+  url: https://careers-obmc.icims.com/jobs
+  ats_slug: careers-obmc
+- name: Ohsu
+  url: https://postdoctoral-ohsu.icims.com/jobs
+  ats_slug: postdoctoral-ohsu
+- name: Ohsu
+  url: https://externalcareers-ohsu.icims.com/jobs
+  ats_slug: externalcareers-ohsu
+- name: Ohsu
+  url: https://facultycareers-ohsu.icims.com/jobs
+  ats_slug: facultycareers-ohsu
+- name: Onboarding Riversidehealthcare
+  url: https://onboarding-riversidehealthcare.icims.com/jobs
+  ats_slug: onboarding-riversidehealthcare
+  sector: other
+- name: Orlandohealth
+  url: https://careers-orlandohealth.icims.com/jobs
+  ats_slug: careers-orlandohealth
+- name: Ovg
+  url: https://careers-ovg.icims.com/jobs
+  ats_slug: careers-ovg
+- name: Pamhealth
+  url: https://careers-pamhealth.icims.com/jobs
+  ats_slug: careers-pamhealth
+- name: Partnershiphp
+  url: https://careers-partnershiphp.icims.com/jobs
+  ats_slug: careers-partnershiphp
+- name: Pediatrix
+  url: https://clinical-pediatrix.icims.com/jobs
+  ats_slug: clinical-pediatrix
+- name: Phc
+  url: https://onboarding-phc.icims.com/jobs
+  ats_slug: onboarding-phc
+- name: Phc
+  url: https://careers-phc.icims.com/jobs
+  ats_slug: careers-phc
+- name: Piedmont
+  url: https://careers-piedmont.icims.com/jobs
+  ats_slug: careers-piedmont
+- name: Piedmont Healthcare
+  url: https://careers-piedmont.icims.com/jobs
+  ats_slug: piedmont
+  sector: health_system
+- name: Prime Healthcare
+  url: https://careers-primehealthcare.icims.com/jobs
+  ats_slug: primehealthcare
+  sector: health_system
+- name: Primehealthcare
+  url: https://careers-primehealthcare.icims.com/jobs
+  ats_slug: careers-primehealthcare
+- name: Ptsolutions
+  url: https://careers-ptsolutions.icims.com/jobs
+  ats_slug: careers-ptsolutions
+- name: Publicisgroupe
+  url: https://publicisgroupe.icims.com/jobs
+  ats_slug: publicisgroupe
+  sector: other
+- name: Riversidehealth
+  url: https://careers-riversidehealth.icims.com/jobs
+  ats_slug: careers-riversidehealth
+- name: Riverviewhealth
+  url: https://careers-riverviewhealth.icims.com/jobs
+  ats_slug: careers-riverviewhealth
+- name: Rowenglishcareers Cabot
+  url: https://rowenglishcareers-cabot.icims.com/jobs
+  ats_slug: rowenglishcareers-cabot
+  sector: other
+- name: Sagehospitality
+  url: https://careers-sagehospitality.icims.com/jobs
+  ats_slug: careers-sagehospitality
+- name: Selectmedicalcorp
+  url: https://concentrajobs-selectmedicalcorp.icims.com/jobs
+  ats_slug: concentrajobs-selectmedicalcorp
+- name: Selectmedicalcorp
+  url: https://jobs-selectmedicalcorp.icims.com/jobs
+  ats_slug: jobs-selectmedicalcorp
+- name: Senture
+  url: https://careerseng-senture.icims.com/jobs
+  ats_slug: careerseng-senture
+- name: Shriners
+  url: https://careers-shriners.icims.com/jobs
+  ats_slug: careers-shriners
+- name: Sodexo
+  url: https://external-careers-sodexo.icims.com/jobs
+  ats_slug: external-careers-sodexo
+- name: Somniainc
+  url: https://careers-somniainc.icims.com/jobs
+  ats_slug: careers-somniainc
+- name: Spectrumhealth
+  url: https://dsjv-spectrumhealth.icims.com/jobs
+  ats_slug: dsjv-spectrumhealth
+- name: Spectrumhealthcare
+  url: https://jobs1-spectrumhealthcare.icims.com/jobs
+  ats_slug: jobs1-spectrumhealthcare
+- name: Spectrumhealthcare
+  url: https://jobs2-spectrumhealthcare.icims.com/jobs
+  ats_slug: jobs2-spectrumhealthcare
+- name: Spplus
+  url: https://externalsp-spplus.icims.com/jobs
+  ats_slug: externalsp-spplus
+- name: Startup Aus
+  url: https://startup-aus.icims.com/jobs
+  ats_slug: startup-aus
+  sector: other
+- name: Stl
+  url: https://physicianservices-stlukes-stl.icims.com/jobs
+  ats_slug: physicianservices-stlukes-stl
+- name: Stl
+  url: https://careers-stlukes-stl.icims.com/jobs
+  ats_slug: careers-stlukes-stl
+- name: Stonybrookmedicinecpmp
+  url: https://careers-stonybrookmedicinecpmp.icims.com/jobs
+  ats_slug: careers-stonybrookmedicinecpmp
+- name: Stores Na Urbn
+  url: https://stores-na-urbn.icims.com/jobs
+  ats_slug: stores-na-urbn
+  sector: other
+- name: Strosenh
+  url: https://careers-strosenh.icims.com/jobs
+  ats_slug: careers-strosenh
+- name: Sutter Health
+  url: https://careers-sutterhealth.icims.com/jobs
+  ats_slug: sutterhealth
+  sector: health_system
+- name: Sutterhealth
+  url: https://adminjobs-sutterhealth.icims.com/jobs
+  ats_slug: adminjobs-sutterhealth
+- name: Sutterhealth
+  url: https://apcjobs-sutterhealth.icims.com/jobs
+  ats_slug: apcjobs-sutterhealth
+- name: Sutterhealth
+  url: https://physicianjobs-sutterhealth.icims.com/jobs
+  ats_slug: physicianjobs-sutterhealth
+- name: Svh
+  url: https://careers-svh.icims.com/jobs
+  ats_slug: careers-svh
+- name: Teleperformance
+  url: https://careersus-teleperformance.icims.com/jobs
+  ats_slug: careersus-teleperformance
+- name: Test Waters
+  url: https://test-waters.icims.com/jobs
+  ats_slug: test-waters
+  sector: other
+- name: Texas Children's Hospital
+  url: https://careers-texaschildrens.icims.com/jobs
+  ats_slug: texaschildrens
+  sector: childrens
+- name: Tricitymed
+  url: https://careers-tricitymed.icims.com/jobs
+  ats_slug: careers-tricitymed
+- name: Trilogy Health Services
+  url: https://trilogycareers-trilogyhs.icims.com/jobs
+  ats_slug: trilogyhs
+  sector: health_system
+- name: Tuality
+  url: https://careers-tuality.icims.com/jobs
+  ats_slug: careers-tuality
+- name: UAB Medicine
+  url: https://careers-uabmedicine.icims.com/jobs
+  ats_slug: uabmedicine
+  sector: university_hospital
+- name: UC Irvine Health
+  url: https://uc-irvine-health.icims.com/jobs
+  ats_slug: uc-irvine-health
+  sector: other
+- name: UC Irvine Health
+  url: https://careers-uci.icims.com/jobs
+  ats_slug: uci
+  sector: university_hospital
+- name: UC Irvine Health
+  url: https://uci.icims.com/jobs
+  ats_slug: uci
+  sector: university_hospital
+- name: UCLA Health
+  url: https://careers-ucla.icims.com/jobs
+  ats_slug: ucla
+  sector: university_hospital
+- name: UNC Health
+  url: https://careers-unchealth.icims.com/jobs
+  ats_slug: unchealth
+  sector: university_hospital
+- name: Uabmedicine
+  url: https://careers-uabmedicine.icims.com/jobs
+  ats_slug: careers-uabmedicine
+- name: Ucm
+  url: https://ingallsexternal-ucm.icims.com/jobs
+  ats_slug: ingallsexternal-ucm
+- name: Ucm
+  url: https://careers-ucm.icims.com/jobs
+  ats_slug: careers-ucm
+- name: Uhnjcareers
+  url: https://careers-uhnjcareers.icims.com/jobs
+  ats_slug: careers-uhnjcareers
+- name: Umms
+  url: https://careers-umms.icims.com/jobs
+  ats_slug: careers-umms
+- name: United Health Centers
+  url: https://nonprovider-unitedhealthcenters.icims.com/jobs
+  ats_slug: nonprovider-unitedhealthcenters
+  sector: health_system
+- name: Unitypoint
+  url: https://physiciansproviders-unitypoint.icims.com/jobs
+  ats_slug: physiciansproviders-unitypoint
+- name: Universalhealthservices
+  url: https://careers2-universalhealthservices.icims.com/jobs
+  ats_slug: careers2-universalhealthservices
+- name: Universalhealthservices
+  url: https://careers-universalhealthservices.icims.com/jobs
+  ats_slug: careers-universalhealthservices
+- name: University Octa
+  url: https://university-octa.icims.com/jobs
+  ats_slug: university-octa
+  sector: other
+- name: Usap
+  url: https://clinical-usap.icims.com/jobs
+  ats_slug: clinical-usap
+- name: Uscareers Lewisenergy
+  url: https://uscareers-lewisenergy.icims.com/jobs
+  ats_slug: uscareers-lewisenergy
+  sector: other
+- name: Uuhc
+  url: https://careers-uuhc.icims.com/jobs
+  ats_slug: careers-uuhc
+- name: Vhchealth
+  url: https://careers-vhchealth.icims.com/jobs
+  ats_slug: careers-vhchealth
+- name: Wellspannh
+  url: https://careers-wellspannh.icims.com/jobs
+  ats_slug: careers-wellspannh
+- name: Www.Careers Blarneycastleoil
+  url: https://www.careers-blarneycastleoil.icims.com/jobs
+  ats_slug: www.careers-blarneycastleoil
+  sector: other
+- name: Www5
+  url: https://www5.icims.com/jobs
+  ats_slug: www5
+  sector: other
 workday:
-  - name: "Children's Hospital of Orange County (CHOC)"
-    url: "https://rch.wd108.myworkdayjobs.com/Careers"
-    sector: "childrens"
-    state: "CA"
-
-  # --- Health Systems ---
-  - name: "Alira Health"
-    url: "https://alirahealth.wd3.myworkdayjobs.com/alirahealth"
-    sector: "health_system"
-
-  - name: "Allina Health"
-    url: "https://allina.wd5.myworkdayjobs.com/External"
-    sector: "health_system"
-
-  - name: "Avera Health"
-    url: "https://avera.wd5.myworkdayjobs.com/avera-careers"
-    sector: "health_system"
-
-  - name: "Behavioral Health Services"
-    url: "https://bhs.wd1.myworkdayjobs.com/careers"
-    sector: "health_system"
-
-  - name: "Boston Medical Center"
-    url: "https://bmc.wd1.myworkdayjobs.com/bmc"
-    sector: "health_system"
-
-  - name: "Boston Medical Center (ClearwayHealth)"
-    url: "https://bmc.wd1.myworkdayjobs.com/ClearwayHealth"
-    sector: "health_system"
-
-  - name: "Bon Secours Mercy Health"
-    url: "https://easyservice.wd5.myworkdayjobs.com/BonSecoursCareers"
-    sector: "health_system"
-
-  - name: "Cardinal Health"
-    url: "https://cardinalhealth.wd1.myworkdayjobs.com/EXT"
-    sector: "health_system"
-
-  - name: "CommuniCare Health"
-    url: "https://communicarehealth.wd1.myworkdayjobs.com/NewVistaExternalCareerSite"
-    sector: "health_system"
-
-  - name: "Cook Children's Health Care System"
-    url: "https://cookchildrens.wd1.myworkdayjobs.com/Cook_Childrens_Careers"
-    sector: "childrens"
-
-  - name: "CoxHealth"
-    url: "https://coxhealth.wd5.myworkdayjobs.com/CoxHealth_External"
-    sector: "health_system"
-
-  - name: "CVS Health"
-    url: "https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers"
-    sector: "health_system"
-
-  - name: "Denver Health"
-    url: "https://denverhealth.wd1.myworkdayjobs.com/dhha-main"
-    sector: "health_system"
-
-  - name: "Devoted Health"
-    url: "https://devoted.wd1.myworkdayjobs.com/Devoted"
-    sector: "health_system"
-
-  - name: "East Boston Neighborhood Health Center"
-    url: "https://ebnhc.wd1.myworkdayjobs.com/EBNHC"
-    sector: "health_system"
-
-  - name: "Elevance Health (Anthem)"
-    url: "https://elevancehealth.wd1.myworkdayjobs.com/ANT"
-    sector: "health_system"
-
-  - name: "East Tennessee Children's Hospital"
-    url: "https://etch.wd5.myworkdayjobs.com/ETCH"
-    sector: "childrens"
-
-  - name: "Anew Health (ExactCare)"
-    url: "https://exactcare.wd1.myworkdayjobs.com/AnewHealth_Career_Site"
-    sector: "health_system"
-
-  - name: "Florida Cancer Specialists"
-    url: "https://flcancer.wd1.myworkdayjobs.com/flcancer_careers"
-    sector: "health_system"
-
-  - name: "Group Health Cooperative"
-    url: "https://ghc.wd1.myworkdayjobs.com/CSI_Careers"
-    sector: "health_system"
-
-  - name: "Hartford HealthCare"
-    url: "https://hhc.wd5.myworkdayjobs.com/HHC"
-    sector: "health_system"
-
-  - name: "Humana (CenterWell)"
-    url: "https://humana.wd5.myworkdayjobs.com/CenterWell_External_Career_Site"
-    sector: "health_system"
-
-  - name: "Humana"
-    url: "https://humana.wd5.myworkdayjobs.com/humana_external_career_site"
-    sector: "health_system"
-
-  - name: "Intermountain Health"
-    url: "https://imh.wd108.myworkdayjobs.com/IntermountainCareers"
-    sector: "health_system"
-
-  - name: "Jefferson Health"
-    url: "https://jeffersonhealth.wd5.myworkdayjobs.com/thomasjeffersonexternal"
-    sector: "health_system"
-
-  - name: "John Muir Health"
-    url: "https://jmh.wd5.myworkdayjobs.com/JohnMuirHealthCareers"
-    sector: "health_system"
-
-  - name: "LCMC Health"
-    url: "https://lcmchealth.wd1.myworkdayjobs.com/LCMCHealth"
-    sector: "health_system"
-
-  - name: "Mass General Brigham"
-    url: "https://massgeneralbrigham.wd1.myworkdayjobs.com/MGBExternal"
-    sector: "health_system"
-
-  - name: "Memorial Hermann"
-    url: "https://memorialhermann.wd5.myworkdayjobs.com/external"
-    sector: "health_system"
-
-  - name: "Montefiore Health System (MMC)"
-    url: "https://montefiore.wd12.myworkdayjobs.com/MMC"
-    sector: "health_system"
-
-  - name: "Montefiore Health System (New Rochelle)"
-    url: "https://montefiore.wd12.myworkdayjobs.com/New_Rochelle"
-    sector: "health_system"
-
-  - name: "MultiCare Health System"
-    url: "https://multicare.wd1.myworkdayjobs.com/multicare"
-    sector: "health_system"
-
-  - name: "MUSC Health"
-    url: "https://musc.wd1.myworkdayjobs.com/MUSC"
-    sector: "health_system"
-
-  - name: "Nationwide Children's Hospital"
-    url: "https://nationwidechildrens.wd5.myworkdayjobs.com/NCHCareers"
-    sector: "childrens"
-
-  - name: "Nebraska Medicine"
-    url: "https://nebraskamed.wd5.myworkdayjobs.com/NM"
-    sector: "health_system"
-
-  - name: "Northwell Health"
-    url: "https://nshs.wd1.myworkdayjobs.com/ns-eeh"
-    sector: "health_system"
-
-  - name: "OhioHealth"
-    url: "https://ohiohealth.wd5.myworkdayjobs.com/ohiohealthjobs"
-    sector: "health_system"
-
-  - name: "OneOncology"
-    url: "https://oneoncology.wd1.myworkdayjobs.com/OneOncology"
-    sector: "health_system"
-
-  - name: "OU Health"
-    url: "https://oumedicine.wd5.myworkdayjobs.com/OUHealthCareers"
-    sector: "health_system"
-
-  - name: "Prime Therapeutics"
-    url: "https://primetherapeutics.wd1.myworkdayjobs.com/PrimeTherapeuticsCareers"
-    sector: "health_system"
-
-  - name: "Prisma Health"
-    url: "https://prismahealth.wd5.myworkdayjobs.com/PrismaHealthCorporate"
-    sector: "health_system"
-
-  - name: "Riverside Health System"
-    url: "https://rivhs.wd1.myworkdayjobs.com/non-providerrhs"
-    sector: "health_system"
-
-  - name: "Roswell Park Comprehensive Cancer Center"
-    url: "https://roswellpark.wd5.myworkdayjobs.com/ExternalCareers"
-    sector: "health_system"
-
-  - name: "Southeast Health"
-    url: "https://seh.wd503.myworkdayjobs.com/SoutheastHealth"
-    sector: "health_system"
-
-  - name: "St. Jude Children's Research Hospital"
-    url: "https://stjude.wd1.myworkdayjobs.com/nonpubliccareersite"
-    sector: "childrens"
-
-  - name: "St. Luke's University Health Network"
-    url: "https://sluhn.wd1.myworkdayjobs.com/SLUHN"
-    sector: "health_system"
-
-  - name: "Stormont Vail Health"
-    url: "https://stormontvail.wd1.myworkdayjobs.com/SVH"
-    sector: "health_system"
-
-  - name: "TMC Healthcare"
-    url: "https://trumed.wd1.myworkdayjobs.com/TMC_External_Career_Site"
-    sector: "health_system"
-
-  - name: "WVU Medicine"
-    url: "https://wvumedicine.wd1.myworkdayjobs.com/WVUH"
-    sector: "health_system"
-
-  # --- University / Academic Medical Centers ---
-  - name: "Brown University"
-    url: "https://brown.wd5.myworkdayjobs.com/staff-careers-brown"
-    sector: "university"
-
-  - name: "Mercer University"
-    url: "https://merceruniversity.wd1.myworkdayjobs.com/student"
-    sector: "university"
-
-  - name: "Northeastern University"
-    url: "https://northeastern.wd1.myworkdayjobs.com/careers"
-    sector: "university"
-
-  - name: "Ohio State University"
-    url: "https://osu.wd1.myworkdayjobs.com/OSUCareers"
-    sector: "university"
-
-  - name: "University of Rochester"
-    url: "https://rochester.wd5.myworkdayjobs.com/UR_Staff"
-    sector: "university"
-
-  - name: "Saint Joseph's University"
-    url: "https://sju.wd1.myworkdayjobs.com/sju"
-    sector: "university"
-
-  - name: "University of Maryland Eastern Shore"
-    url: "https://umd.wd1.myworkdayjobs.com/UMES"
-    sector: "university"
-
-  - name: "University of Miami"
-    url: "https://umiami.wd1.myworkdayjobs.com/UMCareerStaff"
-    sector: "university"
-
-  - name: "University of Mississippi Medical Center"
-    url: "https://ummc.wd5.myworkdayjobs.com/UMCCareers"
-    sector: "university_hospital"
-
-  - name: "University of Pennsylvania"
-    url: "https://upenn.wd1.myworkdayjobs.com/careers-at-penn"
-    sector: "university"
-
-  - name: "UT Austin"
-    url: "https://utaustin.wd1.myworkdayjobs.com/UTstaff"
-    sector: "university"
-
-  - name: "Vanderbilt University Medical Center"
-    url: "https://vumc.wd1.myworkdayjobs.com/vumccareers"
-    sector: "university_hospital"
-
-  # --- Pharma / Biotech ---
-  - name: "Alto Pharmacy"
-    url: "https://alto.wd1.myworkdayjobs.com/alto_external_career_site"
-    sector: "pharma"
-
-  - name: "AstraZeneca"
-    url: "https://astrazeneca.wd3.myworkdayjobs.com/broadbean_external"
-    sector: "pharma"
-
-  - name: "Bristol-Myers Squibb"
-    url: "https://bristolmyerssquibb.wd5.myworkdayjobs.com/BMS"
-    sector: "pharma"
-
-  - name: "Guardian Pharmacy"
-    url: "https://guardianpharmacy.wd5.myworkdayjobs.com/Guardian_Pharmacy"
-    sector: "pharma"
-
-  - name: "Inizio"
-    url: "https://inizio.wd3.myworkdayjobs.com/CSO"
-    sector: "pharma"
-
-  - name: "McKesson"
-    url: "https://mckesson.wd3.myworkdayjobs.com/External_Careers"
-    sector: "pharma"
-
-  - name: "Merck (MSD)"
-    url: "https://msd.wd5.myworkdayjobs.com/SearchJobs"
-    sector: "pharma"
-
-  - name: "Parexel"
-    url: "https://parexel.wd1.myworkdayjobs.com/Parexel_External_Careers"
-    sector: "pharma"
-
-  - name: "Unither Pharmaceuticals"
-    url: "https://vhr-unither.wd5.myworkdayjobs.com/External"
-    sector: "pharma"
-
-  # --- Insurance / Payers ---
-  - name: "BlueCross BlueShield of Tennessee"
-    url: "https://bcbst.wd1.myworkdayjobs.com/External"
-    sector: "insurance"
-
-  - name: "Cigna"
-    url: "https://cigna.wd5.myworkdayjobs.com/cignacareers"
-    sector: "insurance"
-
-  # --- Retail / Other ---
-  - name: "AmeriVet"
-    url: "https://amerivet.wd5.myworkdayjobs.com/Amerivet"
-    sector: "veterinary"
-
-  - name: "Hy-Vee"
-    url: "https://hyvee.wd1.myworkdayjobs.com/HyVeeCareers"
-    sector: "retail"
-
-  - name: "VCA Animal Hospitals"
-    url: "https://vca.wd1.myworkdayjobs.com/BFCareers"
-    sector: "veterinary"
-
-  - name: "Walmart"
-    url: "https://walmart.wd5.myworkdayjobs.com/Non-WorkdayInternal"
-    sector: "retail"
-
-  - name: "Shepherd Center"
-    url: "https://shepherd.wd5.myworkdayjobs.com/shepherdcenter"
-    sector: "rehabilitation"
-
-  # --- Government ---
-  - name: "Oklahoma Government"
-    url: "https://okgov.wd1.myworkdayjobs.com/okgovjobs"
-    sector: "government"
-
-  - name: "State of Oregon"
-    url: "https://oregon.wd5.myworkdayjobs.com/SOR_External_Career_Site"
-    sector: "government"
-
-  # --- Other Healthcare-Adjacent ---
-  - name: "ECH"
-    url: "https://ech.wd5.myworkdayjobs.com/ech"
-    sector: "health_system"
-
-  - name: "GE Aerospace"
-    url: "https://geaerospace.wd5.myworkdayjobs.com/GE_ExternalSite"
-    sector: "manufacturing"
-
-  - name: "MAHEC"
-    url: "https://mahec.wd5.myworkdayjobs.com/MAHEC"
-    sector: "health_system"
-
-  - name: "NC Careers"
-    url: "https://nc.wd108.myworkdayjobs.com/NC_Careers"
-    sector: "government"
-
-  - name: "OneDigital"
-    url: "https://onedigital.wd5.myworkdayjobs.com/OneDigital"
-    sector: "insurance"
-
-  - name: "Premier Inc"
-    url: "https://premierinc.wd1.myworkdayjobs.com/External_Professional"
-    sector: "health_system"
-
-  - name: "STPH"
-    url: "https://stph.wd5.myworkdayjobs.com/STPH"
-    sector: "health_system"
-
-  - name: "Wellington Management"
-    url: "https://wellington.wd5.myworkdayjobs.com/External"
-    sector: "finance"
-
-# ============================================================
-# TalentBrew/Radancy Portals (wraps Taleo and other ATS)
-# ============================================================
-# These are branded career sites powered by TalentBrew/Radancy
-# URL format: https://careers.{company}.org/search-jobs
-# ============================================================
+- name: Abbott
+  url: https://abbott.wd5.myworkdayjobs.com/abbottcareers
+  slug: abbottcareers
+- name: Abbott
+  url: https://abbott.wd5.myworkdayjobs.com/abbottcareers2
+  slug: abbottcareers2
+- name: Abbott
+  url: https://abbott.wd5.myworkdayjobs.com/agency
+  slug: agency
+- name: Adventisthealthcare
+  url: https://adventisthealthcare.wd1.myworkdayjobs.com/adventisthealthcarecareers
+  slug: adventisthealthcarecareers
+- name: Agilent
+  url: https://agilent.wd5.myworkdayjobs.com/agilent_careers
+  slug: agilent_careers
+- name: Agilent
+  url: https://agilent.wd5.myworkdayjobs.com/agilent_student_careers
+  slug: agilent_student_careers
+- name: Agilonhealth
+  url: https://agilonhealth.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Allina
+  url: https://allina.wd5.myworkdayjobs.com/external
+  slug: external
+- name: Amgen
+  url: https://amgen.wd1.myworkdayjobs.com/careers
+  slug: careers
+- name: Astrazeneca
+  url: https://astrazeneca.wd3.myworkdayjobs.com/broadbean_external
+  slug: broadbean_external
+- name: Astrazeneca
+  url: https://astrazeneca.wd3.myworkdayjobs.com/careers
+  slug: careers
+- name: Astrazeneca
+  url: https://astrazeneca.wd3.myworkdayjobs.com/emerging-talent
+  slug: emerging-talent
+- name: Astrazeneca
+  url: https://astrazeneca.wd3.myworkdayjobs.com/es
+  slug: es
+- name: Athenahealth
+  url: https://athenahealth.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Avera
+  url: https://avera.wd5.myworkdayjobs.com/avera-careers
+  slug: avera-careers
+- name: Bcbsa
+  url: https://bcbsa.wd1.myworkdayjobs.com/careers
+  slug: careers
+- name: Bcbskc
+  url: https://bcbskc.wd1.myworkdayjobs.com/bcbs_external_career_site
+  slug: bcbs_external_career_site
+- name: Bcbskc
+  url: https://bcbskc.wd1.myworkdayjobs.com/spira_care_external_career_site
+  slug: spira_care_external_career_site
+- name: Bcbst
+  url: https://bcbst.wd1.myworkdayjobs.com/myworkdayjobs
+  slug: myworkdayjobs
+- name: Bdx
+  url: https://bdx.wd1.myworkdayjobs.com/external_career_site_australia
+  slug: external_career_site_australia
+- name: Bdx
+  url: https://bdx.wd1.myworkdayjobs.com/external_career_site_china
+  slug: external_career_site_china
+- name: Bdx
+  url: https://bdx.wd1.myworkdayjobs.com/external_career_site_france
+  slug: external_career_site_france
+- name: Bdx
+  url: https://bdx.wd1.myworkdayjobs.com/external_career_site_hungary
+  slug: external_career_site_hungary
+- name: Bdx
+  url: https://bdx.wd1.myworkdayjobs.com/external_career_site_india
+  slug: external_career_site_india
+- name: Bdx
+  url: https://bdx.wd1.myworkdayjobs.com/external_career_site_ireland
+  slug: external_career_site_ireland
+- name: Bdx
+  url: https://bdx.wd1.myworkdayjobs.com/external_career_site_singapore
+  slug: external_career_site_singapore
+- name: Bdx
+  url: https://bdx.wd1.myworkdayjobs.com/external_career_site_usa
+  slug: external_career_site_usa
+- name: Bilh
+  url: https://bilh.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Biotechne
+  url: https://biotechne.wd5.myworkdayjobs.com/biotechne
+  slug: biotechne
+- name: Bmc
+  url: https://bmc.wd1.myworkdayjobs.com/bmc
+  slug: bmc
+- name: Bmc
+  url: https://bmc.wd1.myworkdayjobs.com/clearwayhealth
+  slug: clearwayhealth
+- name: Bristolmyerssquibb
+  url: https://bristolmyerssquibb.wd5.myworkdayjobs.com/bms
+  slug: bms
+- name: Carbonhealth
+  url: https://carbonhealth.wd1.myworkdayjobs.com/careers
+  slug: careers
+- name: Cardinalhealth
+  url: https://cardinalhealth.wd1.myworkdayjobs.com/ext
+  slug: ext
+- name: Caresource
+  url: https://caresource.wd1.myworkdayjobs.com/caresource
+  slug: caresource
+- name: Carilionclinic
+  url: https://carilionclinic.wd12.myworkdayjobs.com/external_careers
+  slug: external_careers
+- name: Ccf
+  url: https://ccf.wd1.myworkdayjobs.com/clevelandcliniccareers
+  slug: clevelandcliniccareers
+- name: Ccf
+  url: https://ccf.wd1.myworkdayjobs.com/clevelandcliniccareersuk
+  slug: clevelandcliniccareersuk
+- name: Centene
+  url: https://centene.wd5.myworkdayjobs.com/centene_external
+  slug: centene_external
+- name: Centerstone
+  url: https://centerstone.wd5.myworkdayjobs.com/centerstonecareers
+  slug: centerstonecareers
+- name: Chghealthcare
+  url: https://chghealthcare.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Cigna
+  url: https://cigna.wd5.myworkdayjobs.com/cignacareers
+  slug: cignacareers
+- name: Cookchildrens
+  url: https://cookchildrens.wd1.myworkdayjobs.com/cook_childrens_careers
+  slug: cook_childrens_careers
+- name: Cornell
+  url: https://cornell.wd1.myworkdayjobs.com/ccecareerpage
+  slug: ccecareerpage
+- name: Cornell
+  url: https://cornell.wd1.myworkdayjobs.com/cornellcareerpage
+  slug: cornellcareerpage
+- name: Corrohealth
+  url: https://corrohealth.wd1.myworkdayjobs.com/corro
+  slug: corro
+- name: Crossoverhealth
+  url: https://crossoverhealth.wd1.myworkdayjobs.com/careers
+  slug: careers
+- name: Csl
+  url: https://csl.wd1.myworkdayjobs.com/csl_external
+  slug: csl_external
+- name: Cvshealth
+  url: https://cvshealth.wd1.myworkdayjobs.com/cvs_health_careers
+  slug: cvs_health_careers
+- name: Davita
+  url: https://davita.wd1.myworkdayjobs.com/dkc_external
+  slug: dkc_external
+- name: Devoted
+  url: https://devoted.wd1.myworkdayjobs.com/devoted
+  slug: devoted
+- name: Ebnhc
+  url: https://ebnhc.wd1.myworkdayjobs.com/ebnhc
+  slug: ebnhc
+- name: Edwards
+  url: https://edwards.wd5.myworkdayjobs.com/edwardscareers
+  slug: edwardscareers
+- name: Ehealthinsurance
+  url: https://ehealthinsurance.wd5.myworkdayjobs.com/ehi
+  slug: ehi
+- name: Elanco
+  url: https://elanco.wd5.myworkdayjobs.com/external_career
+  slug: external_career
+- name: Elevancehealth
+  url: https://elevancehealth.wd1.myworkdayjobs.com/ant
+  slug: ant
+- name: Elevancehealth
+  url: https://elevancehealth.wd1.myworkdayjobs.com/es
+  slug: es
+- name: Ensemblehp
+  url: https://ensemblehp.wd5.myworkdayjobs.com/ensemblehealthpartnerscareers
+  slug: ensemblehealthpartnerscareers
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/altamesacareersite
+  slug: altamesacareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/atchisonseniorvillagecareersite
+  slug: atchisonseniorvillagecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/bainbridgecareersite
+  slug: bainbridgecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/brightoncareersite
+  slug: brightoncareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/casasadobescareersite
+  slug: casasadobescareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/cedarhealthandrehabcareersite
+  slug: cedarhealthandrehabcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/championshealthcareatwillowbrookcareersite
+  slug: championshealthcareatwillowbrookcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/copperfieldhealthcareandrehabilitationcareersite
+  slug: copperfieldhealthcareandrehabilitationcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/discoverycareersite
+  slug: discoverycareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/draperrehabcareersite
+  slug: draperrehabcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/edgewatercareersite
+  slug: edgewatercareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/gatewaytransitionalcareersite
+  slug: gatewaytransitionalcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/greatersouthsidecareersite
+  slug: greatersouthsidecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/harrisonpointehealthcarecareersite
+  slug: harrisonpointehealthcarecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/juliatemplecareersite
+  slug: juliatemplecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/kirkwoodmanorcareersite
+  slug: kirkwoodmanorcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/lacanadacareersite
+  slug: lacanadacareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/legendoakswaxahachiecareersite
+  slug: legendoakswaxahachiecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/liladoylepostacutecareersite
+  slug: liladoylepostacutecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/mckinneyhealthcareandrehabcareersite
+  slug: mckinneyhealthcareandrehabcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/meadowviewcareersite
+  slug: meadowviewcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/missionhillspostacutecareersite
+  slug: missionhillspostacutecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/oakharborcareersite
+  slug: oakharborcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/oaksatlakewoodcareersite
+  slug: oaksatlakewoodcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/oaksattimberlinecareersite
+  slug: oaksattimberlinecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/oakwoodcareandrehabcareersite
+  slug: oakwoodcareandrehabcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/osborncareersite
+  slug: osborncareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/pacificcarecareersite
+  slug: pacificcarecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/parklanewestcareersite
+  slug: parklanewestcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/pinnaclenursingandrehabcareersite
+  slug: pinnaclenursingandrehabcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/premiercarecentercareersite
+  slug: premiercarecentercareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/sanmarcoscarecareersite
+  slug: sanmarcoscarecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/sheaparccareersite
+  slug: sheaparccareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/skylinecareersite
+  slug: skylinecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/snpcareersite
+  slug: snpcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/somersetsubacutecareersite
+  slug: somersetsubacutecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/stgeorgerehabcareersite
+  slug: stgeorgerehabcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/stonehengeofsouthjordancareersite
+  slug: stonehengeofsouthjordancareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/tempepostacutecareersite
+  slug: tempepostacutecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/theedenoflascolinascareersite
+  slug: theedenoflascolinascareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/thehealthcareresortofkansascitycareersite
+  slug: thehealthcareresortofkansascitycareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/thehealthcareresortofplanocareersite
+  slug: thehealthcareresortofplanocareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/thehealthcareresortoftopekacareersite
+  slug: thehealthcareresortoftopekacareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/victoriacarecentercareersite
+  slug: victoriacarecentercareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/victoryemscareersite
+  slug: victoryemscareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/vistaknollcareersite
+  slug: vistaknollcareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/waynecountryviewcarecareersite
+  slug: waynecountryviewcarecareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/westoaksnursingandrehabcentercareersite
+  slug: westoaksnursingandrehabcentercareersite
+- name: Ensign
+  url: https://ensign.wd1.myworkdayjobs.com/whittierhillshealthcarecentercareercenter
+  slug: whittierhillshealthcarecentercareercenter
+- name: Essentiahealth
+  url: https://essentiahealth.wd1.myworkdayjobs.com/essentia_health
+  slug: essentia_health
+- name: Evolent
+  url: https://evolent.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Exactcare
+  url: https://exactcare.wd1.myworkdayjobs.com/anewhealth_career_site
+  slug: anewhealth_career_site
+- name: Exactcare
+  url: https://exactcare.wd1.myworkdayjobs.com/carepathrx_career_site
+  slug: carepathrx_career_site
+- name: Exactsciences
+  url: https://exactsciences.wd1.myworkdayjobs.com/exact_sciences
+  slug: exact_sciences
+- name: Fortrea
+  url: https://fortrea.wd1.myworkdayjobs.com/fortrea
+  slug: fortrea
+- name: Freseniusmedicalcare
+  url: https://freseniusmedicalcare.wd3.myworkdayjobs.com/fme
+  slug: fme
+- name: Galderma
+  url: https://galderma.wd3.myworkdayjobs.com/external
+  slug: external
+- name: Gehc
+  url: https://gehc.wd5.myworkdayjobs.com/gehc_externalsite
+  slug: gehc_externalsite
+- name: Genesiscare
+  url: https://genesiscare.wd1.myworkdayjobs.com/genesiscare_careers
+  slug: genesiscare_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/ahn_careers
+  slug: ahn_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/csi_careers
+  slug: csi_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/dbs_career
+  slug: dbs_career
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/dekko_careers
+  slug: dekko_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/framebridge_careers
+  slug: framebridge_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/ghg_careers
+  slug: ghg_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/grad_sba_careers
+  slug: grad_sba_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/kaplan_careers
+  slug: kaplan_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/kaplan_international_careers
+  slug: kaplan_international_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/kaplan_teach
+  slug: kaplan_teach
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/ktp_careers
+  slug: ktp_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/maryfreebed_careers
+  slug: maryfreebed_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/residential_careers
+  slug: residential_careers
+- name: Ghc
+  url: https://ghc.wd1.myworkdayjobs.com/sbh_careers
+  slug: sbh_careers
+- name: Gilead
+  url: https://gilead.wd1.myworkdayjobs.com/es
+  slug: es
+- name: Gilead
+  url: https://gilead.wd1.myworkdayjobs.com/gileadcareers
+  slug: gileadcareers
+- name: Gilead
+  url: https://gilead.wd1.myworkdayjobs.com/kitepharmacareers
+  slug: kitepharmacareers
+- name: Globusmedical
+  url: https://globusmedical.wd5.myworkdayjobs.com/gmed_careers
+  slug: gmed_careers
+- name: Gnw
+  url: https://gnw.wd1.myworkdayjobs.com/carescout
+  slug: carescout
+- name: Gnw
+  url: https://gnw.wd1.myworkdayjobs.com/gnw
+  slug: gnw
+- name: Gsk
+  url: https://gsk.wd5.myworkdayjobs.com/gskcareers
+  slug: gskcareers
+- name: Gsk
+  url: https://gsk.wd5.myworkdayjobs.com/viiv_careers
+  slug: viiv_careers
+- name: Gundersenhealth
+  url: https://gundersenhealth.wd5.myworkdayjobs.com/gundersen
+  slug: gundersen
+- name: Haemonetics
+  url: https://haemonetics.wd5.myworkdayjobs.com/hae
+  slug: hae
+- name: Hcsc
+  url: https://hcsc.wd1.myworkdayjobs.com/hcsc_external
+  slug: hcsc_external
+- name: Hcsc
+  url: https://hcsc.wd1.myworkdayjobs.com/hcsc_luminarehealth
+  slug: hcsc_luminarehealth
+- name: Healthcare
+  url: https://healthcare.wd1.myworkdayjobs.com/private
+  slug: private
+- name: Healthcare
+  url: https://healthcare.wd1.myworkdayjobs.com/search
+  slug: search
+- name: Henryschein
+  url: https://henryschein.wd1.myworkdayjobs.com/external_careers
+  slug: external_careers
+- name: Highmarkhealth
+  url: https://highmarkhealth.wd1.myworkdayjobs.com/highmark
+  slug: highmark
+- name: Hollandhospital
+  url: https://hollandhospital.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Hospicecom
+  url: https://hospicecom.wd5.myworkdayjobs.com/compassus
+  slug: compassus
+- name: Hshs
+  url: https://hshs.wd1.myworkdayjobs.com/hshscareers
+  slug: hshscareers
+- name: Humana
+  url: https://humana.wd5.myworkdayjobs.com/centerwell_external_career_site
+  slug: centerwell_external_career_site
+- name: Humana
+  url: https://humana.wd5.myworkdayjobs.com/humana_external_career_site
+  slug: humana_external_career_site
+- name: Icon
+  url: https://icon.wd3.myworkdayjobs.com/broadbean_external
+  slug: broadbean_external
+- name: Illumina
+  url: https://illumina.wd1.myworkdayjobs.com/illumina-careers
+  slug: illumina-careers
+- name: Imh
+  url: https://imh.wd5.myworkdayjobs.com/intermountaincareers
+  slug: intermountaincareers
+- name: Immatics
+  url: https://immatics.wd3.myworkdayjobs.com/immatics_external
+  slug: immatics_external
+- name: Immatics
+  url: https://immatics.wd3.myworkdayjobs.com/immatics_us
+  slug: immatics_us
+- name: Inotivco
+  url: https://inotivco.wd5.myworkdayjobs.com/ext
+  slug: ext
+- name: Insulet
+  url: https://insulet.wd5.myworkdayjobs.com/insuletcareers
+  slug: insuletcareers
+- name: Ipsen
+  url: https://ipsen.wd3.myworkdayjobs.com/ipsen_careers
+  slug: ipsen_careers
+- name: Iqvia
+  url: https://iqvia.wd1.myworkdayjobs.com/iqvia
+  slug: iqvia
+- name: Irhythmtech
+  url: https://irhythmtech.wd5.myworkdayjobs.com/irhythm
+  slug: irhythm
+- name: Jeffersonhealth
+  url: https://jeffersonhealth.wd5.myworkdayjobs.com/thomasjeffersonexternal
+  slug: thomasjeffersonexternal
+- name: Jj
+  url: https://jj.wd5.myworkdayjobs.com/displacedemployees
+  slug: displacedemployees
+- name: Jj
+  url: https://jj.wd5.myworkdayjobs.com/es
+  slug: es
+- name: Jj
+  url: https://jj.wd5.myworkdayjobs.com/jj
+  slug: jj
+- name: Labcorp
+  url: https://labcorp.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Labcorp
+  url: https://labcorp.wd1.myworkdayjobs.com/fortrea
+  slug: fortrea
+- name: Lilly
+  url: https://lilly.wd5.myworkdayjobs.com/cmp
+  slug: cmp
+- name: Lilly
+  url: https://lilly.wd5.myworkdayjobs.com/lly
+  slug: lly
+- name: Lonza
+  url: https://lonza.wd3.myworkdayjobs.com/lonza_careers
+  slug: lonza_careers
+- name: Lumeris
+  url: https://lumeris.wd1.myworkdayjobs.com/lc
+  slug: lc
+- name: Marshfieldclinichealthsystems
+  url: https://marshfieldclinichealthsystems.wd5.myworkdayjobs.com/external
+  slug: external
+- name: Marshfieldclinichealthsystems
+  url: https://marshfieldclinichealthsystems.wd5.myworkdayjobs.com/physician
+  slug: physician
+- name: Massgeneralbrigham
+  url: https://massgeneralbrigham.wd1.myworkdayjobs.com/mgbexternal
+  slug: mgbexternal
+- name: Mckesson
+  url: https://mckesson.wd3.myworkdayjobs.com/covermymeds_external_careers
+  slug: covermymeds_external_careers
+- name: Mckesson
+  url: https://mckesson.wd3.myworkdayjobs.com/external_careers
+  slug: external_careers
+- name: Mckesson
+  url: https://mckesson.wd3.myworkdayjobs.com/rxsscareers
+  slug: rxsscareers
+- name: Mckesson
+  url: https://mckesson.wd3.myworkdayjobs.com/scri_careers
+  slug: scri_careers
+- name: Medline
+  url: https://medline.wd5.myworkdayjobs.com/medline
+  slug: medline
+- name: Medtronic
+  url: https://medtronic.wd1.myworkdayjobs.com/medtroniccareers
+  slug: medtroniccareers
+- name: Medtronic
+  url: https://medtronic.wd1.myworkdayjobs.com/redeploymentmedtroniccareers
+  slug: redeploymentmedtroniccareers
+- name: Mercy
+  url: https://mercy.wd1.myworkdayjobs.com/mercycareers
+  slug: mercycareers
+- name: Methodisthealthsystem
+  url: https://methodisthealthsystem.wd1.myworkdayjobs.com/mhs_careers
+  slug: mhs_careers
+- name: Modernatx
+  url: https://modernatx.wd1.myworkdayjobs.com/m_tx
+  slug: m_tx
+- name: Multicare
+  url: https://multicare.wd1.myworkdayjobs.com/multicare
+  slug: multicare
+- name: Mundipharma
+  url: https://mundipharma.wd3.myworkdayjobs.com/external
+  slug: external
+- name: Namsa
+  url: https://namsa.wd5.myworkdayjobs.com/namsa
+  slug: namsa
+- name: Namsa
+  url: https://namsa.wd5.myworkdayjobs.com/namsa_careers_france
+  slug: namsa_careers_france
+- name: Namsa
+  url: https://namsa.wd5.myworkdayjobs.com/namsa_careers_germany
+  slug: namsa_careers_germany
+- name: Nationwidechildrens
+  url: https://nationwidechildrens.wd5.myworkdayjobs.com/nchcareers
+  slug: nchcareers
+- name: Nebraskablue
+  url: https://nebraskablue.wd1.myworkdayjobs.com/bcbsne
+  slug: bcbsne
+- name: Novartis
+  url: https://novartis.wd3.myworkdayjobs.com/es
+  slug: es
+- name: Novartis
+  url: https://novartis.wd3.myworkdayjobs.com/internal_careers_for_acquired_entities
+  slug: internal_careers_for_acquired_entities
+- name: Novartis
+  url: https://novartis.wd3.myworkdayjobs.com/novartis_careers
+  slug: novartis_careers
+- name: Nuance
+  url: https://nuance.wd1.myworkdayjobs.com/nuance
+  slug: nuance
+- name: Ochsner
+  url: https://ochsner.wd1.myworkdayjobs.com/ochsner
+  slug: ochsner
+- name: Orchidortho
+  url: https://orchidortho.wd5.myworkdayjobs.com/careers
+  slug: careers
+- name: Ossur
+  url: https://ossur.wd3.myworkdayjobs.com/ossurcareersglobal
+  slug: ossurcareersglobal
+- name: Owensminor
+  url: https://owensminor.wd1.myworkdayjobs.com/omcareers
+  slug: omcareers
+- name: Pfizer
+  url: https://pfizer.wd1.myworkdayjobs.com/pfizercareers
+  slug: pfizercareers
+- name: Phelpshealth
+  url: https://phelpshealth.wd5.myworkdayjobs.com/phelps
+  slug: phelps
+- name: Phreesia
+  url: https://phreesia.wd1.myworkdayjobs.com/phreesia
+  slug: phreesia
+- name: Phreesia
+  url: https://phreesia.wd1.myworkdayjobs.com/phreesiaindia
+  slug: phreesiaindia
+- name: Point32Health
+  url: https://point32health.wd5.myworkdayjobs.com/thp
+  slug: thp
+- name: Premera
+  url: https://premera.wd5.myworkdayjobs.com/premera
+  slug: premera
+- name: Primetherapeutics
+  url: https://primetherapeutics.wd1.myworkdayjobs.com/primetherapeuticscareers
+  slug: primetherapeuticscareers
+- name: Progyny
+  url: https://progyny.wd5.myworkdayjobs.com/progyny
+  slug: progyny
+- name: R1Rcm
+  url: https://r1rcm.wd1.myworkdayjobs.com/r1rcm
+  slug: r1rcm
+- name: Regeneron
+  url: https://regeneron.wd1.myworkdayjobs.com/careers
+  slug: careers
+- name: Regeneron
+  url: https://regeneron.wd1.myworkdayjobs.com/es
+  slug: es
+- name: Resmed
+  url: https://resmed.wd3.myworkdayjobs.com/brightree_external_careers
+  slug: brightree_external_careers
+- name: Resmed
+  url: https://resmed.wd3.myworkdayjobs.com/matrixcare_external_careers
+  slug: matrixcare_external_careers
+- name: Resmed
+  url: https://resmed.wd3.myworkdayjobs.com/resmed_external_careers
+  slug: resmed_external_careers
+- name: Rivhs
+  url: https://rivhs.wd1.myworkdayjobs.com/non-providerrhs
+  slug: non-providerrhs
+- name: Rivhs
+  url: https://rivhs.wd1.myworkdayjobs.com/providerrhs
+  slug: providerrhs
+- name: Roche
+  url: https://roche.wd3.myworkdayjobs.com/mysugr-ext
+  slug: mysugr-ext
+- name: Roche
+  url: https://roche.wd3.myworkdayjobs.com/roche-ext
+  slug: roche-ext
+- name: Roche
+  url: https://roche.wd3.myworkdayjobs.com/rog-a2o-gene
+  slug: rog-a2o-gene
+- name: Rochester
+  url: https://rochester.wd5.myworkdayjobs.com/ur_staff
+  slug: ur_staff
+- name: Roswellpark
+  url: https://roswellpark.wd5.myworkdayjobs.com/externalcareers
+  slug: externalcareers
+- name: Saintlukes
+  url: https://saintlukes.wd1.myworkdayjobs.com/saintlukeshealthcareers
+  slug: saintlukeshealthcareers
+- name: Salinasvalleyhealth
+  url: https://salinasvalleyhealth.wd5.myworkdayjobs.com/salinasvalleyhealth
+  slug: salinasvalleyhealth
+- name: Sanford
+  url: https://sanford.wd5.myworkdayjobs.com/sanfordhealth
+  slug: sanfordhealth
+- name: Sanofi
+  url: https://sanofi.wd3.myworkdayjobs.com/opellacareers
+  slug: opellacareers
+- name: Sanofi
+  url: https://sanofi.wd3.myworkdayjobs.com/sanoficareers
+  slug: sanoficareers
+- name: Sanofi
+  url: https://sanofi.wd3.myworkdayjobs.com/studentprograms
+  slug: studentprograms
+- name: Sartorius
+  url: https://sartorius.wd3.myworkdayjobs.com/sartoriuscareers
+  slug: sartoriuscareers
+- name: Savista
+  url: https://savista.wd1.myworkdayjobs.com/savista
+  slug: savista
+- name: Schumacher
+  url: https://schumacher.wd1.myworkdayjobs.com/corporate-careers
+  slug: corporate-careers
+- name: Scripps
+  url: https://scripps.wd5.myworkdayjobs.com/ongoing_opportunities
+  slug: ongoing_opportunities
+- name: Scripps
+  url: https://scripps.wd5.myworkdayjobs.com/scripps_careers
+  slug: scripps_careers
+- name: Sfmc
+  url: https://sfmc.wd1.myworkdayjobs.com/sfhs
+  slug: sfhs
+- name: Sfmc
+  url: https://sfmc.wd1.myworkdayjobs.com/sfhsproviders
+  slug: sfhsproviders
+- name: Sharecare
+  url: https://sharecare.wd1.myworkdayjobs.com/sharecare_careers
+  slug: sharecare_careers
+- name: Shm
+  url: https://shm.wd5.myworkdayjobs.com/summit_citymd
+  slug: summit_citymd
+- name: Shm
+  url: https://shm.wd5.myworkdayjobs.com/summithealthphysicians
+  slug: summithealthphysicians
+- name: Smithnephew
+  url: https://smithnephew.wd5.myworkdayjobs.com/external
+  slug: external
+- name: Solutionhealth
+  url: https://solutionhealth.wd1.myworkdayjobs.com/careers
+  slug: careers
+- name: Spectrumhealth
+  url: https://spectrumhealth.wd5.myworkdayjobs.com/corewellhealthcareers
+  slug: corewellhealthcareers
+- name: Stryker
+  url: https://stryker.wd1.myworkdayjobs.com/strykercareers
+  slug: strykercareers
+- name: Summitbhc
+  url: https://summitbhc.wd1.myworkdayjobs.com/summit_bhc
+  slug: summit_bhc
+- name: Syneoshealth
+  url: https://syneoshealth.wd12.myworkdayjobs.com/syneos_health_external_site
+  slug: syneos_health_external_site
+- name: Takeda
+  url: https://takeda.wd3.myworkdayjobs.com/external
+  slug: external
+- name: Tempus
+  url: https://tempus.wd5.myworkdayjobs.com/tempus_careers
+  slug: tempus_careers
+- name: Thermofisher
+  url: https://thermofisher.wd5.myworkdayjobs.com/thermofishercareers
+  slug: thermofishercareers
+- name: Transmedics
+  url: https://transmedics.wd1.myworkdayjobs.com/transmedics_careers
+  slug: transmedics_careers
+- name: Trinityhealth
+  url: https://trinityhealth.wd1.myworkdayjobs.com/jobs
+  slug: jobs
+- name: Tuftsmedicine
+  url: https://tuftsmedicine.wd1.myworkdayjobs.com/jobs
+  slug: jobs
+- name: Ummh
+  url: https://ummh.wd1.myworkdayjobs.com/careers
+  slug: careers
+- name: Upenn
+  url: https://upenn.wd1.myworkdayjobs.com/careers-at-penn
+  slug: careers-at-penn
+- name: Upenn
+  url: https://upenn.wd1.myworkdayjobs.com/psom
+  slug: psom
+- name: Upshersmith
+  url: https://upshersmith.wd1.myworkdayjobs.com/borapharmacareers
+  slug: borapharmacareers
+- name: Upshersmith
+  url: https://upshersmith.wd1.myworkdayjobs.com/upshersmithcareers
+  slug: upshersmithcareers
+- name: Valleyhealthlink
+  url: https://valleyhealthlink.wd5.myworkdayjobs.com/valleyhealthcareers
+  slug: valleyhealthcareers
+- name: Verawholehealth
+  url: https://verawholehealth.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Vhr-Otsuka
+  url: https://vhr-otsuka.wd1.myworkdayjobs.com/external
+  slug: external
+- name: Vhr-Otsuka
+  url: https://vhr-otsuka.wd1.myworkdayjobs.com/japan_external_career_site_ohd
+  slug: japan_external_career_site_ohd
+- name: Vhr-Otsuka
+  url: https://vhr-otsuka.wd1.myworkdayjobs.com/pharmavite
+  slug: pharmavite
+- name: Viatris
+  url: https://viatris.wd5.myworkdayjobs.com/external
+  slug: external
+- name: Vizient
+  url: https://vizient.wd1.myworkdayjobs.com/vizient_careers
+  slug: vizient_careers
+- name: Vrtx
+  url: https://vrtx.wd5.myworkdayjobs.com/vertex_careers
+  slug: vertex_careers
+- name: Vsp
+  url: https://vsp.wd1.myworkdayjobs.com/vspglobalcareers
+  slug: vspglobalcareers
+- name: Vsp
+  url: https://vsp.wd1.myworkdayjobs.com/vspvisioncareers
+  slug: vspvisioncareers
+- name: Vumc
+  url: https://vumc.wd1.myworkdayjobs.com/vumccareers
+  slug: vumccareers
+- name: Waynestatephysicians
+  url: https://waynestatephysicians.wd1.myworkdayjobs.com/physicians
+  slug: physicians
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/adventisthealthcarecareers
+  slug: adventisthealthcarecareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/bcbs_external_career_site
+  slug: bcbs_external_career_site
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/bcbsne
+  slug: bcbsne
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/bmc
+  slug: bmc
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/caresource
+  slug: caresource
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/clevelandcliniccareers
+  slug: clevelandcliniccareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/clevelandcliniccareersuk
+  slug: clevelandcliniccareersuk
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/cook_childrens_careers
+  slug: cook_childrens_careers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/cvs_health_careers
+  slug: cvs_health_careers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/devoted
+  slug: devoted
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/ebnhc
+  slug: ebnhc
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/essentia_health
+  slug: essentia_health
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/exact_sciences
+  slug: exact_sciences
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/fortrea
+  slug: fortrea
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/genesiscare_careers
+  slug: genesiscare_careers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/gileadcareers
+  slug: gileadcareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/gnw
+  slug: gnw
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/highmark
+  slug: highmark
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/illumina-careers
+  slug: illumina-careers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/iqvia
+  slug: iqvia
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/medtroniccareers
+  slug: medtroniccareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/multicare
+  slug: multicare
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/nuance
+  slug: nuance
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/ochsner
+  slug: ochsner
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/pfizercareers
+  slug: pfizercareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/pharmavite
+  slug: pharmavite
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/phreesia
+  slug: phreesia
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/phreesiaindia
+  slug: phreesiaindia
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/physicians
+  slug: physicians
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/primetherapeuticscareers
+  slug: primetherapeuticscareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/r1rcm
+  slug: r1rcm
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/saintlukeshealthcareers
+  slug: saintlukeshealthcareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/savista
+  slug: savista
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/sharecare_careers
+  slug: sharecare_careers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/strykercareers
+  slug: strykercareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/summit_bhc
+  slug: summit_bhc
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/transmedics_careers
+  slug: transmedics_careers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/upshersmithcareers
+  slug: upshersmithcareers
+- name: Wd1
+  url: https://wd1.wd1.myworkdayjobs.com/vizient_careers
+  slug: vizient_careers
+- name: Wd12
+  url: https://wd12.wd1.myworkdayjobs.com/syneos_health_external_site
+  slug: syneos_health_external_site
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/immatics_external
+  slug: immatics_external
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/immatics_us
+  slug: immatics_us
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/lonza_careers
+  slug: lonza_careers
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/novartis_careers
+  slug: novartis_careers
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/ossurcareersglobal
+  slug: ossurcareersglobal
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/resmed_external_careers
+  slug: resmed_external_careers
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/roche-ext
+  slug: roche-ext
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/sanoficareers
+  slug: sanoficareers
+- name: Wd3
+  url: https://wd3.wd1.myworkdayjobs.com/sartoriuscareers
+  slug: sartoriuscareers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/agilent_careers
+  slug: agilent_careers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/agilent_student_careers
+  slug: agilent_student_careers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/avera-careers
+  slug: avera-careers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/biotechne
+  slug: biotechne
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/bms
+  slug: bms
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/centerstonecareers
+  slug: centerstonecareers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/corewellhealthcareers
+  slug: corewellhealthcareers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/ensemblehealthpartnerscareers
+  slug: ensemblehealthpartnerscareers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/gundersen
+  slug: gundersen
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/insuletcareers
+  slug: insuletcareers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/intermountaincareers
+  slug: intermountaincareers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/irhythm
+  slug: irhythm
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/jj
+  slug: jj
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/medline
+  slug: medline
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/namsa
+  slug: namsa
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/physician
+  slug: physician
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/premera
+  slug: premera
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/progyny
+  slug: progyny
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/salinasvalleyhealth
+  slug: salinasvalleyhealth
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/thermofishercareers
+  slug: thermofishercareers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/valleyhealthcareers
+  slug: valleyhealthcareers
+- name: Wd5
+  url: https://wd5.wd1.myworkdayjobs.com/vertex_careers
+  slug: vertex_careers
 talentbrew:
-  - name: "MemorialCare"
-    url: "https://careers.memorialcare.org"
-    slug: "memorialcare"
-    sector: "health_system"
-    state: "CA"
-
-  - name: "Kaiser Permanente"
-    url: "https://www.kaiserpermanentejobs.org"
-    slug: "kaiserpermanente"
-    sector: "health_system"
-    state: "CA"
-
-  # Add more TalentBrew portals here...
-
-# ============================================================
-# Taleo Portals (raw Taleo without TalentBrew wrapper)
-# ============================================================
-# URL format: https://{company}.taleo.net/careersection/{section}/joblist.ftl
-# ============================================================
+- name: MemorialCare
+  url: https://careers.memorialcare.org
+  slug: memorialcare
 taleo:
-  - name: "MemorialCare (Physician)"
-    url: "https://memorialcare.taleo.net/careersection/phy/joblist.ftl"
-    career_section: "phy"
-    slug: "memorialcare-phy"
-    sector: "health_system"
-    state: "CA"
-
-  - name: "MemorialCare (Internal)"
-    url: "https://memorialcare.taleo.net/careersection/in/joblist.ftl"
-    career_section: "in"
-    slug: "memorialcare-in"
-    sector: "health_system"
-    state: "CA"
-
-  # Add more Taleo portals here...
-
-# ============================================================
-# Oracle HCM Recruiting Cloud Portals
-# ============================================================
-# URL format: https://{tenant}.fa.{region}.oraclecloud.com/hcmUI/CandidateExperience/en/sites/{site}/jobs
-# ============================================================
+- name: MemorialCare (Physician)
+  url: https://memorialcare.taleo.net/careersection/phy/joblist.ftl
+  slug: memorialcare-phy
 oracle:
-  - name: "Oracle (EEHO)"
-    url: "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs"
-    site_number: "CX_1"
-    slug: "eeho"
-    sector: "technology"
-
-  # Add more Oracle HCM portals here...
+- name: Oracle (EEHO)
+  url: https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs
+  slug: eeho

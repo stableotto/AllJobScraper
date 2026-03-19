@@ -7,7 +7,6 @@ All discovery and scraping pipelines write here as the single source of truth.
 
 from __future__ import annotations
 
-import json
 import logging
 import sqlite3
 from contextlib import contextmanager
@@ -49,8 +48,6 @@ CREATE TABLE IF NOT EXISTS jobs (
     url            TEXT,
     description    TEXT,
     qualifications TEXT,
-    is_nursing     BOOLEAN,
-    categories     TEXT,
     scraped_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
     unique_key     TEXT UNIQUE,
     UNIQUE(portal_id, external_id)
@@ -70,7 +67,6 @@ CREATE TABLE IF NOT EXISTS scrape_runs (
 
 CREATE INDEX IF NOT EXISTS idx_jobs_portal   ON jobs(portal_id);
 CREATE INDEX IF NOT EXISTS idx_jobs_state    ON jobs(state);
-CREATE INDEX IF NOT EXISTS idx_jobs_nursing  ON jobs(is_nursing);
 CREATE INDEX IF NOT EXISTS idx_jobs_posted   ON jobs(posted_date);
 CREATE INDEX IF NOT EXISTS idx_jobs_title    ON jobs(title);
 CREATE INDEX IF NOT EXISTS idx_portals_sector ON portals(sector);
@@ -212,11 +208,8 @@ def upsert_job(
     url: str = "",
     description: str = "",
     qualifications: str = "",
-    is_nursing: bool = False,
-    categories: Optional[list[str]] = None,
 ) -> int:
     """Insert or update a job. Returns the job row id."""
-    cats_json = json.dumps(categories or [])
     now = datetime.utcnow().isoformat()
     conn.execute(
         """
@@ -224,8 +217,8 @@ def upsert_job(
             portal_id, external_id, title, unique_key,
             department, location, state, city, job_type,
             salary_min, salary_max, posted_date, url,
-            description, qualifications, is_nursing, categories, scraped_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            description, qualifications, scraped_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(unique_key) DO UPDATE SET
             title          = excluded.title,
             department     = excluded.department,
@@ -239,15 +232,13 @@ def upsert_job(
             url            = COALESCE(NULLIF(excluded.url, ''), jobs.url),
             description    = COALESCE(NULLIF(excluded.description, ''), jobs.description),
             qualifications = COALESCE(NULLIF(excluded.qualifications, ''), jobs.qualifications),
-            is_nursing     = excluded.is_nursing,
-            categories     = excluded.categories,
             scraped_at     = excluded.scraped_at
         """,
         (
             portal_id, external_id, title, unique_key,
             department, location, state, city, job_type,
             salary_min, salary_max, posted_date, url,
-            description, qualifications, int(is_nursing), cats_json, now,
+            description, qualifications, now,
         ),
     )
     row = conn.execute(
@@ -314,8 +305,6 @@ def query_jobs(
     *,
     sectors: Optional[list[str]] = None,
     states: Optional[list[str]] = None,
-    is_nursing: Optional[bool] = None,
-    categories: Optional[list[str]] = None,
     title_keywords: Optional[list[str]] = None,
     exclude_keywords: Optional[list[str]] = None,
     posted_within_days: Optional[int] = None,
@@ -336,16 +325,6 @@ def query_jobs(
         placeholders = ",".join("?" * len(states))
         clauses.append(f"j.state IN ({placeholders})")
         params.extend(states)
-
-    if is_nursing is not None:
-        clauses.append("j.is_nursing = ?")
-        params.append(int(is_nursing))
-
-    if categories:
-        # categories is stored as JSON array, use LIKE for each category
-        cat_parts = ["j.categories LIKE ?" for _ in categories]
-        clauses.append(f"({' OR '.join(cat_parts)})")
-        params.extend(f'%"{cat}"%' for cat in categories)
 
     if title_keywords:
         kw_parts = ["j.title LIKE ?" for _ in title_keywords]
@@ -378,7 +357,7 @@ def query_jobs(
             j.state, j.city, j.job_type,
             j.salary_min, j.salary_max, j.posted_date,
             j.url, j.description, j.qualifications,
-            j.is_nursing, j.categories, j.scraped_at, j.unique_key,
+            j.scraped_at, j.unique_key,
             p.name  AS company_name,
             p.subdomain, p.slug AS portal_slug,
             p.sector, p.ats_type

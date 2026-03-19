@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import re
 import sqlite3
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
-from typing import ClassVar, Optional
+from typing import Optional
 
 
 @dataclass
@@ -35,177 +34,15 @@ class Job:
     salary_min: Optional[float] = None
     salary_max: Optional[float] = None
 
-    # Classification - multi-category support
-    categories: list[str] = field(default_factory=list)
-
-    # Legacy field for backwards compatibility
-    is_nursing: bool = False
-
     # Metadata
     scraped_at: datetime = field(default_factory=datetime.utcnow)
     raw_data: Optional[dict] = field(default=None, repr=False)
-
-    # ──────────────────────────────────────────────
-    # Classification Keywords by Category
-    # ──────────────────────────────────────────────
-
-    CATEGORY_KEYWORDS: ClassVar[dict[str, dict[str, set]]] = {
-        "nursing": {
-            "title": {
-                "nurse", "nursing", "rn ", " rn", "lpn", "lvn", "cna",
-                "aprn", "nurse practitioner", "bsn", "msn", "dnp",
-                "clinical nurse", "charge nurse", "staff nurse",
-                "registered nurse", "licensed practical nurse",
-                "certified nursing assistant",
-                "icu nurse", "er nurse", "or nurse",
-                "med-surg", "oncology nurse", "pediatric nurse",
-                "nicu nurse", "l&d nurse", "hospice nurse",
-                "home health nurse", "travel nurse",
-                "patient care tech", "patient care assistant",
-                "nurse manager", "nurse supervisor", "nurse educator",
-                "nurse anesthetist", "crna",
-            },
-            "description": {
-                "registered nurse required", "rn license required",
-                "nursing license", "active rn license", "current rn license",
-                "nursing degree required", "bsn required", "msn required", "nclex",
-            },
-        },
-        "pharmacy": {
-            "title": {
-                "pharmacist", "pharmacy", "pharmd", "pharm.d", "rph",
-                "pharmacy tech", "pharmacy technician", "clinical pharmacist",
-                "staff pharmacist", "pharmacy manager", "pharmacy director",
-                "infusion pharmacist", "oncology pharmacist", "retail pharmacist",
-                "hospital pharmacist", "compounding pharmacist",
-            },
-            "description": {
-                "pharmacy license", "pharmacist license", "board of pharmacy",
-                "pharmd required", "rph required",
-            },
-        },
-        "physician": {
-            "title": {
-                "physician", "doctor", "md ", " md", "do ", " do",
-                "attending", "hospitalist", "surgeon", "anesthesiologist",
-                "cardiologist", "dermatologist", "radiologist", "pathologist",
-                "pediatrician", "internist", "family medicine",
-                "emergency medicine", "intensivist", "oncologist",
-                "neurologist", "psychiatrist", "obgyn", "ob/gyn",
-            },
-            "description": {
-                "medical license", "board certified", "medical degree",
-                "md required", "do required", "physician license",
-            },
-        },
-        "allied_health": {
-            "title": {
-                "physical therapist", "occupational therapist", "speech therapist",
-                "respiratory therapist", "radiation therapist",
-                "pt ", " pt", "ot ", " ot", "slp", "cota", "pta",
-                "dietitian", "nutritionist", "social worker", "lcsw", "msw",
-                "medical technologist", "lab technician", "mlt", "mt ",
-                "radiologic technologist", "x-ray tech", "ct tech", "mri tech",
-                "ultrasound tech", "sonographer", "echocardiographer",
-                "surgical tech", "sterile processing", "emt", "paramedic",
-            },
-            "description": {
-                "therapy license", "allied health", "clinical license",
-            },
-        },
-        "medical_assistant": {
-            "title": {
-                "medical assistant", "clinical assistant", "ma ", " ma",
-                "certified medical assistant", "cma", "rma",
-                "patient care assistant", "care coordinator",
-            },
-            "description": {
-                "medical assistant certification", "cma required", "rma required",
-            },
-        },
-        "administration": {
-            "title": {
-                "medical records", "health information", "him ",
-                "medical coder", "medical biller", "coding specialist",
-                "patient access", "patient registration", "front desk",
-                "medical receptionist", "scheduling coordinator",
-                "revenue cycle", "claims", "authorization",
-            },
-            "description": {
-                "him certification", "coding certification", "cpc", "ccs",
-            },
-        },
-        "leadership": {
-            "title": {
-                "director", "manager", "supervisor", "administrator",
-                "chief", "vp ", "vice president", "ceo", "coo", "cfo", "cno", "cmo",
-                "executive", "president",
-            },
-            "description": set(),  # Leadership is primarily title-based
-        },
-        "it_health": {
-            "title": {
-                "health informatics", "clinical informatics", "ehr ",
-                "epic analyst", "cerner", "emr ", "health it",
-                "clinical systems", "healthcare it",
-            },
-            "description": {
-                "epic certification", "cerner certified", "health it",
-            },
-        },
-    }
 
     @property
     def unique_key(self) -> str:
         """Generate a deduplication key."""
         raw = f"{self.source_ats}:{self.company_name}:{self.id}"
         return hashlib.sha256(raw.encode()).hexdigest()[:16]
-
-    def classify(self) -> list[str]:
-        """
-        Classify job into categories based on title and description.
-        Sets self.categories and returns the list.
-        """
-        title_lower = self.title.lower()
-        dept_lower = self.department.lower()
-        desc_lower = self.description.lower()
-
-        matched_categories = []
-
-        for category, keywords in self.CATEGORY_KEYWORDS.items():
-            title_keywords = keywords.get("title", set())
-            desc_keywords = keywords.get("description", set())
-
-            # Check title (primary signal)
-            if any(kw in title_lower for kw in title_keywords):
-                matched_categories.append(category)
-                continue
-
-            # Check department
-            if any(kw in dept_lower for kw in title_keywords):
-                matched_categories.append(category)
-                continue
-
-            # Check description (secondary signal)
-            if any(kw in desc_lower for kw in desc_keywords):
-                matched_categories.append(category)
-                continue
-
-        self.categories = matched_categories
-
-        # Set legacy is_nursing field for backwards compatibility
-        self.is_nursing = "nursing" in matched_categories
-
-        # Parse salary if not already done
-        if self.salary_range and not self.salary_min:
-            self._parse_salary()
-
-        return matched_categories
-
-    def classify_nursing(self) -> bool:
-        """Legacy method - calls classify() and returns is_nursing."""
-        self.classify()
-        return self.is_nursing
 
     def _parse_salary(self) -> None:
         """Parse salary_range string into min/max floats."""
@@ -253,8 +90,6 @@ class Job:
             "job_type": self.job_type,
             "posted_date": self.posted_date.isoformat() if self.posted_date else "",
             "url": self.url,
-            "categories": "; ".join(self.categories),
-            "is_nursing": self.is_nursing,
             "salary_range": self.salary_range or "",
             "salary_min": self.salary_min or "",
             "salary_max": self.salary_max or "",
@@ -288,8 +123,6 @@ class Job:
             url=self.url,
             description=self.description,
             qualifications=self.qualifications,
-            is_nursing=self.is_nursing,
-            categories=self.categories,
         )
 
     @classmethod
@@ -307,13 +140,6 @@ class Job:
             try:
                 scraped = datetime.fromisoformat(row["scraped_at"])
             except (ValueError, TypeError):
-                pass
-
-        cats = []
-        if row["categories"]:
-            try:
-                cats = json.loads(row["categories"])
-            except (json.JSONDecodeError, TypeError):
                 pass
 
         salary_str = None
@@ -340,7 +166,5 @@ class Job:
             salary_range=salary_str,
             salary_min=row["salary_min"] if "salary_min" in row.keys() else None,
             salary_max=row["salary_max"] if "salary_max" in row.keys() else None,
-            is_nursing=bool(row["is_nursing"]),
-            categories=cats,
             scraped_at=scraped,
         )

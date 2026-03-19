@@ -129,16 +129,69 @@ class BaseScraper(abc.ABC):
         """
         ...
 
-    def scrape_all(self, keyword: Optional[str] = None, category_filter: Optional[str] = None) -> list[Job]:
+    def _filter_recent_jobs(self, jobs: list[Job]) -> list[Job]:
         """
-        Full scrape workflow: discover jobs, fetch details, classify.
+        Filter jobs to only those posted today or yesterday.
+
+        Uses listing data (raw_data) before details are fetched.
+        This enables filtering BEFORE the expensive detail fetch.
+        """
+        from datetime import date, timedelta
+
+        today = date.today()
+        yesterday = today - timedelta(days=1)
+        filtered = []
+
+        for job in jobs:
+            # Check posted_date if already parsed
+            if job.posted_date:
+                job_date = job.posted_date.date() if hasattr(job.posted_date, 'date') else job.posted_date
+                if job_date >= yesterday:
+                    filtered.append(job)
+                    continue
+
+            # Check raw listing data for posted text
+            raw = job.raw_data or {}
+            posted_on = ""
+
+            # Workday: listing.posted_on
+            if "listing" in raw:
+                posted_on = raw["listing"].get("posted_on", "")
+            # iCIMS: posted_date or postedOn
+            elif "posted_date" in raw:
+                posted_on = raw.get("posted_date", "")
+            elif "postedOn" in raw:
+                posted_on = raw.get("postedOn", "")
+
+            posted_lower = posted_on.lower() if posted_on else ""
+
+            # Match "Posted Today", "Posted Yesterday", "Posted 1 Day Ago"
+            if any(term in posted_lower for term in ["today", "yesterday", "1 day", "just posted"]):
+                filtered.append(job)
+
+        return filtered
+
+    def scrape_all(
+        self,
+        keyword: Optional[str] = None,
+        fetch_details: bool = True,
+        max_detail_jobs: int = 0,
+        today_only: bool = False,
+    ) -> list[Job]:
+        """
+        Full scrape workflow: discover jobs and optionally fetch details.
 
         Args:
             keyword: Optional keyword filter for the search
-            category_filter: Optional category to filter by (e.g., "nursing", "pharmacy")
+            fetch_details: If True, fetch full details for each job (slow).
+                          If False, return only listing info (fast).
+            max_detail_jobs: Max jobs to fetch details for. 0 = no limit.
+                            Only applies when fetch_details=True.
+            today_only: If True, filter to jobs posted today/yesterday BEFORE
+                       fetching details (much faster for large portals).
 
         Returns:
-            List of fully populated Job objects
+            List of Job objects
         """
         logger.info(f"[{self.ATS_NAME}] Scraping {self.company.name} ({self.company.portal_url})")
 
@@ -146,31 +199,41 @@ class BaseScraper(abc.ABC):
         jobs = self.discover_jobs(keyword=keyword)
         logger.info(f"[{self.ATS_NAME}] Found {len(jobs)} job listings")
 
-        # Step 2: Fetch full details for each job and classify
-        detailed_jobs = []
-        for i, job in enumerate(jobs):
-            try:
-                enriched = self.scrape_job_detail(job)
-                enriched.classify()  # Multi-category classification
-                detailed_jobs.append(enriched)
+        # Step 2: Filter to today's jobs BEFORE fetching details (huge speedup)
+        if today_only:
+            jobs = self._filter_recent_jobs(jobs)
+            logger.info(f"[{self.ATS_NAME}] Filtered to {len(jobs)} recent jobs (today/yesterday)")
 
-                if (i + 1) % 25 == 0:
-                    logger.info(f"[{self.ATS_NAME}] Processed {i + 1}/{len(jobs)} jobs")
-            except Exception as e:
-                logger.error(f"[{self.ATS_NAME}] Failed to scrape job {job.id}: {e}")
-                continue
+        # Step 3: Optionally fetch full details for each job
+        if not fetch_details:
+            logger.info(f"[{self.ATS_NAME}] Skipping detail fetch (--skip-details)")
+            detailed_jobs = jobs
+        else:
+            # Optionally limit detail fetches
+            if max_detail_jobs > 0 and len(jobs) > max_detail_jobs:
+                jobs_to_detail = jobs[:max_detail_jobs]
+                jobs_listing_only = jobs[max_detail_jobs:]
+                logger.info(f"[{self.ATS_NAME}] Fetching details for first {max_detail_jobs} jobs (of {len(jobs)})")
+            else:
+                jobs_to_detail = jobs
+                jobs_listing_only = []
 
-        # Log category breakdown
-        from collections import Counter
-        all_categories = [cat for job in detailed_jobs for cat in job.categories]
-        category_counts = Counter(all_categories)
-        if category_counts:
-            logger.info(f"[{self.ATS_NAME}] Categories: {dict(category_counts)}")
+            detailed_jobs = []
+            for i, job in enumerate(jobs_to_detail):
+                try:
+                    enriched = self.scrape_job_detail(job)
+                    detailed_jobs.append(enriched)
 
-        # Step 3: Filter by category if requested
-        if category_filter:
-            detailed_jobs = [j for j in detailed_jobs if category_filter in j.categories]
-            logger.info(f"[{self.ATS_NAME}] {len(detailed_jobs)} jobs after {category_filter} filter")
+                    if (i + 1) % 25 == 0:
+                        logger.info(f"[{self.ATS_NAME}] Processed {i + 1}/{len(jobs_to_detail)} jobs")
+                except Exception as e:
+                    logger.error(f"[{self.ATS_NAME}] Failed to scrape job {job.id}: {e}")
+                    continue
+
+            # Add remaining jobs without details
+            detailed_jobs.extend(jobs_listing_only)
+
+        logger.info(f"[{self.ATS_NAME}] Scraped {len(detailed_jobs)} jobs total")
 
         # Update company metadata
         self.company.job_count = len(detailed_jobs)

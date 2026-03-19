@@ -1,9 +1,0 @@
-# All nursing positions across every portal
-name: "All Nursing Jobs"
-description: "Every nursing and clinical role from all iCIMS portals"
-output_formats: [json, csv]
-output_dir: "data/feeds/nursing_jobs_all"
-
-filters:
-  is_nursing: true
-  posted_within_days: 30

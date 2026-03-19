@@ -71,6 +71,7 @@ def run_daily(
     scrape_limit: int | None = None,
     scrape_portal: str | None = None,
     today_only: bool = True,
+    skip_details: bool = False,
 ):
     """Execute the full daily pipeline."""
     python = sys.executable
@@ -111,6 +112,8 @@ def run_daily(
             cmd.extend(["--portal", scrape_portal])
         if today_only:
             cmd.extend(["--today-only"])
+        if skip_details:
+            cmd.extend(["--skip-details"])
 
         ok, err = run_step("Scrape iCIMS portals", cmd)
         if not ok:
@@ -123,6 +126,8 @@ def run_daily(
             cmd.extend(["--limit", str(scrape_limit)])
         if today_only:
             cmd.extend(["--today-only"])
+        if skip_details:
+            cmd.extend(["--skip-details"])
 
         ok, err = run_step("Scrape Workday portals", cmd)
         if not ok:
@@ -135,6 +140,8 @@ def run_daily(
             cmd.extend(["--limit", str(scrape_limit)])
         if today_only:
             cmd.extend(["--today-only"])
+        if skip_details:
+            cmd.extend(["--skip-details"])
 
         ok, err = run_step("Scrape TalentBrew portals", cmd)
         if not ok:
@@ -147,6 +154,8 @@ def run_daily(
             cmd.extend(["--limit", str(scrape_limit)])
         if today_only:
             cmd.extend(["--today-only"])
+        if skip_details:
+            cmd.extend(["--skip-details"])
 
         ok, err = run_step("Scrape Taleo portals", cmd)
         if not ok:
@@ -159,6 +168,8 @@ def run_daily(
             cmd.extend(["--limit", str(scrape_limit)])
         if today_only:
             cmd.extend(["--today-only"])
+        if skip_details:
+            cmd.extend(["--skip-details"])
 
         ok, err = run_step("Scrape Oracle HCM portals", cmd)
         if not ok:
@@ -214,9 +225,6 @@ def show_status():
     with db_session(DB_PATH) as conn:
         portals = conn.execute("SELECT COUNT(*) as cnt FROM portals").fetchone()["cnt"]
         jobs = conn.execute("SELECT COUNT(*) as cnt FROM jobs").fetchone()["cnt"]
-        nursing = conn.execute(
-            "SELECT COUNT(*) as cnt FROM jobs WHERE is_nursing = 1"
-        ).fetchone()["cnt"]
         sectors = conn.execute(
             "SELECT sector, COUNT(*) as cnt FROM portals GROUP BY sector ORDER BY cnt DESC"
         ).fetchall()
@@ -226,12 +234,11 @@ def show_status():
         ).fetchone()
 
     print(f"\n{'=' * 50}")
-    print(f"NurseScraper Database Status")
+    print(f"Job Scraper Database Status")
     print(f"{'=' * 50}")
     print(f"  Database:     {DB_PATH}")
     print(f"  Portals:      {portals}")
     print(f"  Jobs:         {jobs}")
-    print(f"  Nursing jobs: {nursing}")
     print(f"\n  Portals by sector:")
     for s in sectors:
         print(f"    {s['sector'] or 'unknown':<20} {s['cnt']}")
@@ -256,7 +263,7 @@ def show_status():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="NurseScraper Pipeline Orchestrator")
+    parser = argparse.ArgumentParser(description="Job Scraper Pipeline Orchestrator")
     sub = parser.add_subparsers(dest="command")
 
     daily_parser = sub.add_parser("daily", help="Run the full daily pipeline")
@@ -267,6 +274,7 @@ def main():
     daily_parser.add_argument("--scrape-limit", type=int, default=None, help="Max portals to scrape")
     daily_parser.add_argument("--scrape-portal", default=None, help="Scrape a specific portal slug")
     daily_parser.add_argument("--all-dates", action="store_true", help="Include jobs from all dates (default: today only)")
+    daily_parser.add_argument("--skip-details", action="store_true", help="Skip fetching individual job details (faster)")
 
     sub.add_parser("status", help="Show database and pipeline status")
 
@@ -281,6 +289,7 @@ def main():
             scrape_limit=args.scrape_limit,
             scrape_portal=args.scrape_portal,
             today_only=not args.all_dates,
+            skip_details=args.skip_details,
         )
     elif args.command == "status":
         show_status()
