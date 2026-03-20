@@ -194,7 +194,6 @@ class WorkdayScraper(BaseScraper):
             description=description,
             qualifications=qualifications,
             salary_range=salary,
-            categories=[],
             raw_data=data,
         )
 
