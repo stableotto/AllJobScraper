@@ -1,10 +1,10 @@
 {
   "feed": "All Jobs",
-  "generated_at": "2026-03-20T07:47:56.144226Z",
-  "count": 72,
+  "generated_at": "2026-03-21T06:55:41.344608Z",
+  "count": 68,
   "jobs": [
     {
-      "id": 2815,
+      "id": 25195,
       "external_id": "141573",
       "title": "RN - Stepdown - Los Alamitos - Per Diem Days",
       "department": "",
@@ -27,7 +27,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2814,
+      "id": 25194,
       "external_id": "141574",
       "title": "RN - Med Acute - Fountain Valley - FT Days",
       "department": "",
@@ -50,7 +50,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2738,
+      "id": 25118,
       "external_id": "141575",
       "title": "RN - Acute Med Surg - Placentia - FT Nights",
       "department": "",
@@ -73,7 +73,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2813,
+      "id": 25193,
       "external_id": "140812",
       "title": "Clinical Nurse II - Irvine Operating Room - FT, Days (PB to 140352)",
       "department": "",
@@ -96,7 +96,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2812,
+      "id": 25192,
       "external_id": "141396",
       "title": "Clinical Nurse IV- Irvine Operating Room - FT, Days (piggyback to 141395)",
       "department": "",
@@ -119,7 +119,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2811,
+      "id": 25191,
       "external_id": "140352",
       "title": "Clinical Nurse II - Irvine Operating Room - FT, Days",
       "department": "",
@@ -142,7 +142,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2810,
+      "id": 25190,
       "external_id": "140811",
       "title": "Clinical Nurse II - Irvine Operating Room - FT, Days (PB to 140352)",
       "department": "",
@@ -165,7 +165,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2809,
+      "id": 25189,
       "external_id": "140810",
       "title": "Clinical Nurse II - Irvine Operating Room - FT, Days (PB to 140352)",
       "department": "",
@@ -188,7 +188,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2808,
+      "id": 25188,
       "external_id": "123002",
       "title": "Clinical Nurse II - Irvine Operating Room - FT, Days",
       "department": "",
@@ -211,7 +211,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2802,
+      "id": 25182,
       "external_id": "123005",
       "title": "Clinical Nurse II -Irvine Operating Room - FT, Days (PB to 123002)",
       "department": "",
@@ -234,7 +234,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2780,
+      "id": 25160,
       "external_id": "140527",
       "title": "Clinical Nurse II - Irvine Operating Room - FT, Days (PB to 140352)",
       "department": "",
@@ -257,7 +257,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2714,
+      "id": 25094,
       "external_id": "123004",
       "title": "Clinical Nurse II - Irvine Operating Room - FT, Days (PB to 123002)",
       "department": "",
@@ -280,7 +280,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2778,
+      "id": 25158,
       "external_id": "139925",
       "title": "Clinical Nurse II - ED - Nights - FT - Orange",
       "department": "",
@@ -303,7 +303,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2776,
+      "id": 25156,
       "external_id": "140868",
       "title": "Per Diem Clinical Nurse-MST UCI Float Pool Orange/Irvine-Day Shift",
       "department": "",
@@ -326,7 +326,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2789,
+      "id": 25169,
       "external_id": "140468",
       "title": "Clinical Nurse II- Critical Care Unit Float Pool Orange and Irvine-FT Day Shift",
       "department": "",
@@ -349,7 +349,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2761,
+      "id": 25141,
       "external_id": "122907",
       "title": "Clinical Nurse II - Emergency Department - Nights - PT - Orange",
       "department": "",
@@ -372,7 +372,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2773,
+      "id": 25153,
       "external_id": "123150",
       "title": "RN - ED - Lakewood - FT Days",
       "department": "",
@@ -395,7 +395,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2791,
+      "id": 25171,
       "external_id": "140373",
       "title": "Clinical Nurse II- Med Surg Monitored -Irvine (6)- FT, Night Shift",
       "department": "",
@@ -418,7 +418,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2795,
+      "id": 25175,
       "external_id": "141509",
       "title": "Clinical Nurse II - ED- Nights - PT - Irvine",
       "department": "",
@@ -441,7 +441,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2752,
+      "id": 25132,
       "external_id": "122714",
       "title": "Clinical Nurse II - NICU - Nights - FT",
       "department": "",
@@ -464,7 +464,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2775,
+      "id": 25155,
       "external_id": "140870",
       "title": "Nurse Services Supervisor 2- Ambulatory PACU- FT, Day Shift",
       "department": "",
@@ -487,7 +487,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2781,
+      "id": 25161,
       "external_id": "140141",
       "title": "Nurse Practitioner II (Urology)",
       "department": "",
@@ -510,7 +510,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2764,
+      "id": 25144,
       "external_id": "109561",
       "title": "Nursing Assistant-Medical/Surgical Telemetry - Irvine (5)-F/T, Night Shift",
       "department": "",
@@ -533,7 +533,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2725,
+      "id": 25105,
       "external_id": "122484",
       "title": "Nurse Practitioner II (Urology)",
       "department": "",
@@ -556,7 +556,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2720,
+      "id": 25100,
       "external_id": "141398",
       "title": "Clinical Nurse II - ED - Nights- FT - Irvine",
       "department": "",
@@ -579,7 +579,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2806,
+      "id": 25186,
       "external_id": "141395",
       "title": "Clinical Nurse IV- Irvine Operating Room- FT, Day Shift",
       "department": "",
@@ -602,7 +602,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2804,
+      "id": 25184,
       "external_id": "111680",
       "title": "Per Diem Nursing Assistant- Medical/Surgical Telemetry - Irvine (5)- Day Shift",
       "department": "",
@@ -625,7 +625,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2718,
+      "id": 25098,
       "external_id": "141371",
       "title": "Charge Nurse- Stepdown, Irvine (4N)- FT, Night Shift",
       "department": "",
@@ -648,7 +648,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2766,
+      "id": 25146,
       "external_id": "141369",
       "title": "Hospital Medicine Nurse Practitioner",
       "department": "",
@@ -671,7 +671,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2796,
+      "id": 25176,
       "external_id": "141367",
       "title": "Hospital Medicine Nurse Practitioner",
       "department": "",
@@ -694,7 +694,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2760,
+      "id": 25140,
       "external_id": "141360",
       "title": "HemOnc ATC Nurse Practitioner 2 (Irvine )",
       "department": "",
@@ -717,7 +717,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2786,
+      "id": 25166,
       "external_id": "140401",
       "title": "Per Diem Nursing Assistant - Psych Medicine-Mid Shift",
       "department": "",
@@ -740,7 +740,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2785,
+      "id": 25165,
       "external_id": "123185",
       "title": "Nurse Practitioner 2, Anesthesiology (Night Shift)",
       "department": "",
@@ -763,7 +763,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2721,
+      "id": 25101,
       "external_id": "140910",
       "title": "RN Charge - 3 East Tele - Lakewood - FT Days",
       "department": "",
@@ -786,7 +786,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2715,
+      "id": 25095,
       "external_id": "140674",
       "title": "RN - ICU - Lakewood - FT Nights",
       "department": "",
@@ -809,7 +809,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2799,
+      "id": 25179,
       "external_id": "140904",
       "title": "RN - 3 East Tele - Lakewood - FT Days",
       "department": "",
@@ -832,7 +832,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2765,
+      "id": 25145,
       "external_id": "122463",
       "title": "RN - ICU/CCU - Fountain Valley - FT Nights",
       "department": "",
@@ -855,7 +855,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2807,
+      "id": 25187,
       "external_id": "139426",
       "title": "Nurse Services Supervisor 2- Neuro Science ICU- FT, Variable",
       "department": "",
@@ -878,7 +878,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2755,
+      "id": 25135,
       "external_id": "139890",
       "title": "Clinical Nurse Educator 3- Nursing Education- FT, Day Shift",
       "department": "",
@@ -901,7 +901,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2744,
+      "id": 25124,
       "external_id": "141270",
       "title": "Per Diem NURSE - ED - Variable - Fountain Valley",
       "department": "",
@@ -924,7 +924,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2757,
+      "id": 25137,
       "external_id": "109055",
       "title": "Clinical Nurse Auditor - HB Patient Financial Services - FT Days",
       "department": "",
@@ -947,7 +947,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2737,
+      "id": 25117,
       "external_id": "123245",
       "title": "Nurse Navigator - Clinic - Vascular - FT Days",
       "department": "",
@@ -970,7 +970,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2728,
+      "id": 25108,
       "external_id": "140710",
       "title": "Nursing Assistant- Medical/Surgical 4T- FT, Night Shift",
       "department": "",
@@ -993,7 +993,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2784,
+      "id": 25164,
       "external_id": "140442",
       "title": "Nurse Coordinator - Breast Center - FT Days",
       "department": "",
@@ -1016,7 +1016,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2763,
+      "id": 25143,
       "external_id": "104138",
       "title": "Clinical Nurse II - Manchester Plastic Surgery - FT Days",
       "department": "",
@@ -1039,7 +1039,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2774,
+      "id": 25154,
       "external_id": "139512",
       "title": "Nurse Practitioner II (Neurology) - Irvine",
       "department": "",
@@ -1062,7 +1062,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2798,
+      "id": 25178,
       "external_id": "88545",
       "title": "CRNA Per-Diem",
       "department": "",
@@ -1085,7 +1085,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2783,
+      "id": 25163,
       "external_id": "88558",
       "title": "(Sr. CRNA) Sr. Certified Registered Nurse Anesthetist",
       "department": "",
@@ -1108,7 +1108,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2734,
+      "id": 25114,
       "external_id": "88548",
       "title": "Per Diem Sr. CRNA",
       "department": "",
@@ -1131,7 +1131,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2730,
+      "id": 25110,
       "external_id": "99941",
       "title": "CRNA - Certified Registered Nurse Anesthetist",
       "department": "",
@@ -1154,7 +1154,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2750,
+      "id": 25130,
       "external_id": "141196",
       "title": "Temporary Licensed Vocational Nurse Positions",
       "department": "",
@@ -1177,7 +1177,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2793,
+      "id": 25173,
       "external_id": "140682",
       "title": "RN - Acute Med Surg - Placentia - Per Diem Nights",
       "department": "",
@@ -1200,7 +1200,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2751,
+      "id": 25131,
       "external_id": "140518",
       "title": "RN - CCU - Lakewood - FT Days",
       "department": "",
@@ -1223,7 +1223,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2724,
+      "id": 25104,
       "external_id": "140523",
       "title": "RN - CCU - Lakewood - FT Nights",
       "department": "",
@@ -1246,7 +1246,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2733,
+      "id": 25113,
       "external_id": "123042",
       "title": "RN Circulator - OR - Los Alamitos - FT Rotate",
       "department": "",
@@ -1269,7 +1269,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2762,
+      "id": 25142,
       "external_id": "123117",
       "title": "RN - ED - Los Alamitos - Per Diem Days",
       "department": "",
@@ -1292,7 +1292,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2790,
+      "id": 25170,
       "external_id": "139553",
       "title": "RN - CCU - Placentia - FT Nights",
       "department": "",
@@ -1315,7 +1315,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2767,
+      "id": 25147,
       "external_id": "140888",
       "title": "RN - Main Tele - Fountain Valley - Per Diem Nights",
       "department": "",
@@ -1338,7 +1338,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2787,
+      "id": 25167,
       "external_id": "140524",
       "title": "RN - ICU - Lakewood - FT Days",
       "department": "",
@@ -1361,7 +1361,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2739,
+      "id": 25119,
       "external_id": "141137",
       "title": "Hospital Medicine Nurse Practitioner",
       "department": "",
@@ -1384,7 +1384,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2746,
+      "id": 25126,
       "external_id": "141135",
       "title": "Hospital Medicine Nurse P:ractitioner",
       "department": "",
@@ -1407,7 +1407,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2741,
+      "id": 25121,
       "external_id": "141133",
       "title": "Nurse Practitioner Per Diem",
       "department": "",
@@ -1430,7 +1430,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2726,
+      "id": 25106,
       "external_id": "141104",
       "title": "Nurse Practitioner II - Hematology Malignancies",
       "department": "",
@@ -1453,7 +1453,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2747,
+      "id": 25127,
       "external_id": "141103",
       "title": "Nurse Practitioner 2",
       "department": "",
@@ -1476,7 +1476,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2749,
+      "id": 25129,
       "external_id": "141100",
       "title": "Nurse Practitioner II",
       "department": "",
@@ -1499,7 +1499,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2758,
+      "id": 25138,
       "external_id": "139564",
       "title": "RN - CCU - Placentia - Per Diem Nights",
       "department": "",
@@ -1522,7 +1522,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2736,
+      "id": 25116,
       "external_id": "140947",
       "title": "Per Diem Clinical Nurse-Critical Care Unit-UCI Float Pool Orange/Irvine-Night Shift",
       "department": "",
@@ -1545,7 +1545,7 @@
       "ats_type": "icims"
     },
     {
-      "id": 2805,
+      "id": 25185,
       "external_id": "139949",
       "title": "Clinical Nurse II-Critical Care Unit UCI Float Pool Orange/Irvine-FT Night Shift",
       "department": "",
@@ -1561,98 +1561,6 @@
       "qualifications": "Required Qualifications: Required to float between the Orange and Irvine locations as needed. Must possess and maintain appropriate certifications, (NRP, PALS, etc.) per unit assignment, as required Minimum 2 years of recent Critical Care/ICU experience All external candidates must have a Bachelor of Science in Nursing Ability to work variable shifts including evenings, nights, weekends, and holidays Ability to read, write and communicate effectively in English Ability to maintain flexibility and work well in a constantly changing environment Preferred Qualifications: Understanding of applicable regulatory requirements Bilingual skills to communicate effectively with patients and families Licenses and Certifications: Registered Nurse Basic Life Support Advanced Cardiac Life Support Education: Total Rewards We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Employment Misconduct* Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment *Misconduct Disclosure Requirement: As a condition of employment, the final candidate who accepts a conditional offer of employment will be required to disclose if they have been subject to any final administrative or judicial decisions within the last seven years determining that they committed any misconduct; received notice of any allegations or are currently the subject of any administrative or disciplinary proceedings involving misconduct; have left a position after receiving notice of allegations or while under investigation in an administrative or disciplinary proceeding involving misconduct; or have filed an appeal of a finding of misconduct with a previous employer. The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC Anti-Discrimination Policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m.",
       "scraped_at": "2026-03-12T21:08:01.047847",
       "unique_key": "286db2cffb015123",
-      "company_name": "UC Irvine Health",
-      "subdomain": "uc-irvine-health.icims.com",
-      "portal_slug": "uc-irvine-health",
-      "sector": "other",
-      "ats_type": "icims"
-    },
-    {
-      "id": 2748,
-      "external_id": "140443",
-      "title": "RN - ICU/CCU - Los Alamitos - FT Nights",
-      "department": "",
-      "location": "Los Alamitos Med Ctr - Floor 1",
-      "state": "",
-      "city": "",
-      "job_type": "FULL_TIME",
-      "salary_min": 67.55,
-      "salary_max": null,
-      "posted_date": "2026-02-18T20:15:00+00:00",
-      "url": "https://jobs.uci.edu/jobs/140443",
-      "description": "Who We Are UCI Health is the clinical enterprise of the University of California, Irvine, and the only academic health system based in Orange County. UCI Health is comprised of its main campus, UCI Medical Center, a 459-bed, acute care hospital in in Orange, Calif., four hospitals and affiliated physicians of the UCI Health Community Network in Orange and Los Angeles counties and ambulatory care centers across the region. Listed among America\u2019s Best Hospitals by U.S. News & World Report for 23 consecutive years, UCI Medical Center provides tertiary and quaternary care and is home to Orange County\u2019s only National Cancer Institute-designated comprehensive cancer center, high-risk perinatal/neonatal program and American College of Surgeons-verified Level I adult and Level II pediatric trauma center, gold level 1 geriatric emergency department and regional burn center. UCI Health serves a region of nearly 4 million people in Orange County, western Riverside County and southeast Los Angeles County. To learn more about UCI Health, visit www.ucihealth.org. Your Role on the Team Position Summary: The Critical Care Nurse is a Registered Nurse who provides individualized care to the critically ill patients and their families. Emphasis is on performing skills for a patient who is hemodynamically unstable or who requires specialized nursing care and monitoring equipment. The Registered Nurse is responsible for total care of their assigned patient (S) for the entire shift. The Critical Care Registered Nurse Follows established guidelines by the AACN in accordance with hospital and unit policies and procedures. What It Takes to be Successful Required Qualifications: Must possess the skill, knowledge and ability essential to the successful performance of assigned duties Must demonstrate customer service skills appropriate to the job Excellent written and verbal communication skills in English Ability to maintain a work pace appropriate to the workload Ability to establish and maintain effective working relationships across the Health System Current California Registered Nurse license AHA Basic Life Support (BLS) AHA Advanced Cardiac Life Support (ACLS) All external candidates must have a Bachelor of Science in Nursing Preferred Qualifications: Knowledge of University and medical center organizations, policies, procedures and forms Membership in a professional organization. Basic computer skills. Two years recent experience as a Registered Nurse in an acute care facility. One year recent experience as a Registered Nurse in a Critical Care Unit. Total Rewards We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Employment Misconduct* Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment *Misconduct Disclosure Requirement: As a condition of employment, the final candidate who accepts a conditional offer of employment will be required to disclose if they have been subject to any final administrative or judicial decisions within the last seven years determining that they committed any misconduct; received notice of any allegations or are currently the subject of any administrative or disciplinary proceedings involving misconduct; have left a position after receiving notice of allegations or while under investigation in an administrative or disciplinary proceeding involving misconduct; or have filed an appeal of a finding of misconduct with a previous employer. The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC Anti-Discrimination Policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m. Consideration for Work Authorization Sponsorship Must be able to provide proof of work authorization",
-      "qualifications": "Required Qualifications: Must possess the skill, knowledge and ability essential to the successful performance of assigned duties Must demonstrate customer service skills appropriate to the job Excellent written and verbal communication skills in English Ability to maintain a work pace appropriate to the workload Ability to establish and maintain effective working relationships across the Health System Current California Registered Nurse license AHA Basic Life Support (BLS) AHA Advanced Cardiac Life Support (ACLS) All external candidates must have a Bachelor of Science in Nursing Preferred Qualifications: Knowledge of University and medical center organizations, policies, procedures and forms Membership in a professional organization. Basic computer skills. Two years recent experience as a Registered Nurse in an acute care facility. One year recent experience as a Registered Nurse in a Critical Care Unit. Total Rewards We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Employment Misconduct* Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment *Misconduct Disclosure Requirement: As a condition of employment, the final candidate who accepts a conditional offer of employment will be required to disclose if they have been subject to any final administrative or judicial decisions within the last seven years determining that they committed any misconduct; received notice of any allegations or are currently the subject of any administrative or disciplinary proceedings involving misconduct; have left a position after receiving notice of allegations or while under investigation in an administrative or disciplinary proceeding involving misconduct; or have filed an appeal of a finding of misconduct with a previous employer. The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC Anti-Discrimination Policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m.",
-      "scraped_at": "2026-03-12T21:19:08.800471",
-      "unique_key": "b44ae2a84a1d781c",
-      "company_name": "UC Irvine Health",
-      "subdomain": "uc-irvine-health.icims.com",
-      "portal_slug": "uc-irvine-health",
-      "sector": "other",
-      "ats_type": "icims"
-    },
-    {
-      "id": 2772,
-      "external_id": "140421",
-      "title": "RN Manager - Med 1 Tele Onc - Los Alamitos - FT Days",
-      "department": "",
-      "location": "Los Alamitos Med Ctr - Floor 1",
-      "state": "",
-      "city": "",
-      "job_type": "FULL_TIME",
-      "salary_min": 149700.0,
-      "salary_max": null,
-      "posted_date": "2026-02-18T20:07:00+00:00",
-      "url": "https://jobs.uci.edu/jobs/140421",
-      "description": "Who We Are UCI Health is the clinical enterprise of the University of California, Irvine, and the only academic health system based in Orange County. UCI Health is comprised of its main campus, UCI Medical Center, a 459-bed, acute care hospital in in Orange, Calif., four hospitals and affiliated physicians of the UCI Health Community Network in Orange and Los Angeles counties and ambulatory care centers across the region. Listed among America\u2019s Best Hospitals by U.S. News & World Report for 23 consecutive years, UCI Medical Center provides tertiary and quaternary care and is home to Orange County\u2019s only National Cancer Institute-designated comprehensive cancer center, high-risk perinatal/neonatal program and American College of Surgeons-verified Level I adult and Level II pediatric trauma center, gold level 1 geriatric emergency department and regional burn center. UCI Health serves a region of nearly 4 million people in Orange County, western Riverside County and southeast Los Angeles County. To learn more about UCI Health, visit www.ucihealth.org. Your Role on the Team Position Summary: Reporting to the Director of Medical-Surgical-Telemetry, the Clinical Manager is a management position responsible for the management and quality of nursing personnel. In addition to providing high quality patient care, he/she is able to provide technical, educational, and administrative support to the Director and unit personnel. This includes overseeing the development and implementation of systems for evaluation of clinical competency of the nursing staff, helping to develop and update standards and policies, consultation of the nursing staff for complex nursing issues. It includes providing pertinent continuing education for existing staff, mentoring of new staff, and Performance Improvement Activities. What It Takes to be Successful Required Qualifications: Current California Registered Nurse License AHA BLS Certification One (1) year in charge/administrative position. Three (3) years\u2019 experience in nursing with clinical knowledge of assigned area. BSN ONS Chemotherapy Administration Certification Must possess the skill, knowledge and ability essential to the successful performance of assigned duties Must demonstrate customer service skills appropriate to the job Excellent written and verbal communication skills in English Ability to maintain a work pace appropriate to the workload Ability to establish and maintain effective working relationships across the Health System Preferred Qualifications: Knowledge of University and medical center organizations, policies, procedures and forms ANA Medical Surgical Certification. Basic Arrhythmia course completion or equivalent. Total Rewards We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Employment Misconduct* Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment Exercise the utmost discretion in managing sensitive information learned in the course of performing their duties. Sensitive information includes but is not limited to employee and student records, health and patient records, financial data, strategic plans, proprietary information, and any other sensitive or non-public information learned during the course and scope of employment. Understands that sensitive information should be shared on a limited basis and actively takes steps to limit access to sensitive information to individuals who have legitimate business need to know. Ensure that sensitive information is properly safeguarded. Follow all organizational policies and laws on data protection and privacy. This includes secure handling of physical and digital records and proper usage of IT systems to prevent data leaks. The unauthorized or improper disclosure of confidential work-related information obtained from any source on any work-related matter is a violation of these expectations. *Misconduct Disclosure Requirement: As a condition of employment, the final candidate who accepts a conditional offer of employment will be required to disclose if they have been subject to any final administrative or judicial decisions within the last seven years determining that they committed any misconduct; received notice of any allegations or are currently the subject of any administrative or disciplinary proceedings involving misconduct; have left a position after receiving notice of allegations or while under investigation in an administrative or disciplinary proceeding involving misconduct; or have filed an appeal of a finding of misconduct with a previous employer. The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC Anti-Discrimination Policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m. Consideration for Work Authorization Sponsorship Must be able to provide proof of work authorization",
-      "qualifications": "Required Qualifications: Current California Registered Nurse License AHA BLS Certification One (1) year in charge/administrative position. Three (3) years\u2019 experience in nursing with clinical knowledge of assigned area. BSN ONS Chemotherapy Administration Certification Must possess the skill, knowledge and ability essential to the successful performance of assigned duties Must demonstrate customer service skills appropriate to the job Excellent written and verbal communication skills in English Ability to maintain a work pace appropriate to the workload Ability to establish and maintain effective working relationships across the Health System Preferred Qualifications: Knowledge of University and medical center organizations, policies, procedures and forms ANA Medical Surgical Certification. Basic Arrhythmia course completion or equivalent. Total Rewards We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Employment Misconduct* Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment Exercise the utmost discretion in managing sensitive information learned in the course of performing their duties. Sensitive information includes but is not limited to employee and student records, health and patient records, financial data, strategic plans, proprietary information, and any other sensitive or non-public information learned during the course and scope of employment. Understands that sensitive information should be shared on a limited basis and actively takes steps to limit access to sensitive information to individuals who have legitimate business need to know. Ensure that sensitive information is properly safeguarded. Follow all organizational policies and laws on data protection and privacy. This includes secure handling of physical and digital records and proper usage of IT systems to prevent data leaks. The unauthorized or improper disclosure of confidential work-related information obtained from any source on any work-related matter is a violation of these expectations. *Misconduct Disclosure Requirement: As a condition of employment, the final candidate who accepts a conditional offer of employment will be required to disclose if they have been subject to any final administrative or judicial decisions within the last seven years determining that they committed any misconduct; received notice of any allegations or are currently the subject of any administrative or disciplinary proceedings involving misconduct; have left a position after receiving notice of allegations or while under investigation in an administrative or disciplinary proceeding involving misconduct; or have filed an appeal of a finding of misconduct with a previous employer. The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC Anti-Discrimination Policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m.",
-      "scraped_at": "2026-03-12T21:19:08.801127",
-      "unique_key": "ab16f5d0f618c41f",
-      "company_name": "UC Irvine Health",
-      "subdomain": "uc-irvine-health.icims.com",
-      "portal_slug": "uc-irvine-health",
-      "sector": "other",
-      "ats_type": "icims"
-    },
-    {
-      "id": 2797,
-      "external_id": "140357",
-      "title": "RN - ICU/CCU - Los Alamitos - PT Nights",
-      "department": "",
-      "location": "Los Alamitos Med Ctr - Floor 1",
-      "state": "",
-      "city": "",
-      "job_type": "PART_TIME",
-      "salary_min": 67.55,
-      "salary_max": null,
-      "posted_date": "2026-02-18T19:39:00+00:00",
-      "url": "https://jobs.uci.edu/jobs/140357",
-      "description": "Who We Are UCI Health is the clinical enterprise of the University of California, Irvine, and the only academic health system based in Orange County. UCI Health is comprised of its main campus, UCI Medical Center, a 459-bed, acute care hospital in in Orange, Calif., four hospitals and affiliated physicians of the UCI Health Community Network in Orange and Los Angeles counties and ambulatory care centers across the region. Listed among America\u2019s Best Hospitals by U.S. News & World Report for 23 consecutive years, UCI Medical Center provides tertiary and quaternary care and is home to Orange County\u2019s only National Cancer Institute-designated comprehensive cancer center, high-risk perinatal/neonatal program and American College of Surgeons-verified Level I adult and Level II pediatric trauma center, gold level 1 geriatric emergency department and regional burn center. UCI Health serves a region of nearly 4 million people in Orange County, western Riverside County and southeast Los Angeles County. To learn more about UCI Health, visit www.ucihealth.org. Your Role on the Team Position Summary: The Critical Care Nurse is a Registered Nurse who provides individualized care to the critically ill patients and their families. Emphasis is on performing skills for a patient who is hemodynamically unstable or who requires specialized nursing care and monitoring equipment. The Registered Nurse is responsible for total care of their assigned patient (S) for the entire shift. The Critical Care Registered Nurse Follows established guidelines by the AACN in accordance with hospital and unit policies and procedures. What It Takes to be Successful Required Qualifications: Current California Registered Nurse license AHA Basic Life Support (BLS) AHA Advanced Cardiac Life Support (ACLS) All external candidates must have a Bachelor of Science in Nursing Must possess the skill, knowledge and ability essential to the successful performance of assigned duties Must demonstrate customer service skills appropriate to the job Excellent written and verbal communication skills in English Ability to maintain a work pace appropriate to the workload Ability to establish and maintain effective working relationships across the Health System Preferred Qualifications: Knowledge of University and medical center organizations, policies, procedures and forms Membership in a professional organization Basic computer skills Two years recent experience as a Registered Nurse in an acute care facility One year recent experience as a Registered Nurse in a Critical Care Unit Total Rewards We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Employment Misconduct* Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment *Misconduct Disclosure Requirement: As a condition of employment, the final candidate who accepts a conditional offer of employment will be required to disclose if they have been subject to any final administrative or judicial decisions within the last seven years determining that they committed any misconduct; received notice of any allegations or are currently the subject of any administrative or disciplinary proceedings involving misconduct; have left a position after receiving notice of allegations or while under investigation in an administrative or disciplinary proceeding involving misconduct; or have filed an appeal of a finding of misconduct with a previous employer. The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC Anti-Discrimination Policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m. Consideration for Work Authorization Sponsorship Must be able to provide proof of work authorization",
-      "qualifications": "Required Qualifications: Current California Registered Nurse license AHA Basic Life Support (BLS) AHA Advanced Cardiac Life Support (ACLS) All external candidates must have a Bachelor of Science in Nursing Must possess the skill, knowledge and ability essential to the successful performance of assigned duties Must demonstrate customer service skills appropriate to the job Excellent written and verbal communication skills in English Ability to maintain a work pace appropriate to the workload Ability to establish and maintain effective working relationships across the Health System Preferred Qualifications: Knowledge of University and medical center organizations, policies, procedures and forms Membership in a professional organization Basic computer skills Two years recent experience as a Registered Nurse in an acute care facility One year recent experience as a Registered Nurse in a Critical Care Unit Total Rewards We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Employment Misconduct* Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment *Misconduct Disclosure Requirement: As a condition of employment, the final candidate who accepts a conditional offer of employment will be required to disclose if they have been subject to any final administrative or judicial decisions within the last seven years determining that they committed any misconduct; received notice of any allegations or are currently the subject of any administrative or disciplinary proceedings involving misconduct; have left a position after receiving notice of allegations or while under investigation in an administrative or disciplinary proceeding involving misconduct; or have filed an appeal of a finding of misconduct with a previous employer. The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California is an Equal Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC Anti-Discrimination Policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m.",
-      "scraped_at": "2026-03-12T21:19:08.802079",
-      "unique_key": "a25ff911c6416108",
-      "company_name": "UC Irvine Health",
-      "subdomain": "uc-irvine-health.icims.com",
-      "portal_slug": "uc-irvine-health",
-      "sector": "other",
-      "ats_type": "icims"
-    },
-    {
-      "id": 2740,
-      "external_id": "93149",
-      "title": "Senior Vocational Nurse - CAC - Multispecialty - FT Days",
-      "department": "",
-      "location": "CAC",
-      "state": "",
-      "city": "",
-      "job_type": "FULL_TIME",
-      "salary_min": 31.08,
-      "salary_max": null,
-      "posted_date": "2026-02-18T01:36:00+00:00",
-      "url": "https://jobs.uci.edu/jobs/93149",
-      "description": "Who We Are UCI Health is the clinical enterprise of the University of California, Irvine, and the only academic health system based in Orange County. UCI Health is comprised of its main campus, UCI Medical Center, a 459-bed, acute care hospital in in Orange, Calif., four hospitals and affiliated physicians of the UCI Health Community Network in Orange and Los Angeles counties and ambulatory care centers across the region. Listed among America\u2019s Best Hospitals by U.S. News & World Report for 23 consecutive years, UCI Medical Center provides tertiary and quaternary care and is home to Orange County\u2019s only National Cancer Institute-designated comprehensive cancer center, high-risk perinatal/neonatal program and American College of Surgeons-verified Level I adult and Level II pediatric trauma center, gold level 1 geriatric emergency department and regional burn center. UCI Health serves a region of nearly 4 million people in Orange County, western Riverside County and southeast Los Angeles County. To learn more about UCI Health, visit www.ucihealth.org. Your Role on the Team Position Summary: The incumbent performs assigned nursing procedures, taking vital signs, collecting and processing specimens for analysis, and assisting physicians with examinations and treatments. Incumbent observes, records and reports the physical and mental condition of patients. What It Takes to be Successful Total Compensation We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Required Qualifications: Must possess the skill, knowledge and ability essential to the successful performance of assigned duties Must demonstrate customer service skills appropriate to the job Minimum 6 months experience working as an LVN in an acute care setting Excellent written and verbal communication skills in English Ability to maintain a work pace appropriate to the workload Ability to establish and maintain effective working relationships across the Health System Preferred Qualifications: Understanding of JCAHO requirements Knowledge of University and medical center organizations, policies, procedures and forms Bilingual skills in English and Spanish and/or Vietnamese Licenses and Certifications: LVN BLS Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California, Irvine is an Equal Opportunity/Affirmative Action Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC nondiscrimination policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m. Consideration for Work Authorization Sponsorship Must be able to provide proof of work authorization",
-      "qualifications": "Total Compensation We offer a wealth of benefits to make working at UCI even more rewarding. These benefits may include medical insurance, sick and vacation time, retirement savings plans, and access to a number of discounts and perks. Please utilize the links listed here to learn more about our compensation practices and benefits. Required Qualifications: Must possess the skill, knowledge and ability essential to the successful performance of assigned duties Must demonstrate customer service skills appropriate to the job Minimum 6 months experience working as an LVN in an acute care setting Excellent written and verbal communication skills in English Ability to maintain a work pace appropriate to the workload Ability to establish and maintain effective working relationships across the Health System Preferred Qualifications: Understanding of JCAHO requirements Knowledge of University and medical center organizations, policies, procedures and forms Bilingual skills in English and Spanish and/or Vietnamese Licenses and Certifications: LVN BLS Conditions of Employment: The University of California, Irvine (UCI) seeks to provide a safe and healthy environment for the entire UCI community. As part of this commitment, all applicants who accept an offer of employment must comply with the following conditions of employment: Background Check and Live Scan Legal Right to Work in the United States Vaccination Policies Smoking and Tobacco Policy Drug Free Environment The following additional conditions may apply, some of which are dependent upon business unit or job specific requirements. California Child Abuse and Neglect Reporting Act E-Verify Pre-Placement Health Evaluation Details of each policy may be reviewed by visiting the following page: https://hr.uci.edu/new-hire/conditions-of-employment.php Closing Statement: The University of California, Irvine is an Equal Opportunity/Affirmative Action Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age, protected veteran status, or other protected categories covered by the UC nondiscrimination policy. We are committed to attracting and retaining a diverse workforce along with honoring unique experiences, perspectives, and identities. Together, our community strives to create and maintain working and learning environments that are inclusive, equitable, and welcoming. UCI provides reasonable accommodations for applicants with disabilities upon request. For more information, please contact UCI's Employee Experience Center (EEC) at eec@uci.edu or at (949) 824-0500, Monday - Friday from 8:30 a.m. - 5:00 p.m.",
-      "scraped_at": "2026-03-12T21:19:08.800075",
-      "unique_key": "dab116f48d7983b1",
       "company_name": "UC Irvine Health",
       "subdomain": "uc-irvine-health.icims.com",
       "portal_slug": "uc-irvine-health",
