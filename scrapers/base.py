@@ -5,7 +5,9 @@ from __future__ import annotations
 import abc
 import logging
 import random
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Optional
 
 import requests
@@ -42,6 +44,7 @@ class BaseScraper(abc.ABC):
         self.timeout = timeout
         self._session = self._build_session()
         self._last_request_time = 0.0
+        self._request_lock = threading.Lock()
         self._ua = UserAgent(fallback="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)")
 
     def _build_session(self) -> requests.Session:
@@ -80,8 +83,9 @@ class BaseScraper(abc.ABC):
     )
     def _get(self, url: str, **kwargs) -> requests.Response:
         """Rate-limited GET request with retries and UA rotation."""
-        self._throttle()
-        self._rotate_user_agent()
+        with self._request_lock:
+            self._throttle()
+            self._rotate_user_agent()
         kwargs.setdefault("timeout", self.timeout)
         response = self._session.get(url, **kwargs)
         response.raise_for_status()
@@ -94,8 +98,9 @@ class BaseScraper(abc.ABC):
     )
     def _post(self, url: str, **kwargs) -> requests.Response:
         """Rate-limited POST request with retries and UA rotation."""
-        self._throttle()
-        self._rotate_user_agent()
+        with self._request_lock:
+            self._throttle()
+            self._rotate_user_agent()
         kwargs.setdefault("timeout", self.timeout)
         response = self._session.post(url, **kwargs)
         response.raise_for_status()
@@ -129,6 +134,50 @@ class BaseScraper(abc.ABC):
             The same Job object enriched with full details
         """
         ...
+
+    @staticmethod
+    def extract_salary_from_text(text: str) -> Optional[str]:
+        """Extract salary range from description text or HTML.
+
+        Handles formats found across ATS platforms:
+          - "Minimum $56.96 Midpoint $74.05 Maximum $91.14"
+          - "Pay Range: $50,000 - $70,000"
+          - "Salary ranges ... (USD):$100,000 - $100,000"
+          - "The base pay for this position is $218,700.00 – $437,300.00"
+          - "$25.00 - $35.00 per hour"
+        """
+        import re as _re
+
+        if not text:
+            return None
+
+        # Strip HTML tags for cleaner matching
+        clean = _re.sub(r"<[^>]+>", " ", text)
+        # Normalise whitespace
+        clean = _re.sub(r"\s+", " ", clean)
+
+        patterns = [
+            # Minimum / Maximum (Workday)
+            (r"Minimum\s*\$?([\d,]+\.?\d*)\s*(?:Midpoint\s*\$?[\d,]+\.?\d*)?\s*Maximum\s*\$?([\d,]+\.?\d*)", False),
+            # Keyword-prefixed range: "Pay Range:", "Salary:", "Base pay ... is", "Compensation:"
+            (r"(?:pay\s*range|salary\s*range|base\s*pay|compensation|hourly\s*range|wage)[^$]{0,40}\$\s*([\d,]+\.?\d*)\s*[-–—to]+\s*\$\s*([\d,]+\.?\d*)", False),
+            # Per-hour / per-year suffix (allow small amounts like $25/hr)
+            (r"\$([\d,]+\.?\d*)\s*[-–—to]+\s*\$([\d,]+\.?\d*)\s*(?:per\s*(?:hour|year)|/hr|/yr|hourly|annually)", False),
+            # Generic $X – $Y (require amounts >= $1,000 to avoid false positives)
+            (r"\$([\d,]+\.?\d*)\s*[-–—]\s*\$([\d,]+\.?\d*)", True),
+        ]
+
+        for pattern, check_min in patterns:
+            match = _re.search(pattern, clean, _re.IGNORECASE)
+            if match:
+                groups = [g for g in match.groups() if g]
+                if len(groups) >= 2:
+                    hi = float(groups[-1].replace(",", ""))
+                    # For the generic pattern, skip small amounts (likely false positives)
+                    if check_min and hi < 1000:
+                        continue
+                    return f"${groups[0]} - ${groups[-1]}"
+        return None
 
     def _filter_recent_jobs(self, jobs: list[Job]) -> list[Job]:
         """
@@ -194,6 +243,58 @@ class BaseScraper(abc.ABC):
 
         return filtered
 
+    def _fetch_details_concurrent(
+        self, jobs: list[Job], max_workers: int = 6
+    ) -> list[Job]:
+        """Fetch job details using a thread pool for speed.
+
+        Temporarily lowers the per-request rate limit so threads can overlap
+        network I/O while still spacing requests enough to avoid blocks.
+        """
+        if not jobs:
+            return []
+
+        total = len(jobs)
+        results: list[tuple[int, Job]] = []
+        failed = 0
+
+        # Lower rate limit during concurrent fetch — the lock still serialises
+        # the throttle check, so effective request rate ≈ 1/rate_limit.
+        # 0.3s × 6 workers ≈ 1.8s per batch of 6 → ~3.3 req/s overall.
+        saved_rate = self.rate_limit
+        self.rate_limit = 0.3
+
+        def _fetch_one(idx_job: tuple[int, Job]) -> tuple[int, Job | None]:
+            idx, job = idx_job
+            try:
+                return idx, self.scrape_job_detail(job)
+            except Exception as e:
+                logger.error(f"[{self.ATS_NAME}] Failed job {job.id}: {e}")
+                return idx, None
+
+        try:
+            with ThreadPoolExecutor(max_workers=max_workers) as pool:
+                futures = {pool.submit(_fetch_one, (i, j)): i for i, j in enumerate(jobs)}
+                done_count = 0
+                for future in as_completed(futures):
+                    idx, enriched = future.result()
+                    done_count += 1
+                    if enriched is not None:
+                        results.append((idx, enriched))
+                    else:
+                        failed += 1
+                    if done_count % 50 == 0:
+                        logger.info(f"[{self.ATS_NAME}] Detail progress: {done_count}/{total}")
+        finally:
+            self.rate_limit = saved_rate
+
+        if failed:
+            logger.warning(f"[{self.ATS_NAME}] {failed}/{total} detail fetches failed")
+
+        # Return in original order
+        results.sort(key=lambda x: x[0])
+        return [job for _, job in results]
+
     def scrape_all(
         self,
         keyword: Optional[str] = None,
@@ -241,29 +342,12 @@ class BaseScraper(abc.ABC):
             logger.info(f"[{self.ATS_NAME}] Skipping detail fetch (--skip-details)")
             detailed_jobs = jobs
         else:
-            # Optionally limit detail fetches
+            jobs_to_detail = jobs
             if max_detail_jobs > 0 and len(jobs) > max_detail_jobs:
                 jobs_to_detail = jobs[:max_detail_jobs]
-                jobs_listing_only = jobs[max_detail_jobs:]
                 logger.info(f"[{self.ATS_NAME}] Fetching details for first {max_detail_jobs} jobs (of {len(jobs)})")
-            else:
-                jobs_to_detail = jobs
-                jobs_listing_only = []
 
-            detailed_jobs = []
-            for i, job in enumerate(jobs_to_detail):
-                try:
-                    enriched = self.scrape_job_detail(job)
-                    detailed_jobs.append(enriched)
-
-                    if (i + 1) % 25 == 0:
-                        logger.info(f"[{self.ATS_NAME}] Processed {i + 1}/{len(jobs_to_detail)} jobs")
-                except Exception as e:
-                    logger.error(f"[{self.ATS_NAME}] Failed to scrape job {job.id}: {e}")
-                    continue
-
-            # Add remaining jobs without details
-            detailed_jobs.extend(jobs_listing_only)
+            detailed_jobs = self._fetch_details_concurrent(jobs_to_detail)
 
         # Step 4: Filter after detail fetch if we deferred earlier
         if filter_after_details:

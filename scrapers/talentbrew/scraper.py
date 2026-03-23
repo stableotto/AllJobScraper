@@ -190,8 +190,10 @@ class TalentBrewScraper(BaseScraper):
         # Qualifications
         qualifications = self._strip_html(json_ld.get("qualifications", ""))
 
-        # Salary
+        # Salary — try structured JSON-LD first, fall back to description text
         salary_range = self._extract_salary(json_ld)
+        if not salary_range and description:
+            salary_range = self.extract_salary_from_text(description)
 
         # URL
         url = json_ld.get("url", "") or listing.get("url", "")

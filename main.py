@@ -73,7 +73,7 @@ def cli(verbose: bool):
 @click.option("--sector", default=None, help="Filter portals by sector (use with --from-db)")
 @click.option("--today-only", is_flag=True, help="Only include jobs posted today")
 @click.option("--skip-details", is_flag=True, help="Skip fetching individual job details (faster)")
-@click.option("--max-detail-jobs", default=75, type=int, help="Max jobs per portal to fetch details for (default: 75)")
+@click.option("--max-detail-jobs", default=0, type=int, help="Max jobs per portal to fetch details for (0 = unlimited)")
 def scrape(ats: str, portal: str, keyword: str, offset: int, limit: int, dry_run: bool, output_dir: str, from_db: bool, sector: str, today_only: bool, skip_details: bool, max_detail_jobs: int):
     """Scrape job listings from ATS career portals."""
     logger = logging.getLogger("main")

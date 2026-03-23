@@ -236,6 +236,10 @@ class OracleScraper(BaseScraper):
         if responsibilities:
             job.responsibilities = responsibilities
 
+        # Extract salary from description if available
+        if not job.salary_range and job.description:
+            job.salary_range = self.extract_salary_from_text(job.description)
+
         return job
 
     # ──────────────────────────────────────────────
@@ -272,13 +276,6 @@ class OracleScraper(BaseScraper):
                 jobs_to_detail = jobs[:max_detail_jobs]
                 logger.info(f"[{self.ATS_NAME}] Fetching details for first {max_detail_jobs} jobs (of {len(jobs)})")
 
-            for i, job in enumerate(jobs_to_detail):
-                job = self.scrape_job_detail(job)
-                jobs_to_detail[i] = job
-
-                if (i + 1) % 25 == 0:
-                    logger.info(f"[{self.ATS_NAME}] Processed {i + 1}/{len(jobs_to_detail)} job details")
-
-            jobs = jobs_to_detail
+            jobs = self._fetch_details_concurrent(jobs_to_detail)
 
         return jobs

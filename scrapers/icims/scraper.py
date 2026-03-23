@@ -359,11 +359,17 @@ class ICIMSScraper(BaseScraper):
                         job.job_type = value_text
                     elif "department" in label_text:
                         job.department = value_text
+                    elif "salary" in label_text or "pay" in label_text or "compensation" in label_text:
+                        job.salary_range = value_text
                     elif "posted" in label_text or "date" in label_text:
                         try:
                             job.posted_date = parse_date(value_text)
                         except (ValueError, TypeError):
                             pass
+
+            # Extract salary from description if not found in fields
+            if not job.salary_range and job.description:
+                job.salary_range = self.extract_salary_from_text(job.description)
 
         except Exception as e:
             logger.error(f"Failed to fetch iCIMS job detail for {job.id}: {e}")
@@ -487,17 +493,7 @@ class ICIMSScraper(BaseScraper):
                 jobs_to_detail = jobs[:max_detail_jobs]
                 logger.info(f"[{self.ATS_NAME}] Fetching details for first {max_detail_jobs} jobs (of {len(jobs)})")
 
-            enriched = []
-            for i, job in enumerate(jobs_to_detail):
-                try:
-                    job = self.scrape_job_detail(job)
-                    enriched.append(job)
-                    if (i + 1) % 25 == 0:
-                        logger.info(f"[{self.ATS_NAME}] Processed {i + 1}/{len(jobs_to_detail)} jobs")
-                except Exception as e:
-                    logger.error(f"[{self.ATS_NAME}] Failed job {job.id}: {e}")
-                    continue
-            jobs = enriched
+            jobs = self._fetch_details_concurrent(jobs_to_detail)
 
         # For raw iCIMS, filter AFTER detail fetch (now we have dates)
         if today_only and self._api_mode != "jibe":

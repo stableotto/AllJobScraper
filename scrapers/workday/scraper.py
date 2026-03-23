@@ -189,7 +189,12 @@ class WorkdayScraper(BaseScraper):
         posted_on = listing.get("posted_on", "")
         if posted_on:
             posted_date = self._parse_posted_on(posted_on)
-        # Fallback: try postedDate from detail API if available
+        # Fallback: try postedOn from detail API (e.g. "Posted 11 Days Ago")
+        if not posted_date:
+            detail_posted_on = info.get("postedOn", "")
+            if detail_posted_on:
+                posted_date = self._parse_posted_on(detail_posted_on)
+        # Fallback: try postedDate/postingDate from detail API
         if not posted_date:
             posted_date_str = info.get("postedDate", "") or info.get("postingDate", "")
             if posted_date_str:
@@ -320,12 +325,19 @@ class WorkdayScraper(BaseScraper):
             bullet_fields = listing.get("bullet_fields") or []
             req_id = bullet_fields[0] if bullet_fields else ""
 
+            # Parse posted_on text into a datetime if possible
+            posted_date = None
+            posted_on = listing.get("posted_on", "")
+            if posted_on:
+                posted_date = self._parse_posted_on(posted_on)
+
             job = Job(
                 id=req_id,
                 source_ats="workday",
                 company_name=self.company.name,
                 title=listing["title"],
                 location=listing["location"],
+                posted_date=posted_date,
                 url=f"{self._base_url}/{self._site}{listing['external_path']}",
                 raw_data={"external_path": listing["external_path"], "listing": listing},
             )
@@ -372,37 +384,8 @@ class WorkdayScraper(BaseScraper):
     @staticmethod
     def _extract_salary(html: str) -> Optional[str]:
         """Extract salary range from job description HTML."""
-        if not html:
-            return None
-
-        # Common patterns in Workday job descriptions:
-        # "Minimum $56.96 Midpoint $74.05 Maximum $91.14"
-        # "Pay Range: $50,000 - $70,000"
-        # "$25.00 - $35.00 per hour"
-
-        patterns = [
-            # Minimum/Midpoint/Maximum pattern
-            r"Minimum\s*\$?([\d,\.]+)\s*(?:Midpoint\s*\$?([\d,\.]+))?\s*Maximum\s*\$?([\d,\.]+)",
-            # Range pattern with dash
-            r"(?:Pay\s*Range|Salary|Compensation)[:\s]*\$?([\d,\.]+)\s*[-–to]+\s*\$?([\d,\.]+)",
-            # Hourly rate pattern
-            r"\$?([\d,\.]+)\s*[-–to]+\s*\$?([\d,\.]+)\s*(?:per\s*hour|/hr|hourly)",
-            # Annual salary pattern
-            r"\$?([\d,\.]+)\s*[-–to]+\s*\$?([\d,\.]+)\s*(?:per\s*year|/yr|annually)",
-        ]
-
-        text = html.replace(",", "")  # Remove commas for easier parsing
-
-        for pattern in patterns:
-            match = re.search(pattern, text, re.IGNORECASE)
-            if match:
-                groups = [g for g in match.groups() if g]
-                if len(groups) >= 2:
-                    return f"${groups[0]} - ${groups[-1]}"
-                elif len(groups) == 1:
-                    return f"${groups[0]}"
-
-        return None
+        from scrapers.base import BaseScraper
+        return BaseScraper.extract_salary_from_text(html)
 
     @staticmethod
     def _extract_qualifications(description: str) -> str:
