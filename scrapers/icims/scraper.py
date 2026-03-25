@@ -280,6 +280,9 @@ class ICIMSScraper(BaseScraper):
                 job_id_match = re.search(r"/jobs/(\d+)/", link.get("href", ""))
                 if job_id_match:
                     job_id = job_id_match.group(1)
+                    # Remove sr-only "Title" label prefix
+                    for sr in link.select(".sr-only"):
+                        sr.decompose()
                     title = link.get_text(strip=True)
                     base = self._build_icims_url()
                     jobs.append(
@@ -328,53 +331,88 @@ class ICIMSScraper(BaseScraper):
         return jobs
 
     def _fetch_icims_job_detail(self, job: Job) -> Job:
-        """Fetch full details from an individual iCIMS job page."""
+        """Fetch full details from an individual iCIMS job page.
+
+        Uses the in_iframe=1 parameter which returns server-rendered HTML
+        even on Jibe SPA portals that otherwise render via JavaScript.
+        Parses two field layouts:
+          - Classic: .iCIMS_InfoField with Label/Value children
+          - Jibe iframe: dt.iCIMS_JobHeaderField / dd.iCIMS_JobHeaderData
+        """
         try:
-            resp = self._get(job.url)
+            # Append in_iframe=1 to get server-rendered content on Jibe portals
+            url = job.url
+            url += "&in_iframe=1" if "?" in url else "?in_iframe=1"
+            resp = self._get(url)
             soup = BeautifulSoup(resp.text, "lxml")
 
-            # Title
-            title_el = soup.select_one(".iCIMS_Header h1, .header h1, [class*='title'] h1")
+            # Title — try multiple selectors
+            title_el = soup.select_one(
+                ".col-xs-12.title, .iCIMS_Header h1, .header h1, [class*='title'] h1"
+            )
             if title_el:
-                job.title = title_el.get_text(strip=True)
+                # Strip "Title" prefix from sr-only label
+                title_text = title_el.get_text(strip=True)
+                if title_text.startswith("Title"):
+                    title_text = title_text[5:].strip()
+                if title_text:
+                    job.title = title_text
 
-            # Description
+            # Description — try multiple selectors
             desc_el = soup.select_one(
                 ".iCIMS_InfoMsg_Job, .job-description, [class*='description']"
             )
             if desc_el:
                 job.description = self._strip_html(desc_el.decode_contents())
 
-            # Other fields
+            # --- Parse fields from BOTH classic and Jibe iframe layouts ---
+
+            # Classic layout: .iCIMS_InfoField with Label/Value children
             for field_el in soup.select(".iCIMS_InfoField"):
                 label = field_el.select_one(".iCIMS_InfoField_Label")
                 value = field_el.select_one(".iCIMS_InfoField_Value")
                 if label and value:
-                    label_text = label.get_text(strip=True).lower()
-                    value_text = value.get_text(strip=True)
+                    self._map_field(job, label.get_text(strip=True), value.get_text(strip=True))
 
-                    if "location" in label_text:
-                        job.location = value_text
-                    elif "type" in label_text or "schedule" in label_text:
-                        job.job_type = value_text
-                    elif "department" in label_text:
-                        job.department = value_text
-                    elif "salary" in label_text or "pay" in label_text or "compensation" in label_text:
-                        job.salary_range = value_text
-                    elif "posted" in label_text or "date" in label_text:
-                        try:
-                            job.posted_date = parse_date(value_text)
-                        except (ValueError, TypeError):
-                            pass
+            # Jibe iframe layout: dt/dd pairs inside .iCIMS_JobHeaderTag
+            for tag_el in soup.select(".iCIMS_JobHeaderTag"):
+                dt = tag_el.select_one("dt.iCIMS_JobHeaderField")
+                dd = tag_el.select_one("dd.iCIMS_JobHeaderData")
+                if dt and dd:
+                    self._map_field(job, dt.get_text(strip=True), dd.get_text(strip=True))
 
-            # Extract salary from description if not found in fields
-            if not job.salary_range and job.description:
-                job.salary_range = self.extract_salary_from_text(job.description)
+            # Salary from description text as fallback
+            if not job.salary_range:
+                # Check full body text for salary mentions (some portals put
+                # salary in a <p> outside the description div)
+                body_text = soup.get_text()
+                job.salary_range = self.extract_salary_from_text(body_text)
 
         except Exception as e:
             logger.error(f"Failed to fetch iCIMS job detail for {job.id}: {e}")
 
         return job
+
+    @staticmethod
+    def _map_field(job: Job, label: str, value: str) -> None:
+        """Map a label/value pair to the appropriate Job field."""
+        label_lower = label.lower()
+        if "location" in label_lower:
+            job.location = value
+        elif "employment" in label_lower or "type" in label_lower or "schedule" in label_lower:
+            job.job_type = value
+        elif "department" in label_lower or "category" in label_lower:
+            job.department = value
+        elif "salary" in label_lower or "pay" in label_lower or "compensation" in label_lower:
+            job.salary_range = value
+        elif "posted" in label_lower or "date" in label_lower:
+            try:
+                # iCIMS often formats as "1 week ago(3/17/2026 3:21 PM)"
+                paren = re.search(r'\(([^)]+)\)', value)
+                date_str = paren.group(1) if paren else value
+                job.posted_date = parse_date(date_str)
+            except (ValueError, TypeError):
+                pass
 
     # ──────────────────────────────────────────────
     # Public Interface (implements BaseScraper)
