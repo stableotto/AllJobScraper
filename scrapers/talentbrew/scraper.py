@@ -222,7 +222,6 @@ class TalentBrewScraper(BaseScraper):
             description=description,
             qualifications=qualifications,
             salary_range=salary_range,
-            categories=[],
             raw_data=json_ld,
         )
 

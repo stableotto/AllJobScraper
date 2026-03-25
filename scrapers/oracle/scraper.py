@@ -208,17 +208,17 @@ class OracleScraper(BaseScraper):
         Returns:
             Job object with full details
         """
-        if not job.external_id:
+        if not job.id:
             return job
 
         # Build detail API URL
-        detail_url = f"{self._api_base}/{job.external_id}"
+        detail_url = f"{self._api_base}/{job.id}"
 
         try:
             response = self._get(detail_url)
             data = response.json()
         except Exception as e:
-            logger.warning(f"Failed to fetch job detail {job.external_id}: {e}")
+            logger.warning(f"Failed to fetch job detail {job.id}: {e}")
             return job
 
         # Extract description from ExternalDescriptionStr
