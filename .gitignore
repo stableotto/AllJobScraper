@@ -1,9 +1,16 @@
-# NurseScraper — ignore raw/temp data but keep DB and feeds
+# NurseScraper — ignore raw/temp data and the SQLite DB, but keep feeds.
+# The DB (data/nursescraper.db) is NOT committed: it exceeds GitHub's 100 MB
+# hard file limit. It is published as a GitHub Release asset and a workflow
+# artifact instead. Cloudflare Pages serves the feed files under data/feeds/.
 data/icims/
 data/ct_raw_subdomains.txt
 data/discovered_portals.yaml
+data/*.db
 data/*.db-shm
 data/*.db-wal
+# Generated JSON exports are published to Releases, not committed
+data/jobs-export.json
+data/jobs-compact.json
 
 # Python
 __pycache__/
